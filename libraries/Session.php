@@ -105,7 +105,7 @@ class SysSession implements SessionHandlerInterface
 
             $stmt->execute($params);
 
-
+ 
         }else{
             $sql='INSERT INTO Session (Session_Id, Session_Time, Session_Data, Timeout) VALUES (?,?,?,?)';
 
