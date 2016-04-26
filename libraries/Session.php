@@ -8,13 +8,13 @@
  * Based on Source code and more info from http://php.net/manual/en/function.session-set-save-handler.php
  */
 
-require_once ('RoceanDB.php');
+//require_once ('RoceanDB.php');
 
 class SysSession implements SessionHandlerInterface
 {
 
     public static $lifetime;
-    public $default_lifetime=30*60; // minutes*seconds
+    public $default_lifetime=1*60; // minutes*seconds
     public $default_saved_lifetime=60*60*24*30; // seconds * minutes * hoursofday * daysofmonth
     
     function setLifetime($lifetime) {
@@ -91,11 +91,11 @@ class SysSession implements SessionHandlerInterface
 
             if($row['Timeout']==self::$lifetime)
             {
-                $sql='UPDATE Session SET Session_Time=?, Session_Data=? WHERE Session_Id=?';
+                $sql='UPDATE Session SET Session_Id=?, Session_Time=?, Session_Data=? WHERE Session_Id=?';
                 $params=array(date('Y-m-d H:i:s'),$data, $id);
             }
             else {
-                $sql='UPDATE Session SET Session_Time=?, Timeout=?, Session_Data=? WHERE Session_Id=?';
+                $sql='UPDATE Session SET Session_Id=?, Session_Time=?, Timeout=?, Session_Data=? WHERE Session_Id=?';
                 $params=array(date('Y-m-d H:i:s'),self::$lifetime,$data,$id);
             }
 
@@ -150,6 +150,8 @@ class SysSession implements SessionHandlerInterface
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
+        echo '<p>doing Garbage Celection</p>';
+
         $sql='DELETE FROM Session WHERE ((UNIX_TIMESTAMP(Session_Time)+Timeout) < ?)';
 
         $stmt = RoceanDB::$conn->prepare($sql);
@@ -182,7 +184,7 @@ class SysSession implements SessionHandlerInterface
 
 ini_set('session.gc_maxlifetime',1);
 ini_set('session.gc_divisor',100);
-ini_set('session.gc_probability',10);
+ini_set('session.gc_probability',100);
 
 $handler = new SysSession();
 session_set_save_handler($handler, true);
