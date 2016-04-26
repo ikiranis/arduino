@@ -104,7 +104,7 @@ class SysSession implements SessionHandlerInterface
             $stmt = RoceanDB::$conn->prepare($sql);
 
             $stmt->execute($params);
-   // jjj
+
 
         }else{
             $sql='INSERT INTO Session (Session_Id, Session_Time, Session_Data, Timeout) VALUES (?,?,?,?)';
