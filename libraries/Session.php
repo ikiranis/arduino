@@ -13,14 +13,7 @@
 class SysSession implements SessionHandlerInterface
 {
 
-    public static $lifetime;
-    public $default_lifetime=1*60; // minutes*seconds
-    public $default_saved_lifetime=60*60*24*30; // seconds * minutes * hoursofday * daysofmonth
-    
-    function setLifetime($lifetime) {
-        self::$lifetime=$lifetime;
-    }
-
+ 
     public function open($savePath, $sessionName)
     {
 
@@ -28,18 +21,6 @@ class SysSession implements SessionHandlerInterface
         $conn->CreateConnection();
 
 
-        $sql='SELECT Timeout FROM Session WHERE Session_Id = ? AND (Session_Time+Timeout) > ?';
-
-        $stmt = RoceanDB::$conn->prepare($sql);
-
-        $stmt->execute(array(session_id(),date('Y-m-d H:i:s')));
-
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            self::$lifetime=$row['Timeout'];
-        }else{
-            self::$lifetime=$this->default_lifetime;
-        }
-        
 
         if($conn){
             return true;
@@ -58,7 +39,7 @@ class SysSession implements SessionHandlerInterface
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
-        $sql='SELECT Session_Data,Timeout FROM Session WHERE Session_Id = ? AND ((UNIX_TIMESTAMP(Session_Time)+Timeout) > ?)';
+        $sql='SELECT Session_Data FROM Session WHERE Session_Id = ? AND Session_Time > ?';
 
 
         $stmt = RoceanDB::$conn->prepare($sql);
@@ -67,10 +48,10 @@ class SysSession implements SessionHandlerInterface
 
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             return $row['Session_Data'];
-            self::$lifetime=$row['Timeout'];
+
         }else{
             return "";
-            self::$lifetime=$this->default_lifetime;
+
         }
     }
 
@@ -80,39 +61,14 @@ class SysSession implements SessionHandlerInterface
         $conn->CreateConnection();
 
 
-        $sql='SELECT * FROM Session WHERE Session_Id = ?';
+        $DateTime = date('Y-m-d H:i:s');
+        $NewDateTime = date('Y-m-d H:i:s',strtotime($DateTime.' + 1 minutes'));
 
-
-        $stmt = RoceanDB::$conn->prepare($sql);
-
-        $stmt->execute(array($id));
-
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-
-            if($row['Timeout']==self::$lifetime)
-            {
-                $sql='UPDATE Session SET Session_Id=?, Session_Time=?, Session_Data=? WHERE Session_Id=?';
-                $params=array(date('Y-m-d H:i:s'),$data, $id);
-            }
-            else {
-                $sql='UPDATE Session SET Session_Id=?, Session_Time=?, Timeout=?, Session_Data=? WHERE Session_Id=?';
-                $params=array(date('Y-m-d H:i:s'),self::$lifetime,$data,$id);
-            }
-
-
+            $sql='REPLACE INTO Session (Session_Id, Session_Time, Session_Data) VALUES (?,?,?)';
 
             $stmt = RoceanDB::$conn->prepare($sql);
 
-            $stmt->execute($params);
-
- 
-        }else{
-            $sql='INSERT INTO Session (Session_Id, Session_Time, Session_Data, Timeout) VALUES (?,?,?,?)';
-
-            $stmt = RoceanDB::$conn->prepare($sql);
-
-            $stmt->execute(array($id,date('Y-m-d H:i:s'),$data,self::$lifetime));
-        }
+            $stmt->execute(array($id,$NewDateTime,$data));
 
 
 
@@ -152,11 +108,11 @@ class SysSession implements SessionHandlerInterface
 
         echo '<p>doing Garbage Celection</p>';
 
-        $sql='DELETE FROM Session WHERE ((UNIX_TIMESTAMP(Session_Time)+Timeout) < ?)';
+        $sql='DELETE FROM Session WHERE ((UNIX_TIMESTAMP(Session_Time)+?) < ?)';
 
         $stmt = RoceanDB::$conn->prepare($sql);
 
-        $stmt->execute(array(time()));
+        $stmt->execute(array($maxlifetime,$maxlifetime));
 
 
         if($stmt){
@@ -182,14 +138,12 @@ class SysSession implements SessionHandlerInterface
  * Πιθανότητα για να τρέξει η gc()
  */
 
-ini_set('session.gc_maxlifetime',1);
+ini_set('session.gc_maxlifetime',60);
 ini_set('session.gc_divisor',100);
 ini_set('session.gc_probability',100);
 
 $handler = new SysSession();
 session_set_save_handler($handler, true);
-$default_lifetime=$handler->default_lifetime;
-$default_saved_lifetime=$handler->default_saved_lifetime;
 
 
 

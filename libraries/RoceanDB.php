@@ -53,7 +53,7 @@ class RoceanDB
     }
 
     // Ελέγχει αν ο χρήστης υπάρχει στην βάση και είναι σωστά τα username, password που έχει δώσει
-    function CheckLogin($username, $password, $timeout) {
+    function CheckLogin($username, $password) {
 
         $this->CreateConnection();
 
@@ -75,8 +75,7 @@ class RoceanDB
 
                 echo '<p>Βρέθηκε ο χρήστης: '.$_SESSION["username"].'</p>';
 
-                $mySession = new SysSession();
-                $mySession->setLifetime($timeout);
+    
             }
             else echo "Λάθος Password";
 

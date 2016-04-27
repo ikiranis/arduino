@@ -38,6 +38,6 @@ showLoginWindow();
 
 $MainPage->showFooter();
 
-print_r(get_included_files());
+
 
 ?>

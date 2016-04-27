@@ -17,12 +17,12 @@ session_start();
 
 if (isset($_POST['submit'])) {
 
-    if (isset($_POST['SavePassword']))
-        $timeout = $default_saved_lifetime;
-    else $timeout = $default_lifetime;
+//    if (isset($_POST['SavePassword']))
+//        $timeout = $default_saved_lifetime;
+//    else $timeout = $default_lifetime;
 
     $myConnect = new RoceanDB();
-    $myConnect->CheckLogin($_POST['username'], $_POST['password'], $timeout);
+    $myConnect->CheckLogin($_POST['username'], $_POST['password']);
 
 
 }
