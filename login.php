@@ -2,15 +2,12 @@
 
 /**
  * File: login.php
- * Project: Arduino
  * Created by rocean
  * Date: 17/04/16
  * Time: 01:17
  */
 
-require_once('libraries/Page.php');
-require_once('libraries/RoceanDB.php');
-require_once('libraries/Session.php');
+require_once ('libraries/common.inc.php');
 
 session_start();
 
@@ -28,28 +25,15 @@ if (isset($_POST['submit'])) {
 }
 
 if (isset($_POST['register'])) {
-    CreateUser();
+    
+    $conn = new RoceanDB();
+    
+    $conn->CreateUser($_POST['username'], $_POST['email'], $_POST['password'], 'local');
 
 }
 
 
-function CreateUser()
-{
 
-    $sql = 'INSERT INTO user(username, email, password, agent) VALUES(?,?,?,?)';
-
-    $agent = "local";
-
-    $myConnect = new RoceanDB();
-
-    $EncryptedPassword=$myConnect->EncryptPassword($_POST['password']);
-
-    $arrayParams = array($_POST['username'], $_POST['email'], $EncryptedPassword, $agent);
-
-    $myConnect->ExecuteSQL($sql, $arrayParams);
-
-    echo "You are sign in";
-}
 
 // Εμφάνιση επιλογών login
 function showLoginWindow()

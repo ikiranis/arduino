@@ -1,16 +1,13 @@
 <?php
 /**
  * File: UsersManagement.php
- * Project: arduinoDB
  * Created by rocean
  * Date: 24/04/16
  * Time: 21:45
  */
 
+require_once ('libraries/common.inc.php');
 require_once ('login.php');
-require_once ('libraries/Page.php');
-require_once ('libraries/Session.php');
-require_once ('libraries/RoceanDB.php');
 
 session_start();
 

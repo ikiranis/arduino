@@ -8,7 +8,6 @@
  * Based on Source code and more info from http://php.net/manual/en/function.session-set-save-handler.php
  */
 
-//require_once ('RoceanDB.php');
 
 class SysSession implements SessionHandlerInterface
 {
@@ -105,8 +104,6 @@ class SysSession implements SessionHandlerInterface
     {
         $conn = new RoceanDB();
         $conn->CreateConnection();
-
-        echo '<p>doing Garbage Celection</p>';
 
         $sql='DELETE FROM Session WHERE ((UNIX_TIMESTAMP(Session_Time)+?) < ?)';
 

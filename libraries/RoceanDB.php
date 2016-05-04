@@ -9,18 +9,18 @@
  * Info για την κρυπτογράφηση στην σελίδα http://php.net/manual/en/faq.passwords.php
  */
 
-//require_once ('Session.php');
 
 class RoceanDB
 {
 
-    public static $connStr = 'mysql:host=localhost;dbname=arduino_db';
-    public static $DBuser = 'root';
-    public static $DBpass = 'documents2015';
+    public static $connStr = CONNSTR;
+    public static $DBuser = DBUSER;
+    public static $DBpass = DBPASS;
 
     public static $conn = NULL;
 
-    private static $KeyForPasswords='ckY85^8nL%W4U5&38Zb0';
+    private static $KeyForPasswords=PRIVATE_KEY;
+    
 
 
     // Εκτελεί ένα sql query
@@ -32,6 +32,10 @@ class RoceanDB
         $stmt = self::$conn->prepare($sql);
 
         $stmt->execute($sqlParams);
+
+        $inserted_id=self::$conn->lastInsertId();
+
+        return $inserted_id;
 
     }
 
@@ -57,7 +61,7 @@ class RoceanDB
 
         $this->CreateConnection();
 
-        $sql='SELECT username, password, email FROM user WHERE username=?';
+        $sql='SELECT * FROM user WHERE username=?';
 
         $stmt = self::$conn->prepare($sql);
 
@@ -69,7 +73,19 @@ class RoceanDB
         {
             $HashThePassword=$password.self::$KeyForPasswords;
 
-            if (password_verify($HashThePassword, $item['password'])) {
+            $sql='SELECT * FROM salts WHERE user_id=?';
+            $salt = self::$conn->prepare($sql);
+            $salt->execute(array($item['user_id']));
+
+            if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
+                $combined_password=$salt_item['algo'].$salt_item['cost'].$salt_item['salt'].$item['password'];
+                echo '<p>hashed pass '.$HashThePassword.'</p>';
+                echo '<p>combined pass '.$combined_password.'</p>';
+
+            }
+
+            if (password_verify($HashThePassword, $combined_password)) {
+
 
                 $_SESSION["username"]=$item['username'];
 
@@ -87,6 +103,34 @@ class RoceanDB
 
     }
 
+    function CreateUser($username, $email, $password, $agent)
+    {
+        $this->CreateConnection();
+
+        $sql = 'INSERT INTO user(username, email, password, agent) VALUES(?,?,?,?)';
+        
+        $crypto = new Crypto();
+
+        $hashed_array=$crypto->EncryptPassword($password);
+
+        echo '<p>'.$hashed_array['hashed_password'].' | '.$hashed_array['algo'].' | '.$hashed_array['cost'].' | '.$hashed_array['salt'].'</p>';
+
+        $EncryptedPassword=$hashed_array['hashed_password'];
+
+        $arrayParams = array($username, $email, $EncryptedPassword, $agent);
+
+        if($inserted_id=$this->ExecuteSQL($sql, $arrayParams)) {
+            $sql = 'INSERT INTO salts(user_id, salt, algo, cost) VALUES(?,?,?,?)';
+
+            $saltArray = array($inserted_id, $hashed_array['salt'], $hashed_array['algo'], $hashed_array['cost'] );
+
+            $this->ExecuteSQL($sql, $saltArray);
+
+        }
+
+        echo "You are sign in";
+    }
+
     // Άνοιγμα της σύνδεσης στην βάση
     function CreateConnection(){
         if (!self::$conn) {
@@ -100,31 +144,7 @@ class RoceanDB
         }
     }
 
-    // Υπολογίζει το cost για την κρυπτογράφηση
-    function FindCost () {
-        $timeTarget = 0.05; // 50 milliseconds 
 
-        $cost = 8;
-        do {
-            $cost++;
-            $start = microtime(true);
-            password_hash("test", PASSWORD_BCRYPT, ["cost" => $cost]);
-            $end = microtime(true);
-        } while (($end - $start) < $timeTarget);
-
-        return $cost;
-    }
-
-    // Κρυπτογραφεί ένα password προστέθοντας σε αυτό και ένα έξτρα key self::$KeyForPasswords
-    function EncryptPassword ($password) {
-        $cost=$this->FindCost();
-
-        $options = ['cost' => $cost];
-
-        $HashThePassword=$password.self::$KeyForPasswords;
-        
-        return password_hash($HashThePassword, PASSWORD_BCRYPT, $options);
-    }
 
 }
 

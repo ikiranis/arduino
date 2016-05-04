@@ -8,7 +8,6 @@
  * HTML Page Elements Class
  */
 
-require_once ('Session.php');
 
 class Page
 {
