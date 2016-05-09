@@ -111,32 +111,7 @@ class Page
         <?php
     }
 
-
-    function SetSessionTimeout()
-    {
-        session_start();
-
-        
-
-        $timeout = 60*30; // Number of seconds until it times out. 30 minutes
-
-        // Check if the timeout field exists.
-        if (isset($_SESSION['timeout'])) {
-            // See if the number of seconds since the last
-            // visit is larger than the timeout period.
-            $duration = time() - (int)$_SESSION['timeout'];
-            if ($duration > $timeout) {
-                // Destroy the session
-                session_unset();
-                session_destroy();
-                session_write_close();
-            }
-            else $_SESSION['timeout'] = time();   // Update the timout field with the current time.
-        }
-        else echo "Δεν είσαι logged in";
-
-
-    }
+    
 
 
 }

@@ -21,14 +21,21 @@ $MainPage->tittle = "Arduino";
 
 $MainPage->showHeader();
 
-if (isset($_SESSION["username"]))
-{
-    session_regenerate_id(true);
+$conn= new RoceanDB();
 
-    echo '<p>User Loged in: '.$_SESSION["username"].'</p>';
+// Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
+if(!$conn->CheckCookiesForLoggedUser()) {
+    if (isset($_SESSION["username"]))
+    {
+        session_regenerate_id(true);
+
+        echo '<p>User Logged in: '.$crypt->DecryptText($_SESSION["username"]).'</p>';
 
 
+    }
 }
+else echo '<p>User Logged in: '.$_COOKIE["username"].'</p>';
+
 
 
 showLoginWindow();

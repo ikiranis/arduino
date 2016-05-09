@@ -19,7 +19,6 @@ class RoceanDB
 
     public static $conn = NULL;
 
-    private static $KeyForPasswords=PRIVATE_KEY;
 
     // 30 μέρες
     private static $CookieTime=60*60*24*30;
@@ -74,8 +73,10 @@ class RoceanDB
         // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
         {
+            $crypto = new Crypto();
+
             // Προσθέτει το string στο password που έδωσε ο πιθανός χρήστης
-            $HashThePassword=$password.self::$KeyForPasswords;
+            $HashThePassword=$password.Crypto::$KeyForPasswords;
 
             $sql='SELECT * FROM salts WHERE user_id=?';
             $salt = self::$conn->prepare($sql);
@@ -97,7 +98,7 @@ class RoceanDB
             // Αν ταιριάζουν τότε ο χρήστης γίνεται authenticated. Αλλιώς επιστρέφει "Λάθος password"
             if (password_verify($HashThePassword, $combined_password)) {
 
-                $_SESSION["username"]=$item['username'];
+
 
                 // Αν ο χρήστης έχει επιλέξει να τον θυμάται η εφαρμογή ότι είναι logged in
                 if($SavePassword) {
@@ -110,9 +111,19 @@ class RoceanDB
 //                    echo '<p>Ο χρήστης '.$_COOKIE['username'].' θέλει να τον θυμώμαστε κι έχει το salt '.$_COOKIE['salt'];
 
                 }
+                else {
+                    if (isset($_COOKIE['username'])) {
+                        unset($_COOKIE['username']);
+                        setcookie('username','',-1);
+                        unset($_COOKIE['salt']);
+                        setcookie('salt','',-1);
+                    }
+                }
+
+                $_SESSION["username"]=$crypto->EncryptText($item['username']);
 
 
-                echo '<p>Βρέθηκε ο χρήστης: '.$_SESSION["username"].'</p>';
+                echo '<p>Βρέθηκε ο χρήστης: '.$crypto->DecryptText($_SESSION["username"]).'</p>';
 
             }
             else echo "Λάθος Password";
@@ -154,11 +165,44 @@ class RoceanDB
         echo "You are sign in";
     }
 
-    // Έλεγχος αν ο χρήστης είναι logged id, αν υπάρχουν cookies
+    // Έλεγχος αν ο χρήστης είναι logged id, αν υπάρχουν cookies. Η function επιστρέφει true or false
     function CheckCookiesForLoggedUser() {
+
         if (isset($_COOKIE['username'])) {
-            $_SESSION['username']=$_COOKIE['username'];
+
+            $this->CreateConnection();
+
+            // Ψάχνουμε να βρούμε το id του user με το συγκεκριμένο username που έχει στο cookie
+            $sql='SELECT user_id FROM user WHERE username=?';
+
+            $stmt = self::$conn->prepare($sql);
+
+            $stmt->execute(array($_COOKIE['username']));
+
+            // Αν βρεθεί το id του user ψάχνουμε τα salt του
+            if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+            {
+
+                $sql='SELECT salt FROM salts WHERE user_id=?';
+                $salt = self::$conn->prepare($sql);
+                $salt->execute(array($item['user_id']));
+
+                // Παίρνουμε το salt και το συγκρίνουμε με αυτό που έχει το σχετικό cookie
+                if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
+                    if($salt_item['salt']==$_COOKIE['salt']) {
+                        $crypto= new Crypto();
+                        $_SESSION['username']=$crypto->EncryptText($_COOKIE['username']); // Ανοίγει το session για τον συγκεκριμένο χρήστη
+                        return true;
+                    }
+                    else return false;
+                }
+                // Η function επιστρέφει true αν συμφωνεί το salt που έχει στο cookie, με αυτό που υπάρχει στην βάση
+                // Αλλιώς επιστρέφει false
+            }
+            else return false;
+            
         }
+        else return false;
 
     }
 

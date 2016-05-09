@@ -19,8 +19,10 @@ $UsersPage->tittle = "Arduino Users Page";
 
 $UsersPage->showHeader();
 
-if (isset($_SESSION["username"]))
-    echo 'User Loged in: '.$_SESSION["username"];
+if (isset($_SESSION["username"])) {
+    $crypto = new Crypto();
+    echo 'User Loged in: '.$crypto->DecryptText($_SESSION["username"]);
+}
 
 if (isset($_GET['RegisterUser']))
     ShowRegisterUser();

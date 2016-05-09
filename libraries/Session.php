@@ -46,7 +46,9 @@ class SysSession implements SessionHandlerInterface
         $stmt->execute(array($id,date('Y-m-d H:i:s')));
 
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $crypto = new Crypto();
             return $row['Session_Data'];
+
 
         }else{
             return "";
@@ -61,11 +63,13 @@ class SysSession implements SessionHandlerInterface
 
 
         $DateTime = date('Y-m-d H:i:s');
-        $NewDateTime = date('Y-m-d H:i:s',strtotime($DateTime.' + 1 minutes'));
+        $NewDateTime = date('Y-m-d H:i:s',strtotime($DateTime.' + 2 minutes'));
 
             $sql='REPLACE INTO Session (Session_Id, Session_Time, Session_Data) VALUES (?,?,?)';
 
             $stmt = RoceanDB::$conn->prepare($sql);
+
+            $crypto = new Crypto();
 
             $stmt->execute(array($id,$NewDateTime,$data));
 
