@@ -14,27 +14,37 @@ session_start();
 
 
 $MainPage = new Page();
+$conn = new RoceanDB();
+$lang = new Language();
+
+
+// έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
+if (isset($_GET['ChangeLang']))
+    $lang->change_lang($_GET['ChangeLang']);
 
 // Τίτλος της σελίδας
-$MainPage->tittle = "Arduino";
-
+$MainPage->tittle = PAGE_TITTLE;
 
 $MainPage->showHeader();
 
-$conn= new RoceanDB();
+$languages_text=$lang->print_languages('lang_id',' ',true,false);
+
+
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
     if (isset($_SESSION["username"]))
     {
-        session_regenerate_id(true);
 
-        echo '<p>User Logged in: '.$crypt->DecryptText($_SESSION["username"]).'</p>';
+        $LoginNameText= __('user_logged_in').$crypt->DecryptText($_SESSION["username"]);
+        session_regenerate_id(true);
 
 
     }
 }
-else echo '<p>User Logged in: '.$_COOKIE["username"].'</p>';
+else $LoginNameText= __('user_logged_in').$_COOKIE["username"];
+
+$MainPage->showMainBar($LoginNameText,$languages_text);
 
 
 

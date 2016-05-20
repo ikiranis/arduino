@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language name="gr">
+
+    <page name="login">
+        <phrase name="user_logged_in">Είσοδος χρήστη: </phrase>
+        <phrase name="form_user_name">Όνομα χρήστη: </phrase>
+        <phrase name="form_password">Συνθηματικό: </phrase>
+        <phrase name="form_repeat_password">Επανέλαβε συνθηματικό: </phrase>
+        <phrase name="form_save_password">Μην με ξεχάσεις: </phrase>
+        <phrase name="form_login">Είσοδος</phrase>
+        <phrase name="form_email">E-mail: </phrase>
+        <phrase name="form_register">Εγγραφή: </phrase>
+        <phrase name="register_with_success">Η εγγραφή ολοκληρώθηκε με επιτυχία</phrase>
+        <phrase name="not_the_same_password">Δεν συμφωνούν τα 2 συνθηματικά</phrase>
+        <phrase name="user_is_founded">Βρέθηκε ο χρήστης</phrase>
+        <phrase name="wrong_password">Λάθος συνθηματικό</phrase>
+        <phrase name="user_dont_exist">Δεν υπάρχει αυτός ο χρήστης</phrase>
+    </page>
+
+</language>

@@ -6,7 +6,6 @@
  * Date: 17/04/16
  * Time: 01:17
  * DB Class
- * Info για την κρυπτογράφηση στην σελίδα http://php.net/manual/en/faq.passwords.php
  */
 
 
@@ -86,8 +85,6 @@ class RoceanDB
             // που είχαμε σπάσει στο αρχικό του ενιαίο
             if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
                 $combined_password=$salt_item['algo'].$salt_item['cost'].$salt_item['salt'].$item['password'];
-//                echo '<p>hashed pass '.$HashThePassword.'</p>';
-//                echo '<p>combined pass '.$combined_password.'</p>';
 
                 // Κρατάμε το salt για χρήση παρακάτω
                 $user_salt=$salt_item['salt'];
@@ -108,7 +105,6 @@ class RoceanDB
                     setcookie('username', $item['username'], time()+self::$CookieTime);
                     setcookie('salt', $user_salt, time()+self::$CookieTime);
 
-//                    echo '<p>Ο χρήστης '.$_COOKIE['username'].' θέλει να τον θυμώμαστε κι έχει το salt '.$_COOKIE['salt'];
 
                 }
                 else {
@@ -122,14 +118,23 @@ class RoceanDB
 
                 $_SESSION["username"]=$crypto->EncryptText($item['username']);
 
+                // Επιστρέφει την επιτυχία (ή όχι) στο array $result με ανάλογο μήνυμα
+                $result = array ('success'=>true, 'message'=>__('user_is_founded'));
+                return $result;
+//                echo '<p>Βρέθηκε ο χρήστης: '.$crypto->DecryptText($_SESSION["username"]).'</p>';
 
-                echo '<p>Βρέθηκε ο χρήστης: '.$crypto->DecryptText($_SESSION["username"]).'</p>';
 
             }
-            else echo "Λάθος Password";
+            else {
+                $result = array ('success'=>false, 'message'=>__('wrong_password'));
+                return $result;
+            }
 
         }
-        else echo 'Δεν υπάρχεις';
+        else {
+            $result = array ('success'=>false, 'message'=>__('user_dont_exist'));
+            return $result;
+        }
 
 
 
@@ -147,7 +152,7 @@ class RoceanDB
 
         $hashed_array=$crypto->EncryptPassword($password);
 
-        echo '<p>'.$hashed_array['hashed_password'].' | '.$hashed_array['algo'].' | '.$hashed_array['cost'].' | '.$hashed_array['salt'].'</p>';
+//        echo '<p>'.$hashed_array['hashed_password'].' | '.$hashed_array['algo'].' | '.$hashed_array['cost'].' | '.$hashed_array['salt'].'</p>';
 
         $EncryptedPassword=$hashed_array['hashed_password'];
 
@@ -162,7 +167,7 @@ class RoceanDB
 
         }
 
-        echo "You are sign in";
+        return true;
     }
 
     // Έλεγχος αν ο χρήστης είναι logged id, αν υπάρχουν cookies. Η function επιστρέφει true or false

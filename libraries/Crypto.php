@@ -6,6 +6,8 @@
  * Date: 04/05/16
  * Time: 23:04
  * Class for Crypto Methods
+ * Info για την κρυπτογράφηση στην σελίδα http://php.net/manual/en/faq.passwords.php
+ * Info για το openssl_encrypt http://blog.turret.io/the-missing-php-aes-encryption-example/
  */
 
 class Crypto
@@ -72,6 +74,7 @@ class Crypto
 
     }
 
+    // Αποκρυπτογράφηση του κειμένο. Επιστρέφει το αποκρυπτογραφημένο
     function DecryptText ($text) {
         $encryption_key = hash('md5',self::$KeyForPasswords); // hashing του $KeyForPasswords
 

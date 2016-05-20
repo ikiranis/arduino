@@ -25,8 +25,13 @@ class Page
 
         ?>
 
+        <!DOCTYPE html>
         <HTML>
         <head>
+
+            <link rel="stylesheet" href="styles/main.css">
+            
+
             <title><?php echo $this->tittle; ?></title>
 
             <?php
@@ -44,6 +49,9 @@ class Page
                     echo "<script " . $a . "></script>";
                 }
             ?>
+
+
+
 
         </head>
 
@@ -109,6 +117,24 @@ class Page
         </form>
 
         <?php
+    }
+    
+    
+    public function showMainBar ($leftSideText,$rightSideText) {
+    ?>
+        <div id="MainBar">
+            <div id="LeftSide">
+                <?php echo $leftSideText; ?>
+            </div>
+            
+            <div id="RightSide">
+                <?php echo $rightSideText; ?>
+            </div>
+            
+        </div>
+
+
+    <?php        
     }
 
     

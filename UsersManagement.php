@@ -11,17 +11,19 @@ require_once ('login.php');
 
 session_start();
 
+
 $UsersPage = new Page();
+$lang = new Language();
 
 // Τίτλος της σελίδας
-$UsersPage->tittle = "Arduino Users Page";
+$UsersPage->tittle = PAGE_TITTLE." | Users Page";
 
 
 $UsersPage->showHeader();
 
 if (isset($_SESSION["username"])) {
     $crypto = new Crypto();
-    echo 'User Loged in: '.$crypto->DecryptText($_SESSION["username"]);
+    echo __('user_logged_in').$crypto->DecryptText($_SESSION["username"]);
 }
 
 if (isset($_GET['RegisterUser']))

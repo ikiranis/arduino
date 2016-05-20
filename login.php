@@ -11,6 +11,9 @@ require_once ('libraries/common.inc.php');
 
 session_start();
 
+$lang = new Language();
+
+
 
 if (isset($_POST['submit'])) {
 
@@ -19,7 +22,15 @@ if (isset($_POST['submit'])) {
     else $SavePassword=false;
 
     $myConnect = new RoceanDB();
-    $myConnect->CheckLogin($_POST['username'], $_POST['password'], $SavePassword);
+    $login=$myConnect->CheckLogin(ClearString($_POST['username']), ClearString($_POST['password']), $SavePassword);
+    if($login['success']) {
+        echo $login['message'];
+        header('Refresh:3;URL=index.php');
+    }
+    else {
+        echo $login['message'];
+        header('Refresh:3;URL=index.php');
+    }
 
 
 }
@@ -27,8 +38,15 @@ if (isset($_POST['submit'])) {
 if (isset($_POST['register'])) {
     
     $conn = new RoceanDB();
+
+    // Έλεγχος αν συμφωνούν τα 2 passwords
+    if($_POST['password']==$_POST['repeat_password']) {
+        if($conn->CreateUser(ClearString($_POST['username']), ClearString($_POST['email']), ClearString($_POST['password']), 'local')) // Δημιουργεί τον χρήστη
+            echo '<p>'.__('register_with_success').'</p>';
+    }
+    else echo '<p>'.__('not_the_same_password').'</p>';
     
-    $conn->CreateUser($_POST['username'], $_POST['email'], $_POST['password'], 'local');
+
 
 }
 
@@ -42,6 +60,7 @@ function showLoginWindow()
     $LoginWindow = new Page();
 
 
+
     ?>
 
     <div id="LoginWindow">
@@ -52,21 +71,21 @@ function showLoginWindow()
 
         $FormElementsArray = array(
             array('name' => 'username',
-                'fieldtext' => 'Username: ',
+                'fieldtext' => __('form_user_name'),
                 'type' => 'text',
                 'value' => null),
             array('name' => 'password',
-                'fieldtext' => 'Password: ',
+                'fieldtext' => __('form_password'),
                 'type' => 'password',
                 'value' => null),
             array('name' => 'SavePassword',
-                'fieldtext' => 'Remember Me',
+                'fieldtext' => __('form_save_password'),
                 'type' => 'checkbox',
                 'value' => 'yes'),
             array('name' => 'submit',
                 'fieldtext' => '',
                 'type' => 'submit',
-                'value' => 'Login')
+                'value' => __('form_login'))
         );
 
         $LoginWindow->MakeForm('login.php', $FormElementsArray);
@@ -97,24 +116,24 @@ function ShowRegisterUser()
 
         $FormElementsArray = array(
             array('name' => 'username',
-                'fieldtext' => 'Username: ',
+                'fieldtext' => __('form_user_name'),
                 'type' => 'text'),
             array('name' => 'email',
-                'fieldtext' => 'E-mail: ',
+                'fieldtext' => __('form_email'),
                 'type' => 'text',
                 'value' => null),
             array('name' => 'password',
-                'fieldtext' => 'Password: ',
+                'fieldtext' => __('form_password'),
                 'type' => 'password',
                 'value' => null),
             array('name' => 'repeat_password',
-                'fieldtext' => 'Repeat Password: ',
+                'fieldtext' => __('form_repeat_password'),
                 'type' => 'password',
                 'value' => null),
             array('name' => 'register',
                 'fieldtext' => '',
                 'type' => 'submit',
-                'value' => 'Εγγραφή')
+                'value' => __('form_register'))
         );
 
         $RegisterUserWindow->MakeForm('login.php', $FormElementsArray);
