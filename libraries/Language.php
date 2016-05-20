@@ -50,14 +50,14 @@ class Language
 
         //set the language cookie and update cookie expiration date
         if(!isset($_COOKIE['lang'])) {
-            setcookie('lang',$lang_id,time()+$this->expiration_date);
+            setcookie('lang',$lang_id,time()+self::$expiration_date);
         }
 
         return $lang_id;
     }
 
     public function change_lang($lang_id) {
-        setcookie('lang',$lang_id,time()+$this->expiration_date);
+        setcookie('lang',$lang_id,time()+self::$expiration_date);
         $this->load_phrases($lang_id);
     }
 

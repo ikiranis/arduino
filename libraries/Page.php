@@ -15,6 +15,10 @@ class Page
     private $meta = array();
     private $script = array();
 
+    private static $nav_list = array();
+    
+    private static $nav_active_item;
+
     public function __set($name, $value)
     {
         $this->$name = $value;
@@ -84,6 +88,11 @@ class Page
     function showFooter()
     {
         ?>
+
+        <footer>
+            <?php echo __('footer_text'); ?>
+        </footer>
+        
         </BODY>
         </HTML>
 
@@ -122,7 +131,7 @@ class Page
     
     public function showMainBar ($leftSideText,$rightSideText) {
     ?>
-        <div id="MainBar">
+        <header>
             <div id="LeftSide">
                 <?php echo $leftSideText; ?>
             </div>
@@ -131,13 +140,56 @@ class Page
                 <?php echo $rightSideText; ?>
             </div>
             
-        </div>
+        </header>
 
 
     <?php        
     }
 
-    
+    // Δημιουργεί τον πίνακα των επιλογών με βάση τις τιμές στο αντίστοιχο language file
+    public function createNavListArray() {
+        for($i=1; $i<=NAV_LIST_ITEMS; $i++) {
+            $nav_item='nav_item_'.$i;
+            self::$nav_list[$i]=__($nav_item);
+        }
+    }
 
+
+    // Τυπώνει την λίστα με τα Nav Items.
+    public function NavList () {
+
+        if (!self::getNavActiveItem()) self::setNavActiveItem(1); // Σετάρει το NavActiveItem σε 1, αν δεν έχει κάποια τιμή
+
+        self::createNavListArray(); // Δημιουργεί το array με τα nav items
+
+        $counter=1;
+
+        ?>
+            
+            <ul>
+                <?php
+                    foreach (self::$nav_list as $item) {
+                ?>
+                        <li><a <?php if($counter==self::$nav_active_item) echo 'class=active'; ?>
+                                href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
+                
+                <?php
+                        $counter++;
+                    }
+                ?>        
+            </ul>
+
+        <?php
+    }
+    
+    public function getNavActiveItem() {
+        if(!self::$nav_active_item) self::setNavActiveItem(1);
+
+        return self::$nav_active_item;
+    }
+
+    public function setNavActiveItem($NavActiveItem) {
+        self::$nav_active_item=$NavActiveItem;
+    }
 
 }

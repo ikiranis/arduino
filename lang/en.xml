@@ -17,4 +17,17 @@
         <phrase name="user_dont_exist">User don't exist</phrase>
     </page>
 
+    <page name="footer">
+        <phrase name="footer_text">Developed by Rocean</phrase>
+    </page>
+
+    <page name="nav">
+        <phrase name="nav_item_1">Dashboard</phrase>
+        <phrase name="nav_item_2">Temperatures</phrase>
+        <phrase name="nav_item_3">Power</phrase>
+        <phrase name="nav_item_4">Statistics</phrase>
+        <phrase name="nav_item_5">Configuration</phrase>
+        <phrase name="nav_item_6">Logs</phrase>
+    </page>
+
 </language>

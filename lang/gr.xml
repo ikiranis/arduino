@@ -17,4 +17,17 @@
         <phrase name="user_dont_exist">Δεν υπάρχει αυτός ο χρήστης</phrase>
     </page>
 
+    <page name="footer">
+        <phrase name="footer_text">Ανάπτυξη εφαρμογής: Rocean</phrase>
+    </page>
+
+    <page name="nav">
+        <phrase name="nav_item_1">Πίνακας</phrase>
+        <phrase name="nav_item_2">Θερμοκρασίες</phrase>
+        <phrase name="nav_item_3">Διακόπτες</phrase>
+        <phrase name="nav_item_4">Στατιστικά</phrase>
+        <phrase name="nav_item_5">Ρυθμίσεις</phrase>
+        <phrase name="nav_item_6">Κινήσεις</phrase>
+    </page>
+
 </language>

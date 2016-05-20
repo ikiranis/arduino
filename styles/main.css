@@ -1,14 +1,88 @@
+html, body {
+    height:100%;
+    width: 99%;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
+header, footer, section, article, aside {
+    margin: 5px;
+    border-radius: 6px;
+    padding: 1em 1em;
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
+    display:block;
+}
+
+
+section {
+    position: relative;
+    width: 68%;
+    height: 75%;
+    float: right;
+    background-color: floralwhite;
+    margin-bottom: 1em;
+}
+
+nav {
+    position: relative;
+    width: 25%;
+    height: 75%;
+    float: left;
+    background-color: cornsilk;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin: 5px;
+    border-radius: 6px;
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7);
+    display:block;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border: 1px solid #555;
+}
+
+nav li a {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+
+}
+
+nav li {
+    border-bottom: 1px solid #555;
+}
+
+nav li:last-child {
+    border-bottom: none;
+}
+
+nav li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+nav li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
 .flags {
     width: 1.2em;
     height: 0.8em;
 }
 
-#MainBar {
-    width: 100%;
-    height: 2em;
+header {
+    height: 3%;
     background-color: black;
     color: white;
-    display: block;
     overflow: hidden;
 }
 
@@ -29,4 +103,13 @@
 
 #LoginWindow {
     clear: both;
+}
+
+
+footer {
+    clear: both;
+    position: relative;
+    background-color: silver;
+    height: 3%;
+    font-size: 0.7em;
 }
