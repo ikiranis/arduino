@@ -22,7 +22,7 @@
     </page>
 
     <page name="nav">
-        <phrase name="nav_item_1">Πίνακας</phrase>
+        <phrase name="nav_item_1">Κεντρικός Πίνακας</phrase>
         <phrase name="nav_item_2">Θερμοκρασίες</phrase>
         <phrase name="nav_item_3">Διακόπτες</phrase>
         <phrase name="nav_item_4">Στατιστικά</phrase>
@@ -30,4 +30,10 @@
         <phrase name="nav_item_6">Κινήσεις</phrase>
     </page>
 
+    <page name="dashboard">
+        <phrase name="system_temperature">Θερμοκρασία συστήματος: </phrase>
+        <phrase name="system_status">Κατάσταση συστήματος: </phrase>
+        <phrase name="db_status">Κατάσταση βάσης δεδομένων: </phrase>
+        <phrase name="system_time">Ώρα Συστήματος: </phrase>
+    </page>
 </language>

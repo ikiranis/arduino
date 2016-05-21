@@ -30,4 +30,11 @@
         <phrase name="nav_item_6">Logs</phrase>
     </page>
 
+    <page name="dashboard">
+        <phrase name="system_temperature">System Temperature: </phrase>
+        <phrase name="system_status">System Status: </phrase>
+        <phrase name="db_status">Database Status: </phrase>
+        <phrase name="system_time">System Time: </phrase>
+    </page>
+
 </language>

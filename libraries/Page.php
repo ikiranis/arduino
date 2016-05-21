@@ -16,8 +16,6 @@ class Page
     private $script = array();
 
     private static $nav_list = array();
-    
-    private static $nav_active_item;
 
     public function __set($name, $value)
     {
@@ -156,13 +154,14 @@ class Page
 
 
     // Τυπώνει την λίστα με τα Nav Items.
-    public function NavList () {
+    static function NavList ($NavActiveItem) {
 
-        if (!self::getNavActiveItem()) self::setNavActiveItem(1); // Σετάρει το NavActiveItem σε 1, αν δεν έχει κάποια τιμή
+//        if (!isset($_COOKIE['page'])) self::setNavActiveItem(1); // Σετάρει το NavActiveItem σε 1, αν δεν έχει κάποια τιμή
 
         self::createNavListArray(); // Δημιουργεί το array με τα nav items
 
         $counter=1;
+
 
         ?>
             
@@ -170,10 +169,11 @@ class Page
                 <?php
                     foreach (self::$nav_list as $item) {
                 ?>
-                        <li><a <?php if($counter==self::$nav_active_item) echo 'class=active'; ?>
+                        <li><a <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
                                 href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
                 
                 <?php
+
                         $counter++;
                     }
                 ?>        
@@ -182,14 +182,20 @@ class Page
         <?php
     }
     
-    public function getNavActiveItem() {
-        if(!self::$nav_active_item) self::setNavActiveItem(1);
+    static function getNavActiveItem() {
+        if(!isset($_COOKIE['page'])) {
+            self::setNavActiveItem(1);
+            $getTheCookie=$_COOKIE['page'];
+        }
+        else $getTheCookie=$_COOKIE['page'];
 
-        return self::$nav_active_item;
+        return $getTheCookie;
     }
 
-    public function setNavActiveItem($NavActiveItem) {
-        self::$nav_active_item=$NavActiveItem;
+    static function setNavActiveItem($NavActiveItem) {
+        $expiration=60*30;
+        setcookie('page', $NavActiveItem, time()+$expiration);
+
     }
 
 }

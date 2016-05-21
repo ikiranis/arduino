@@ -34,6 +34,20 @@ $languages = array (
 );
 
 
+// Μεταβλητές για το Arduino project
+
+$sensors = array (
+    array ('room'=>'Σαλόνι', 'sensor_name'=>'Διακόπτης 1'),
+    array ('room'=>'Σαλόνι', 'sensor_name'=>'Διακόπτης 2'),
+    array ('room'=>'Κρεβατοκάμαρα', 'sensor_name'=>'Διακόπτης 1'),
+    array ('room'=>'Καθιστικό', 'sensor_name'=>'Διακόπτης 1'),
+    array ('room'=>'Μπάνιο', 'sensor_name'=>'Διακόπτης 1'),
+    array ('room'=>'Κουζίνα', 'sensor_name'=>'Διακόπτης 1')       
+);
+
+
+
+
 // Καθαρίζει τα data που έδωσε ο χρήστης από περίεργο κώδικα
 function ClearString($data) {
     $data = trim($data);

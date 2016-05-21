@@ -8,14 +8,24 @@
 
 
 function DisplayMainPage() {
-    if(isset($_GET['page']))
+
+    if(isset($_GET['page'])) {
+        $NavActiveItem=$_GET['page'];
         Page::setNavActiveItem($_GET['page']);
+
+    }
+    else if(isset($_COOKIE['page'])) {
+            $NavActiveItem=$_COOKIE['page'];
+            Page::setNavActiveItem($_COOKIE['page']);
+        }
+
+
     ?>
     
 
         <section>
+            <article>
             <?php
-                $NavActiveItem=Page::getNavActiveItem();
                 switch ($NavActiveItem) {
                     case 1: Arduino::showDashboard(); break;
                     case 2: Arduino::showTemperatures(); break;
@@ -26,11 +36,12 @@ function DisplayMainPage() {
                 }
 
             ?>
+            </article>
         </section>
 
 
         <nav>
-            <?php echo Page::NavList(); ?>
+            <?php echo Page::NavList($NavActiveItem); ?>
         </nav>
 
 

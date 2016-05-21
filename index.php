@@ -21,8 +21,11 @@ $lang = new Language();
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
+    $targetPage='Location:index.php';
+
     $lang->change_lang($_GET['ChangeLang']);
-    header('Location:index.php');
+
+    header($targetPage);
 }
 
 // Τίτλος της σελίδας
