@@ -110,7 +110,7 @@ class SysSession implements SessionHandlerInterface
 
         $stmt = RoceanDB::$conn->prepare($sql);
 
-        $stmt->execute(array($maxlifetime,$maxlifetime));
+        $stmt->execute(array($maxlifetime,time()));
 
 
         if($stmt){

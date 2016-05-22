@@ -19,6 +19,8 @@ function DisplayMainPage() {
             Page::setNavActiveItem($_COOKIE['page']);
         }
 
+    if(!isset($NavActiveItem)) $NavActiveItem=1;
+
 
     ?>
     

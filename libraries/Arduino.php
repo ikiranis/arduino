@@ -30,6 +30,7 @@ class Arduino
 
         <?php
             global $sensors;
+            $counter=1;
 
             foreach($sensors as $sensor) {
 
@@ -44,12 +45,14 @@ class Arduino
                 
 
                 echo '<div class="temperature_block'.$temp_diff.'">';
-                    echo '<span class=temperature_text>'.$randomTemp.'&deg; C</span>';
-                    echo '<span class=dif_text>'.$dif_text.'</span>';
+                    echo '<span class=temperature_text><span id=temp'.$counter.'>'.$randomTemp.'</span>&deg; C</span>';
                     echo '<span class=room_text>'.$sensor['room'].'</span>';
                     echo '<span class=sensor_name_text>'.$sensor['sensor_name'].'</span>';
-                    echo '<span class=time_text>'.date('Y-m-d H:i:s',time()).'</span>';
+                    echo '<span class=time_text id=time'.$counter.'>'.date('Y-m-d H:i:s',time()).'</span>';
+                    echo '<span class=dif_text>'.$dif_text.'</span>';
                 echo '</div>';
+
+                $counter++;
 
             }
 

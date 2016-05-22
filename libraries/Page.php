@@ -38,7 +38,7 @@ class Page
 
             <?php
             //  Καθορισμός των meta. Ζητάει το string μετά το "<meta "
-            if (isset($meta))
+            if (isset($this->meta))
                 foreach ($this->meta as $a) {
                     echo "<meta " . $a . ">";
                 }
@@ -46,9 +46,9 @@ class Page
 
             <?php
             //  Καθορισμός των scripts αρχείων. Ζητάει το string μετά το "<script "
-            if (isset($script))
+            if (isset($this->script))
                 foreach ($this->script as $a) {
-                    echo "<script " . $a . "></script>";
+                    echo '<script ' . $a . '></script>';
                 }
             ?>
 
@@ -185,7 +185,7 @@ class Page
     static function getNavActiveItem() {
         if(!isset($_COOKIE['page'])) {
             self::setNavActiveItem(1);
-            $getTheCookie=$_COOKIE['page'];
+            $getTheCookie=1;
         }
         else $getTheCookie=$_COOKIE['page'];
 

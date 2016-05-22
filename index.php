@@ -31,6 +31,10 @@ if (isset($_GET['ChangeLang'])) {
 // Τίτλος της σελίδας
 $MainPage->tittle = PAGE_TITTLE;
 
+$scripts=array ('src=libraries/jquery.min.js', 'src=libraries/scripts.js');
+
+$MainPage->setScript($scripts);
+
 $MainPage->showHeader();
 
 $languages_text=$lang->print_languages('lang_id',' ',true,false);
