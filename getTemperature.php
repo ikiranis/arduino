@@ -9,13 +9,12 @@
 require_once('libraries/common.inc.php');
 
 
-$FieldName=$_GET['field'];
 
 
 $conn = new RoceanDB();
 $conn->CreateConnection();
 
-$sql = 'SELECT '.$FieldName.',time FROM data ORDER BY time DESC';
+$sql = 'SELECT * FROM data ORDER BY time DESC';
 $stmt = RoceanDB::$conn->prepare($sql);
 
 $stmt->execute();
@@ -23,10 +22,10 @@ $stmt->execute();
 
 if($item=$stmt->fetch(PDO::FETCH_ASSOC))
 {
-//    echo '<span id=value1>'.$item[$FieldName].'</span>';
-//    echo '<span id=value2>'.$item['time'].'</span>';
 
-    echo json_encode( array( "fieldname"=>$item[$FieldName],
+
+    echo json_encode( array( "probe1"=>$item['probe1'], "probe2"=>$item['probe2'],
+        "probe3"=>$item['probe3'],"probe4"=>$item['probe4'],"probe5"=>$item['probe5'],"probeCPU"=>$item['probeCPU'],
                 "time"=>$item['time'] ) );
 
 }

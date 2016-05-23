@@ -11,7 +11,25 @@
 
 class Arduino
 {
+    static function getPowerStatus($id) {
 
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT status FROM power WHERE id=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($id));
+
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+
+            return $item['status'];
+
+        }
+
+    }
 
     static function showDashboard () {
         ?>
@@ -29,13 +47,19 @@ class Arduino
         <h2><?php echo __('nav_item_2'); ?></h2>
 
         <?php
-            global $sensors;
+            $conn = new RoceanDB();
+            $conn->CreateConnection();
+    
+            $sql = 'SELECT * FROM sensors';
+            $stmt = RoceanDB::$conn->prepare($sql);
+    
+            $stmt->execute();
             $counter=1;
-
-            foreach($sensors as $sensor) {
+    
+            while($sensor=$stmt->fetch(PDO::FETCH_ASSOC))
+            {
 
                 $somerandomnumber=rand(1,3);
-                $randomTemp=rand(10,50);
 
                 switch ($somerandomnumber) {
                     case '1': $temp_diff=' cold'; $dif_text='&#x21E9'; break;
@@ -45,7 +69,7 @@ class Arduino
                 
 
                 echo '<div class="temperature_block'.$temp_diff.'">';
-                    echo '<span class=temperature_text><span id=temp'.$counter.'>'.$randomTemp.'</span>&deg; C</span>';
+                    echo '<span class=temperature_text><span id=temp'.$counter.'>0</span>&deg; C</span>';
                     echo '<span class=room_text>'.$sensor['room'].'</span>';
                     echo '<span class=sensor_name_text>'.$sensor['sensor_name'].'</span>';
                     echo '<span class=time_text id=time'.$counter.'>'.date('Y-m-d H:i:s',time()).'</span>';
@@ -63,31 +87,47 @@ class Arduino
         ?>
         <h2><?php echo __('nav_item_3'); ?></h2>
         <?php
+            $powerDivsArray=array();
+            $powerIDArray=array();
+
+            $conn = new RoceanDB();
+            $conn->CreateConnection();
+
+            $sql = 'SELECT * FROM power';
+            $stmt = RoceanDB::$conn->prepare($sql);
+
+            $stmt->execute();
+
+            while($power=$stmt->fetch(PDO::FETCH_ASSOC))
+            {
 
 
-            global $sensors;
-
-            foreach($sensors as $sensor) {
-
-                $somerandomnumber=rand(1,2);
-
-                if($somerandomnumber==1) {
+                if($power['status']=="ON") {
                     $onoff=' powerON';
-                    $onofftext='ON';
                 }
                 else {
                     $onoff=' powerOFF';
-                    $onofftext='OFF';
                 }
 
-                echo '<div class="power_block'.$onoff.'"">';
-                    echo '<span class=room_text>'.$sensor['room'].'</span>';
-                    echo '<span class=sensor_name_text>'.$sensor['sensor_name'].'</span>';
-                    echo '<span class=onoff_text>'.$onofftext.'</span>';
+                $powerDivsArray[]='powerID'.$power['id'];
+                $powerIDArray[]= $power['id'];
+
+                echo '<div id=powerID'.$power['id'].' class="power_block'.$onoff.'"">';
+                    echo '<span class=room_text>'.$power['room'].'</span>';
+                    echo '<span class=sensor_name_text>'.$power['power_name'].'</span>';
+                    echo '<span class=onoff_text id=powerIDtext'.$power['id'].'>'.$power['status'].'</span>';
                 echo '</div>';
 
-            }
+            } ?>
 
+            <script type="text/javascript">
+
+                var PowerDivsArray= <?php echo json_encode($powerDivsArray); ?>;
+                var PowerIDArray= <?php echo json_encode($powerIDArray); ?>;
+
+            </script>
+
+        <?php
     }
 
     static function showStatistics () {
@@ -112,7 +152,7 @@ class Arduino
             $conn =  new RoceanDB();
             $conn->CreateConnection();
 
-            $sql='SELECT * FROM data ORDER BY time DESC LIMIT 0,500';
+            $sql='SELECT * FROM data ORDER BY time DESC LIMIT 0,100';
 
             $stmt = RoceanDB::$conn->prepare($sql);
 

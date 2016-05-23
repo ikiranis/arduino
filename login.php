@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
     $login=$myConnect->CheckLogin(ClearString($_POST['username']), ClearString($_POST['password']), $SavePassword);
     if($login['success']) {
         echo $login['message'];
-        header('Refresh:3;URL=index.php');
+        header('Location:index.php');
     }
     else {
         echo $login['message'];

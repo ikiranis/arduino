@@ -14,15 +14,15 @@ require_once ('Crypto.php');
 require_once ('Language.php');
 require_once ('Arduino.php');
 
-define (PROJECT_PATH,'/arduino/');
+define (PROJECT_PATH,'/arduino/');   // αν το project είναι σε κάποιον υποκατάλογο
 
 define(CONNSTR, 'mysql:host=localhost;dbname=arduino_db');
 define(DBUSER, 'root');
 define(DBPASS, 'documents2015');
 
-define(PAGE_TITTLE,'ArduinoDB');
+define(PAGE_TITTLE,'ITBusiness Smart Control Room');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 
-define (LANG_PATH,PROJECT_PATH.'lang/');
+define (LANG_PATH,PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
 
 define (NAV_LIST_ITEMS, '6'); // Ο αριθμός των επιλογών στo Nav Menu
 
@@ -35,15 +35,6 @@ $languages = array (
 
 
 // Μεταβλητές για το Arduino project
-
-$sensors = array (
-    array ('room'=>'Σαλόνι', 'sensor_name'=>'Διακόπτης 1'),
-    array ('room'=>'Σαλόνι', 'sensor_name'=>'Διακόπτης 2'),
-    array ('room'=>'Κρεβατοκάμαρα', 'sensor_name'=>'Διακόπτης 1'),
-    array ('room'=>'Καθιστικό', 'sensor_name'=>'Διακόπτης 1'),
-    array ('room'=>'Μπάνιο', 'sensor_name'=>'Διακόπτης 1'),
-    array ('room'=>'Κουζίνα', 'sensor_name'=>'Διακόπτης 1')       
-);
 
 
 

@@ -25,4 +25,6 @@ do {
     $stmt->execute($ArrayValues);
     $counter++;
     sleep(5);
-} while ($counter<50);
+} while ($counter<13);
+
+?>
