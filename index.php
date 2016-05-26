@@ -31,7 +31,7 @@ if (isset($_GET['ChangeLang'])) {
 // Τίτλος της σελίδας
 $MainPage->tittle = PAGE_TITTLE;
 
-$scripts=array ('src=libraries/jquery.min.js', 'src=libraries/scripts.js');
+$scripts=array ('src=libraries/jquery.min.js', 'src=libraries/scripts.js', 'src=libraries/details.js');
 
 $MainPage->setScript($scripts);
 

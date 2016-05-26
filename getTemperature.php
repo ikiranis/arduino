@@ -20,13 +20,20 @@ $stmt = RoceanDB::$conn->prepare($sql);
 $stmt->execute();
 
 
+$jsonArray=array();
+
+
 if($item=$stmt->fetch(PDO::FETCH_ASSOC))
 {
+    $counter=1;
+    foreach ($sensorsArray as $sensor) {
+        $jsonArray=$jsonArray+array('probe'.$counter=>$item[$sensor['db_field']]);
+        $counter++;
+    }
+    $jsonArray=$jsonArray+array("time"=>$item['time']);
 
+    echo json_encode($jsonArray);
 
-    echo json_encode( array( "probe1"=>$item['probe1'], "probe2"=>$item['probe2'],
-        "probe3"=>$item['probe3'],"probe4"=>$item['probe4'],"probe5"=>$item['probe5'],"probeCPU"=>$item['probeCPU'],
-                "time"=>$item['time'] ) );
 
 }
 

@@ -90,7 +90,7 @@ class Page
         <footer>
             <?php echo __('footer_text'); ?>
         </footer>
-        
+
         </BODY>
         </HTML>
 
@@ -137,6 +137,8 @@ class Page
             <div id="RightSide">
                 <?php echo $rightSideText; ?>
             </div>
+
+
             
         </header>
 

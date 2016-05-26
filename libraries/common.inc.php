@@ -34,10 +34,7 @@ $languages = array (
 );
 
 
-// Μεταβλητές για το Arduino project
-
-
-
+// Public functions
 
 // Καθαρίζει τα data που έδωσε ο χρήστης από περίεργο κώδικα
 function ClearString($data) {
@@ -46,6 +43,17 @@ function ClearString($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
+
+
+
+// Μεταβλητές για το Arduino project
+
+$sensorsArray=Arduino::getSensorsArray(); // Αρχικοποίηση του $SensorsArray
+
+define(INTERVAL_VALUE,'5'); // Κάθε πόσα δευτερόλεπτα θα κάνει ανανέωση εισερχόμενων και πέρασμα της τιμής στην javascript
+
+
 
 
 

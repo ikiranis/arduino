@@ -35,6 +35,16 @@
         <phrase name="system_status">System Status: </phrase>
         <phrase name="db_status">Database Status: </phrase>
         <phrase name="system_time">System Time: </phrase>
+        <phrase name="sensors_status">Sensors Status: </phrase>
     </page>
+
+    <page name="settings">
+        <phrase name="settings_sensors">Sensors</phrase>
+        <phrase name="settings_power">Power</phrase>
+        <phrase name="update_row">Update</phrase>
+        <phrase name="delete_row">Delete</phrase>
+        <phrase name="insert_row">Insert</phrase>
+    </page>
+
 
 </language>

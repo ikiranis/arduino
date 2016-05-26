@@ -35,5 +35,15 @@
         <phrase name="system_status">Κατάσταση συστήματος: </phrase>
         <phrase name="db_status">Κατάσταση βάσης δεδομένων: </phrase>
         <phrase name="system_time">Ώρα Συστήματος: </phrase>
+        <phrase name="sensors_status">Κατάσταση αισθητήρων: </phrase>
     </page>
+
+    <page name="settings">
+        <phrase name="settings_sensors">Αισθητήρες</phrase>
+        <phrase name="settings_power">Διακόπτες</phrase>
+        <phrase name="update_row">Ενημέρωση</phrase>
+        <phrase name="delete_row">Διαγραφή</phrase>
+        <phrase name="insert_row">Εισαγωγή</phrase>
+    </page>
+
 </language>

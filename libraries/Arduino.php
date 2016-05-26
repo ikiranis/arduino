@@ -8,9 +8,74 @@
  */
 
 
-
 class Arduino
 {
+
+    // Εμφάνιση των εγγραφών των sensors σε μορφή form fields για editing
+    static function getSensorsInFormFields () {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT * FROM sensors';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+
+        while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+        ?>
+            <div class="SensorsRow" id="SensorID<?php echo $item['id']; ?>">
+                <input type="text" name="room" value="<?php echo $item['room']; ?>">
+                <input type="text" name="sensor_name" value="<?php echo $item['sensor_name']; ?>">
+                <input type="text" name="db_field" value="<?php echo $item['db_field']; ?>">
+                <button name="update_sensor" onclick="updateSensor(<?php echo $item['id']; ?>);">
+                    <?php echo __('update_row'); ?></button>
+                <button name="delete_sensor" onclick="deleteSensor(<?php echo $item['id']; ?>);">
+                    <?php echo __('delete_row'); ?></button>
+                <span id="messageID<?php echo $item['id']; ?>"></span>
+            </div>
+            <?php
+        }
+        ?>
+        <button name="insert_sensor" onclick="insertSensor();"><?php echo __('insert_row'); ?></button>
+
+        <?php
+
+    }
+
+    // Εμφάνιση των εγγραφών των power σε μορφή form fields για editing
+    static function getPowerInFormFields () {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT * FROM power';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+
+        while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            ?>
+            <div class="PowersRow" id="PowerID<?php echo $item['id']; ?>">
+                <input type="text" name="room" value="<?php echo $item['room']; ?>">
+                <input type="text" name="power_name" value="<?php echo $item['power_name']; ?>">
+                <button name="update_power" onclick="updatePower(<?php echo $item['id']; ?>);"">
+                <?php echo __('update_row'); ?></button>
+                <button name="delete_power" onclick="deletePower(<?php echo $item['id']; ?>);"">
+                <?php echo __('delete_row'); ?></button>
+                <span id="messagePowerID<?php echo $item['id']; ?>"></span>
+            </div>
+            <?php
+        }
+        ?>
+        <button name="insert_power" onclick="insertPower();"><?php echo __('insert_row'); ?></button>
+
+        <?php
+
+    }
+
     static function getPowerStatus($id) {
 
         $conn = new RoceanDB();
@@ -28,6 +93,21 @@ class Arduino
             return $item['status'];
 
         }
+
+    }
+
+    // Επιστρέφει τα id και db_fields σε array από το sensor table
+    static function getSensorsArray() {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT id, db_field FROM sensors';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+        $result=$stmt->fetchAll();
+        
+        return $result;
 
     }
 
@@ -55,11 +135,15 @@ class Arduino
     
             $stmt->execute();
             $counter=1;
+
+            $sensorsIDArray=array();
     
             while($sensor=$stmt->fetch(PDO::FETCH_ASSOC))
             {
 
                 $somerandomnumber=rand(1,3);
+
+                $sensorsIDArray[]= $sensor['id'];
 
                 switch ($somerandomnumber) {
                     case '1': $temp_diff=' cold'; $dif_text='&#x21E9'; break;
@@ -79,8 +163,16 @@ class Arduino
                 $counter++;
 
             }
+            ?>
+        
+            <!--        Στέλνουμε τα array στην javascript-->
+            <script type="text/javascript">
+                
+                var SensorsIDArray= <?php echo json_encode($sensorsIDArray); ?>;
+    
+            </script>
 
-
+    <?php
     }
 
     static function showPower () {
@@ -120,7 +212,8 @@ class Arduino
 
             } ?>
 
-            <script type="text/javascript">
+<!--        Στέλνουμε τα array στην javascript-->
+            <script type="text/javascript">   
 
                 var PowerDivsArray= <?php echo json_encode($powerDivsArray); ?>;
                 var PowerIDArray= <?php echo json_encode($powerIDArray); ?>;
@@ -140,6 +233,17 @@ class Arduino
     static function showConfiguration () {
         ?>
         <h2><?php echo __('nav_item_5'); ?></h2>
+
+        <details>
+            <summary><?php echo __('settings_sensors'); ?></summary>
+            <?php Arduino::getSensorsInFormFields () ?>
+        </details>
+
+        <details>
+            <summary><?php echo __('settings_power'); ?></summary>
+            <?php Arduino::getPowerInFormFields () ?>    
+        </details>
+
         <?php
 
     }
@@ -192,5 +296,7 @@ class Arduino
 
 
 }
+
+
 
 ?>

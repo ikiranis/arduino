@@ -107,6 +107,30 @@ nav li a:hover:not(.active) {
 }
 
 
+/*Κατάσταση αισθητήρων*/
+#MysqlStatus {
+    font-size: 0.7em;
+    position: absolute;
+    display: inline-block;
+    width:100%;
+    bottom:0;
+    text-align: center;
+
+}
+
+#MysqlStatusText {
+    font-weight: bold;
+}
+
+.SensorsON {
+    color: forestgreen;
+}
+
+.SensorsOFF {
+    color: red;
+}
+
+
 
 /*Οι σημαίες για τις γλώσσες*/
 .flags {
@@ -237,8 +261,8 @@ footer {
     color: #000;
     text-align: center;
     display: block;
-    position: relative;
-    bottom: -3em;
+    position: absolute;
+    bottom: 0;
     width: 100%;
     background-color: #FFFFFF;
     opacity: 0.5;
@@ -274,4 +298,24 @@ footer {
     font-size: 1.2em;
     font-weight: bold;
     bottom: -0.5em;
+}
+
+
+/*Στοιχεία εμφάνισης ρυθμίσεων*/
+.SensorsRow {
+    display: block;
+}
+
+.PowersRow {
+    display: block;
+}
+
+
+
+
+
+/*Εμφάνιση του summary/details*/
+
+summary {
+    cursor: pointer;
 }

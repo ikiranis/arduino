@@ -25,7 +25,8 @@ $sql = 'UPDATE power SET status=? WHERE id=?';
 $stmt = RoceanDB::$conn->prepare($sql);
 
 if($stmt->execute(array($newStatus, $id)))
-    echo json_encode( array( 'success'=>'true'));
+
+    echo json_encode( array( 'success'=>'true', 'status'=>$newStatus));
 
 
 

@@ -7,6 +7,17 @@
  */
 
 
+// Πέρασμα της INTERVAL_VALUE στην javascript
+?>
+    <script type="text/javascript">
+        var IntervalValue=<?php echo INTERVAL_VALUE; ?>;
+    </script>
+
+<?php
+
+
+
+
 function DisplayMainPage() {
 
     if(isset($_GET['page'])) {
@@ -44,6 +55,9 @@ function DisplayMainPage() {
 
         <nav>
             <?php echo Page::NavList($NavActiveItem); ?>
+            <div id="MysqlStatus">
+                <span></span><?php echo __('sensors_status'); ?></span> <span id="MysqlStatusText"></span>
+            </div>
         </nav>
 
 
