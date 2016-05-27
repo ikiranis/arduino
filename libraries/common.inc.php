@@ -49,7 +49,7 @@ function ClearString($data) {
 
 // Μεταβλητές για το Arduino project
 
-$sensorsArray=Arduino::getSensorsArray(); // Αρχικοποίηση του $SensorsArray
+$sensorsArray=RoceanDB::getTableArray('sensors','id, db_field'); // Αρχικοποίηση του $SensorsArray
 
 define(INTERVAL_VALUE,'5'); // Κάθε πόσα δευτερόλεπτα θα κάνει ανανέωση εισερχόμενων και πέρασμα της τιμής στην javascript
 

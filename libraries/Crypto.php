@@ -84,6 +84,7 @@ class Crypto
 //        echo '<p>Decrypted: '.$DecryptedText.'</p>';
         return $DecryptedText; // Επιστρέφει το αποκρυπτογραφημένο κείμενο
     }
+    
 
 
 }

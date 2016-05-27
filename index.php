@@ -46,7 +46,7 @@ if(!$conn->CheckCookiesForLoggedUser()) {
     if (isset($_SESSION["username"]))
     {
 
-        $LoginNameText= __('user_logged_in').$crypt->DecryptText($_SESSION["username"]);
+        $LoginNameText= __('user_logged_in').$conn->getSession('username');
 //        session_regenerate_id(true);
 
         $logged_in=true;

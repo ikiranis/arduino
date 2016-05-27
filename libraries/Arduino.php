@@ -10,6 +10,97 @@
 
 class Arduino
 {
+    // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
+    static function getLastTemperatures() {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT * FROM data ORDER BY time DESC';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        global $sensorsArray;
+        $jsonArray=array();
+
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $counter=1;
+            foreach ($sensorsArray as $sensor) {
+                $jsonArray=$jsonArray+array('probe'.$counter=>$item[$sensor['db_field']]);
+                $counter++;
+            }
+            $jsonArray=$jsonArray+array("time"=>$item['time']);
+
+           return $jsonArray;
+
+
+        }
+    }
+
+    // Επιστρέφει μόνο τις θερμοκρασίες με το όνομα του sensor σε array
+    static function getOnlyLastTemperatures() {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT * FROM data ORDER BY time DESC';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        global $sensorsArray;
+        $jsonArray=array();
+
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $counter=1;
+            foreach ($sensorsArray as $sensor) {
+                $jsonArray[]=array('sensor'=>$sensor['db_field'], 'temp'=>$item[$sensor['db_field']]);
+                $counter++;
+            }
+
+            return $jsonArray;
+
+
+        }
+    }
+
+
+    static function setTimeToAlert ($id) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+
+        $sql = 'UPDATE alerts SET alert_time=? WHERE id=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        if($stmt->execute(array(date('Y-m-d H:i:s'), $id)))
+            return true;
+        else return false;
+
+    }
+
+    // Επιστρέφει το Sensor id του $db_field
+    static function getSensorID($db_field) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql='SELECT id FROM sensors WHERE db_field=?';
+
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($db_field));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $result=$item['id'];
+        }
+        else $result=false;
+
+        return $result;
+    }
 
     // Εμφάνιση των εγγραφών των sensors σε μορφή form fields για editing
     static function getSensorsInFormFields () {
@@ -110,7 +201,8 @@ class Arduino
         return $result;
 
     }
-
+    
+    
     static function showDashboard () {
         ?>
         <h2><?php echo __('nav_item_1'); ?></h2>

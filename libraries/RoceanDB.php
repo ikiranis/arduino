@@ -116,7 +116,8 @@ class RoceanDB
                     }
                 }
 
-                $_SESSION["username"]=$crypto->EncryptText($item['username']);
+                self::setSession('username',$item['username']);
+//                $_SESSION["username"]=$crypto->EncryptText($item['username']);
 
                 // Επιστρέφει την επιτυχία (ή όχι) στο array $result με ανάλογο μήνυμα
                 $result = array ('success'=>true, 'message'=>__('user_is_founded'));
@@ -195,8 +196,9 @@ class RoceanDB
                 // Παίρνουμε το salt και το συγκρίνουμε με αυτό που έχει το σχετικό cookie
                 if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
                     if($salt_item['salt']==$_COOKIE['salt']) {
-                        $crypto= new Crypto();
-                        $_SESSION['username']=$crypto->EncryptText($_COOKIE['username']); // Ανοίγει το session για τον συγκεκριμένο χρήστη
+//                        $crypto= new Crypto();
+                        self::setSession('username',$_COOKIE['username']);  // Ανοίγει το session για τον συγκεκριμένο χρήστη
+//                        $_SESSION['username']=$crypto->EncryptText($_COOKIE['username']);
                         return true;
                     }
                     else return false;
@@ -224,7 +226,53 @@ class RoceanDB
         }
     }
 
+    // Δέχεται το username και επιστρέφει το user id του. Αλλιώς false
+    public function getUserID($username) {
+        $this->CreateConnection();
 
+        $sql='SELECT user_id FROM user WHERE username=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array($username));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $result=$item['user_id'];
+        }
+        else $result=false;
+        
+        return $result;
+    }
+
+    // Επιστρέφει το decrypted text του session $name
+    public function getSession($name) {
+        $crypto = new Crypto();
+        $result= $crypto->DecryptText($_SESSION[$name]);
+        
+        return $result;
+    }
+    
+    // Θέτει την τιμή $text στο session $SessionName
+    public function setSession($SessionName, $text) {
+        $crypto = new Crypto();
+        $_SESSION[$SessionName]=$crypto->EncryptText($text);
+    }
+    
+    // Επιστρέφει σε array τον πίνακα $table. Δέχεται προεραιτικά συγκεκριμένα fiels σε μορφή string $fields
+    static function getTableArray ($table, $fields) {
+        
+        self::CreateConnection();
+
+        if(!isset($fields)) $sql = 'SELECT * FROM '.$table;
+        else $sql = 'SELECT '.$fields.' FROM '.$table;
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute();
+        $result=$stmt->fetchAll();
+
+        return $result;
+    }
 
 }
 

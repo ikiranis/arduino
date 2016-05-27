@@ -1,6 +1,17 @@
-var SensorKeyPressed=false;
-var PowerKeyPressed=false;
+//
+// File: scripts.js
+// Created by rocean
+// Date: 20/05/16
+// Time: 19:44
+// Javascript controls και functions
+//
 
+
+
+var SensorKeyPressed=false;
+var PowerKeyPressed=false;  // Αν δεν έχει πατηθεί η εισαγωγή νέας γραμμής είναι false, αλλιώς true για να μην μπορεί να ξαναπατηθεί
+
+// Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table sensors, ή εισάγει νέα εγγραφή
 function updateSensor(id) {
     room=$("#SensorID"+id).find('input[name="room"]').val();
     sensor_name=$("#SensorID"+id).find('input[name="sensor_name"]').val();
@@ -28,39 +39,12 @@ function updateSensor(id) {
 
 }
 
-function deleteSensor(id) {
-    callFile="deleteSensor.php?id="+id;
 
-    $.get( callFile, function( data ) {
-        if(data.success=='true') {
-
-            $("#messageID"+id).text("success");
-            $("#SensorID"+id).remove();
-        }
-        else $("#messageID"+id).text("problem");
-    }, "json" );
-
-}
-
-
-function deletePower(id) {
-    callFile="deletePower.php?id="+id;
-
-    $.get( callFile, function( data ) {
-        if(data.success=='true') {
-
-            $("#messagePowerID"+id).text("success");
-            $("#PowerID"+id).remove();
-        }
-        else $("#messagePowerID"+id).text("problem");
-    }, "json" );
-
-}
-
+// Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table power, ή εισάγει νέα εγγραφή
 function updatePower(id) {
     room=$("#PowerID"+id).find('input[name="room"]').val();
     power_name=$("#PowerID"+id).find('input[name="power_name"]').val();
-   
+
 
     callFile="updatePower.php?id="+id+"&room="+room+"&power_name="+power_name;
 
@@ -82,32 +66,62 @@ function updatePower(id) {
 
 }
 
+// Σβήνει την εγγραφή στο sensors
+function deleteSensor(id) {
+    callFile="deleteSensor.php?id="+id;
 
+    $.get( callFile, function( data ) {
+        if(data.success=='true') {
+
+            $("#messageID"+id).text("success");
+            $("#SensorID"+id).remove();
+        }
+        else $("#messageID"+id).text("problem");
+    }, "json" );
+
+}
+
+// Σβήνει την εγγραφή στο power
+function deletePower(id) {
+    callFile="deletePower.php?id="+id;
+
+    $.get( callFile, function( data ) {
+        if(data.success=='true') {
+
+            $("#messagePowerID"+id).text("success");
+            $("#PowerID"+id).remove();
+        }
+        else $("#messagePowerID"+id).text("problem");
+    }, "json" );
+
+}
+
+
+// Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
 function insertSensor() {
     if(!SensorKeyPressed) {
         // clone last div row
         $('div[id^="SensorID"]:last').clone().insertAfter('div[id^="SensorID"]:last').prop('id','SensorID0');
         $("#SensorID0").find('input').val('');   // clear field values
-        $("#SensorID0").find('span').text('');
+        $("#SensorID0").find('span').text('').prop('id','messageID0');
         // αλλάζει την function στο button
         $("#SensorID0").find('button[name="update_sensor"]').attr("onclick", "updateSensor(0)");
         $("#SensorID0").find('button[name="delete_sensor"]').attr("onclick", "deleteSensor(0)");
-        $("#SensorID0").find('span').prop('id','messageID0');
         SensorKeyPressed=true;
     }
 }
 
+// Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
 function insertPower() {
 
     if(!PowerKeyPressed) {
         // clone last div row
         $('div[id^="PowerID"]:last').clone().insertAfter('div[id^="PowerID"]:last').prop('id','PowerID0');
         $("#PowerID0").find('input').val('');   // clear field values
-        $("#PowerID0").find('span').text('');
+        $("#PowerID0").find('span').text('').prop('id','messagePowerID0');
         // αλλάζει την function στο button
         $("#PowerID0").find('button[name="update_power"]').attr("onclick", "updatePower(0)");
         $("#PowerID0").find('button[name="delete_power"]').attr("onclick", "deletePower(0)");
-        $("#PowerID0").find('span').prop('id','messagePowerID0');
         PowerKeyPressed=true;
     }
 }

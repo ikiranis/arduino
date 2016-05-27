@@ -9,32 +9,8 @@
 require_once('libraries/common.inc.php');
 
 
+    echo json_encode(Arduino::getLastTemperatures()); // στέλνει το array σε json στην javascript
 
 
-$conn = new RoceanDB();
-$conn->CreateConnection();
-
-$sql = 'SELECT * FROM data ORDER BY time DESC';
-$stmt = RoceanDB::$conn->prepare($sql);
-
-$stmt->execute();
-
-
-$jsonArray=array();
-
-
-if($item=$stmt->fetch(PDO::FETCH_ASSOC))
-{
-    $counter=1;
-    foreach ($sensorsArray as $sensor) {
-        $jsonArray=$jsonArray+array('probe'.$counter=>$item[$sensor['db_field']]);
-        $counter++;
-    }
-    $jsonArray=$jsonArray+array("time"=>$item['time']);
-
-    echo json_encode($jsonArray);
-
-
-}
 
 ?>
