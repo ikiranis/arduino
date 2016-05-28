@@ -174,6 +174,12 @@ class Arduino
 
         $userID=$conn->getUserID($conn->getSession('username'));
         $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));
+        $sensors=$conn->getTableArray('sensors');
+
+        if(empty($alerts)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
+            $alerts[]=array('id'=>'0', 'email'=>'', 'time_limit'=>'', 'temp_limit'=>'', 'sensors_id'=>'', 'user_id'=>'');
+        }
+
         
 
         foreach ($alerts as $alert)
@@ -183,7 +189,19 @@ class Arduino
                 <input type="text" name="email" value="<?php echo $alert['email']; ?>">
                 <input type="text" name="time_limit" value="<?php echo $alert['time_limit']; ?>">
                 <input type="text" name="temp_limit" value="<?php echo $alert['temp_limit']; ?>">
-                <input type="text" name="sensors_id" value="<?php echo $alert['sensors_id']; ?>">
+                <select name="sensors_list">
+                    <?php
+                        foreach ($sensors as $sensor) {
+                            ?>
+                                <option value="<?php echo $sensor['id']; ?>"
+                                        <?php if($sensor['id']==$alert['sensors_id']) echo 'selected=selected'; ?>>
+                                    <?php echo $sensor['room'].' '.$sensor['sensor_name']; ?>
+                                </option>
+
+                            <?php
+                        }
+                    ?>
+                </select>
                 <input type="hidden" name="user_id" value="<?php echo $userID; ?>">
                 <button name="update_alert" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
                 <?php echo __('update_row'); ?></button>

@@ -16,10 +16,10 @@ function updateAlert(id) {
     email=$("#AlertID"+id).find('input[name="email"]').val();
     time_limit=$("#AlertID"+id).find('input[name="time_limit"]').val();
     temp_limit=$("#AlertID"+id).find('input[name="temp_limit"]').val();
-    sensors_id=$("#AlertID"+id).find('input[name="sensors_id"]').val();
+    sensors_id=$("#AlertID"+id).find('select[name="sensors_list"]').val();
     user_id=$("#AlertID"+id).find('input[name="user_id"]').val();
 
-    // alert(email+' '+time_limit+' '+temp_limit+' '+sensors_id+' '+user_id);
+    // console.log(email+' '+time_limit+' '+temp_limit+' '+sensors_id+' '+user_id);
     
 
     callFile="updateAlert.php?id="+id+"&email="+email+"&time_limit="+time_limit+
