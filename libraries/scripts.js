@@ -7,9 +7,46 @@
 //
 
 
-
+var AlertKeyPressed=false;
 var SensorKeyPressed=false;
 var PowerKeyPressed=false;  // Αν δεν έχει πατηθεί η εισαγωγή νέας γραμμής είναι false, αλλιώς true για να μην μπορεί να ξαναπατηθεί
+
+// Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
+function updateAlert(id) {
+    email=$("#AlertID"+id).find('input[name="email"]').val();
+    time_limit=$("#AlertID"+id).find('input[name="time_limit"]').val();
+    temp_limit=$("#AlertID"+id).find('input[name="temp_limit"]').val();
+    sensors_id=$("#AlertID"+id).find('input[name="sensors_id"]').val();
+    user_id=$("#AlertID"+id).find('input[name="user_id"]').val();
+
+    // alert(email+' '+time_limit+' '+temp_limit+' '+sensors_id+' '+user_id);
+    
+
+    callFile="updateAlert.php?id="+id+"&email="+email+"&time_limit="+time_limit+
+        "&temp_limit="+temp_limit+"&sensors_id="+sensors_id+"&user_id="+user_id;
+
+    $.get( callFile, function( data ) {
+        if(data.success=='true') {
+
+            if (id==0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                AlertKeyPressed=false;
+                LastInserted=data.lastInserted;
+                $("#AlertID0").prop('id','AlertID'+LastInserted);
+                $("#AlertID"+LastInserted).find('button[name="update_alert"]')
+                    .attr("onclick", "updateAlert("+LastInserted+")");
+                $("#AlertID"+LastInserted).find('button[name="delete_alert"]')
+                    .attr("onclick", "deleteAlert("+LastInserted+")");
+                $("#AlertID"+LastInserted).find('span').prop('id','messageAlertID'+LastInserted);
+                $("#messageAlertID"+LastInserted).text("success");
+            }
+            else $("#messageAlertID"+id).text("success");
+        }
+        else $("#messageAlertID"+id).text("problem");
+    }, "json" );
+
+
+}
+
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table sensors, ή εισάγει νέα εγγραφή
 function updateSensor(id) {
@@ -96,6 +133,39 @@ function deletePower(id) {
 
 }
 
+// Σβήνει την εγγραφή στο alerts
+function deleteAlert(id) {
+    callFile="deleteAlert.php?id="+id;
+
+    $.get( callFile, function( data ) {
+        if(data.success=='true') {
+
+            $("#messageAlertID"+id).text("success");
+            $("#AlertID"+id).remove();
+        }
+        else $("#messageAlertID"+id).text("problem");
+    }, "json" );
+
+}
+
+
+// Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
+function insertAlert() {
+    if(!AlertKeyPressed) {
+
+        // clone last div row
+        $('div[id^="AlertID"]:last').clone().insertAfter('div[id^="AlertID"]:last').prop('id','AlertID0');
+        $("#AlertID0").find('input[name="email"]').val('');   // clear field values
+        $("#AlertID0").find('input[name="time_limit"]').val('');
+        $("#AlertID0").find('input[name="temp_limit"]').val('');
+        $("#AlertID0").find('input[name="sensors_id"]').val('');
+        $("#AlertID0").find('span').text('').prop('id','messageAlertID0');
+        // αλλάζει την function στο button
+        $("#AlertID0").find('button[name="update_alert"]').attr("onclick", "updateAlert(0)");
+        $("#AlertID0").find('button[name="delete_alert"]').attr("onclick", "deleteAlert(0)");
+        AlertKeyPressed=true;
+    }
+}
 
 // Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
 function insertSensor() {

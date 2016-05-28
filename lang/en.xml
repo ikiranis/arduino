@@ -41,6 +41,7 @@
     <page name="settings">
         <phrase name="settings_sensors">Sensors</phrase>
         <phrase name="settings_power">Power</phrase>
+        <phrase name="settings_alerts">Alerts</phrase>
         <phrase name="update_row">Update</phrase>
         <phrase name="delete_row">Delete</phrase>
         <phrase name="insert_row">Insert</phrase>

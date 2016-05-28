@@ -67,7 +67,7 @@ class Arduino
         }
     }
 
-
+    // Βάζει την τρέχουσα ώρα στο alert με $id
     static function setTimeToAlert ($id) {
         $conn = new RoceanDB();
         $conn->CreateConnection();
@@ -166,6 +166,40 @@ class Arduino
         <?php
 
     }
+
+
+    // Εμφάνιση των εγγραφών των alerts σε μορφή form fields για editing
+    static function getAlertsInFormFields () {
+        $conn = new RoceanDB();
+
+        $userID=$conn->getUserID($conn->getSession('username'));
+        $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));
+        
+
+        foreach ($alerts as $alert)
+        {
+            ?>
+            <div class="AlertsRow" id="AlertID<?php echo $alert['id']; ?>">
+                <input type="text" name="email" value="<?php echo $alert['email']; ?>">
+                <input type="text" name="time_limit" value="<?php echo $alert['time_limit']; ?>">
+                <input type="text" name="temp_limit" value="<?php echo $alert['temp_limit']; ?>">
+                <input type="text" name="sensors_id" value="<?php echo $alert['sensors_id']; ?>">
+                <input type="hidden" name="user_id" value="<?php echo $userID; ?>">
+                <button name="update_alert" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
+                <?php echo __('update_row'); ?></button>
+                <button name="delete_alert" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
+                <?php echo __('delete_row'); ?></button>
+                <span id="messageAlertID<?php echo $alert['id']; ?>"></span>
+            </div>
+            <?php
+        }
+        ?>
+        <button name="insert_alert" onclick="insertAlert();"><?php echo __('insert_row'); ?></button>
+
+        <?php
+
+    }
+
 
     static function getPowerStatus($id) {
 
@@ -334,6 +368,11 @@ class Arduino
         <details>
             <summary><?php echo __('settings_power'); ?></summary>
             <?php Arduino::getPowerInFormFields () ?>    
+        </details>
+
+        <details>
+            <summary><?php echo __('settings_alerts'); ?></summary>
+            <?php Arduino::getAlertsInFormFields () ?>
         </details>
 
         <?php

@@ -10,7 +10,7 @@
 require_once('libraries/common.inc.php');
 
 if(isset($_GET['id']))
-    $id=$_GET['id'];
+    $id=ClearString($_GET['id']);
 
 
 $conn = new RoceanDB();

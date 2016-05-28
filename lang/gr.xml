@@ -41,6 +41,7 @@
     <page name="settings">
         <phrase name="settings_sensors">Αισθητήρες</phrase>
         <phrase name="settings_power">Διακόπτες</phrase>
+        <phrase name="settings_alerts">Ειδοποιήσεις</phrase>
         <phrase name="update_row">Ενημέρωση</phrase>
         <phrase name="delete_row">Διαγραφή</phrase>
         <phrase name="insert_row">Εισαγωγή</phrase>

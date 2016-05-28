@@ -259,16 +259,26 @@ class RoceanDB
         $_SESSION[$SessionName]=$crypto->EncryptText($text);
     }
     
-    // Επιστρέφει σε array τον πίνακα $table. Δέχεται προεραιτικά συγκεκριμένα fiels σε μορφή string $fields
-    static function getTableArray ($table, $fields) {
+    // Επιστρέφει σε array τον πίνακα $table. Δέχεται προεραιτικά συγκεκριμένα fiels σε μορφή string $fields.
+    // Επίσης δέχεται $condition (π.χ. id=?) για το WHERE μαζί με τις παραμέτρους σε array για το execute
+    static function getTableArray ($table, $fields, $condition, $ParamsArray) {
         
         self::CreateConnection();
 
         if(!isset($fields)) $sql = 'SELECT * FROM '.$table;
         else $sql = 'SELECT '.$fields.' FROM '.$table;
+
+        if(isset($condition))
+            $sql=$sql.' WHERE '.$condition;
+
+
         $stmt = self::$conn->prepare($sql);
 
-        $stmt->execute();
+        if(isset($ParamsArray))
+            $stmt->execute($ParamsArray);
+        else $stmt->execute();
+
+
         $result=$stmt->fetchAll();
 
         return $result;

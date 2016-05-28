@@ -28,6 +28,7 @@ function CheckForAlerts() {
     $mail->setFrom('rocean74@gmail.com', 'itbusiness');
 
     $alerts = $conn->getTableArray('alerts');
+
     $mail->isHTML(true);
 
     $lastTemperatures=Arduino::getOnlyLastTemperatures();
@@ -68,17 +69,14 @@ function CheckForAlerts() {
 
 
 
-//$userid=$conn->getUserID($conn->getSession('username'));
-//echo $conn->getSession('username').' '.$userid;
-
 
 $counter=1;
 
-do {
+do {     // loop του demon. Τρέχει στο crontab ανά ένα λεπτό. Οπότε οι ενδιάμεσοι έλεγχοι γίνονται με αυτό το loop
     CheckForAlerts();
     $counter++;
-    sleep(5);
-} while ($counter<13);
+    sleep(INTERVAL_VALUE);
+} while ($counter<((60/INTERVAL_VALUE)+1));    // Αν το INTERVAL_VALUE είναι 5 τότε εκτελείται 12 φορές το λεπτό
 
 
 
