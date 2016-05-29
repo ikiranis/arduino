@@ -10,6 +10,44 @@
 
 class Arduino
 {
+
+    // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
+    static function getAvgLastTemperatures() {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT round(avg(LastItems.probe1)) as avg1, 
+                round(avg(LastItems.probe2)) as avg2,
+                round(avg(LastItems.probe3)) as avg3,
+                round(avg(LastItems.probe4)) as avg4,
+                round(avg(LastItems.probe5)) as avg5,
+                round(avg(LastItems.probeCPU)) as avg6
+                FROM (SELECT * FROM data ORDER BY time desc limit 1,12) LastItems';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        global $sensorsArray;
+        $jsonArray=array();
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+
+            $counter=1;
+            $i=0;
+            foreach ($sensorsArray as $sensor) {
+                $jsonArray=$jsonArray+array('temp'.$counter=>$item['avg'.$counter]);
+                $counter++;
+                $i++;
+            }
+
+            return $jsonArray;
+
+
+        }
+    }
+
+
     // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
     static function getLastTemperatures() {
         $conn = new RoceanDB();
@@ -112,25 +150,38 @@ class Arduino
 
         $stmt->execute();
 
-
-        while($item=$stmt->fetch(PDO::FETCH_ASSOC))
-        {
         ?>
-            <div class="SensorsRow" id="SensorID<?php echo $item['id']; ?>">
-                <input type="text" name="room" value="<?php echo $item['room']; ?>">
-                <input type="text" name="sensor_name" value="<?php echo $item['sensor_name']; ?>">
-                <input type="text" name="db_field" value="<?php echo $item['db_field']; ?>">
-                <button name="update_sensor" onclick="updateSensor(<?php echo $item['id']; ?>);">
-                    <?php echo __('update_row'); ?></button>
-                <button name="delete_sensor" onclick="deleteSensor(<?php echo $item['id']; ?>);">
-                    <?php echo __('delete_row'); ?></button>
-                <span id="messageID<?php echo $item['id']; ?>"></span>
+            <div class="ListTable ListTittleRow">
+                <div class="SensorsRow">
+                    <span class="ListColumn"><?php echo __('sensors_room'); ?></span>
+                    <span class="ListColumn"><?php echo __('sensors_sensor'); ?></span>
+                    <span class="ListColumn"><?php echo __('sensors_dbfield'); ?></span>
+                </div>
+
+
+
+        <?php
+
+
+                while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+                {
+                ?>
+                    <div class="SensorsRow" id="SensorID<?php echo $item['id']; ?>">
+                        <span class="ListColumn"><input class="input_field" type="text" name="room" value="<?php echo $item['room']; ?>"></span>
+                        <span class="ListColumn"><input class="input_field" type="text" name="sensor_name" value="<?php echo $item['sensor_name']; ?>"></span>
+                        <span class="ListColumn"><input class="input_field" type="text" name="db_field" value="<?php echo $item['db_field']; ?>"></span>
+                        <button name="update_sensor" onclick="updateSensor(<?php echo $item['id']; ?>);">
+                            <?php echo __('update_row'); ?></button>
+                        <button name="delete_sensor" onclick="deleteSensor(<?php echo $item['id']; ?>);">
+                            <?php echo __('delete_row'); ?></button>
+                        <span id="messageID<?php echo $item['id']; ?>"></span>
+                    </div>
+                    <?php
+                }
+                ?>
+
             </div>
-            <?php
-        }
-        ?>
-        <button name="insert_sensor" onclick="insertSensor();"><?php echo __('insert_row'); ?></button>
-
+            <button name="insert_sensor" onclick="insertSensor();"><?php echo __('insert_row'); ?></button>
         <?php
 
     }
@@ -145,24 +196,36 @@ class Arduino
 
         $stmt->execute();
 
-
-        while($item=$stmt->fetch(PDO::FETCH_ASSOC))
-        {
-            ?>
-            <div class="PowersRow" id="PowerID<?php echo $item['id']; ?>">
-                <input type="text" name="room" value="<?php echo $item['room']; ?>">
-                <input type="text" name="power_name" value="<?php echo $item['power_name']; ?>">
-                <button name="update_power" onclick="updatePower(<?php echo $item['id']; ?>);"">
-                <?php echo __('update_row'); ?></button>
-                <button name="delete_power" onclick="deletePower(<?php echo $item['id']; ?>);"">
-                <?php echo __('delete_row'); ?></button>
-                <span id="messagePowerID<?php echo $item['id']; ?>"></span>
-            </div>
-            <?php
-        }
         ?>
-        <button name="insert_power" onclick="insertPower();"><?php echo __('insert_row'); ?></button>
+            <div class="ListTable ListTittleRow">
+                <div class="PowersRow">
+                    <span class="ListColumn"><?php echo __('power_room'); ?></span>
+                    <span class="ListColumn"><?php echo __('power_switch'); ?></span>
+                </div>
 
+
+
+        <?php
+
+
+                while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+                {
+                    ?>
+                    <div class="PowersRow" id="PowerID<?php echo $item['id']; ?>">
+                        <span class="ListColumn"><input class="input_field" type="text" name="room" value="<?php echo $item['room']; ?>"></span>
+                        <span class="ListColumn"><input class="input_field" type="text" name="power_name" value="<?php echo $item['power_name']; ?>"></span>
+                        <button name="update_power" onclick="updatePower(<?php echo $item['id']; ?>);"">
+                        <?php echo __('update_row'); ?></button>
+                        <button name="delete_power" onclick="deletePower(<?php echo $item['id']; ?>);"">
+                        <?php echo __('delete_row'); ?></button>
+                        <span id="messagePowerID<?php echo $item['id']; ?>"></span>
+                    </div>
+                    <?php
+                }
+                ?>
+
+            </div>
+            <button name="insert_power" onclick="insertPower();"><?php echo __('insert_row'); ?></button>
         <?php
 
     }
@@ -172,46 +235,63 @@ class Arduino
     static function getAlertsInFormFields () {
         $conn = new RoceanDB();
 
-        $userID=$conn->getUserID($conn->getSession('username'));
-        $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));
-        $sensors=$conn->getTableArray('sensors');
+        $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+        $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
+        $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
         if(empty($alerts)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
             $alerts[]=array('id'=>'0', 'email'=>'', 'time_limit'=>'', 'temp_limit'=>'', 'sensors_id'=>'', 'user_id'=>'');
         }
 
-        
+        ?>
+
+        <div class="ListTable ListTittleRow">
+            <div class="AlertsRow">
+                <span class="ListColumn"><?php echo __('alerts_email'); ?></span>
+                <span class="ListColumn"><?php echo __('alerts_timelimit'); ?></span>
+                <span class="ListColumn"><?php echo __('alerts_templimit'); ?></span>
+                <span class="ListColumn"><?php echo __('alerts_sensor'); ?></span>
+            </div>
+
+
+
+        <?php
 
         foreach ($alerts as $alert)
         {
             ?>
-            <div class="AlertsRow" id="AlertID<?php echo $alert['id']; ?>">
-                <input type="text" name="email" value="<?php echo $alert['email']; ?>">
-                <input type="text" name="time_limit" value="<?php echo $alert['time_limit']; ?>">
-                <input type="text" name="temp_limit" value="<?php echo $alert['temp_limit']; ?>">
-                <select name="sensors_list">
-                    <?php
-                        foreach ($sensors as $sensor) {
-                            ?>
-                                <option value="<?php echo $sensor['id']; ?>"
-                                        <?php if($sensor['id']==$alert['sensors_id']) echo 'selected=selected'; ?>>
-                                    <?php echo $sensor['room'].' '.$sensor['sensor_name']; ?>
-                                </option>
-
+                <div class="AlertsRow" id="AlertID<?php echo $alert['id']; ?>">
+                    <span class="ListColumn"><input class="input_field" type="text" name="email" value="<?php echo $alert['email']; ?>"></span>
+                    <span class="ListColumn"><input class="input_field" type="text" name="time_limit" value="<?php echo $alert['time_limit']; ?>"></span>
+                    <span class="ListColumn"><input class="input_field" type="text" name="temp_limit" value="<?php echo $alert['temp_limit']; ?>"></span>
+                    <span class="ListColumn">
+                        <select class="input_field" name="sensors_list">
                             <?php
-                        }
-                    ?>
-                </select>
-                <input type="hidden" name="user_id" value="<?php echo $userID; ?>">
-                <button name="update_alert" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
-                <?php echo __('update_row'); ?></button>
-                <button name="delete_alert" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
-                <?php echo __('delete_row'); ?></button>
-                <span id="messageAlertID<?php echo $alert['id']; ?>"></span>
-            </div>
-            <?php
-        }
-        ?>
+                                foreach ($sensors as $sensor) {
+                                    ?>
+                                        <option value="<?php echo $sensor['id']; ?>"
+                                                <?php if($sensor['id']==$alert['sensors_id']) echo 'selected=selected'; ?>>
+                                            <?php echo $sensor['room'].' '.$sensor['sensor_name']; ?>
+                                        </option>
+
+                                    <?php
+                                }
+                            ?>
+                        </select>
+                    </span>
+                    <input type="hidden" name="user_id" value="<?php echo $userID; ?>">
+                    <button name="update_alert" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
+                    <?php echo __('update_row'); ?></button>
+                    <button name="delete_alert" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
+                    <?php echo __('delete_row'); ?></button>
+                    <span id="messageAlertID<?php echo $alert['id']; ?>"></span>
+                </div>
+                <?php
+            }
+            ?>
+
+        
+        </div>
         <button name="insert_alert" onclick="insertAlert();"><?php echo __('insert_row'); ?></button>
 
         <?php
@@ -296,12 +376,12 @@ class Arduino
                 }
                 
 
-                echo '<div class="temperature_block'.$temp_diff.'">';
+                echo '<div id="TempBlock'.$counter.'" class="temperature_block equal">';
                     echo '<span class=temperature_text><span id=temp'.$counter.'>0</span>&deg; C</span>';
                     echo '<span class=room_text>'.$sensor['room'].'</span>';
                     echo '<span class=sensor_name_text>'.$sensor['sensor_name'].'</span>';
                     echo '<span class=time_text id=time'.$counter.'>'.date('Y-m-d H:i:s',time()).'</span>';
-                    echo '<span class=dif_text>'.$dif_text.'</span>';
+                    echo '<span class=dif_text id=diff'.$counter.'></span>';
                 echo '</div>';
 
                 $counter++;
@@ -390,7 +470,7 @@ class Arduino
 
         <details>
             <summary><?php echo __('settings_alerts'); ?></summary>
-            <?php Arduino::getAlertsInFormFields () ?>
+                <?php Arduino::getAlertsInFormFields () ?>
         </details>
 
         <?php

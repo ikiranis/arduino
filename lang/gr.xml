@@ -45,6 +45,15 @@
         <phrase name="update_row">Ενημέρωση</phrase>
         <phrase name="delete_row">Διαγραφή</phrase>
         <phrase name="insert_row">Εισαγωγή</phrase>
+        <phrase name="sensors_room">Δωμάτιο</phrase>
+        <phrase name="sensors_sensor">Αισθητήρας</phrase>
+        <phrase name="sensors_dbfield">Όνομα πεδίου</phrase>
+        <phrase name="power_room">Δωμάτιο</phrase>
+        <phrase name="power_switch">Διακόπτης</phrase>
+        <phrase name="alerts_email">email</phrase>
+        <phrase name="alerts_timelimit">Χρονικό όριο (ώρες)</phrase>
+        <phrase name="alerts_templimit">Θερμοκρασία</phrase>
+        <phrase name="alerts_sensor">Αισθητήρας</phrase>
     </page>
 
 </language>

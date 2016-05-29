@@ -45,6 +45,15 @@
         <phrase name="update_row">Update</phrase>
         <phrase name="delete_row">Delete</phrase>
         <phrase name="insert_row">Insert</phrase>
+        <phrase name="sensors_room">Room</phrase>
+        <phrase name="sensors_sensor">Sensor</phrase>
+        <phrase name="sensors_dbfield">DB Field</phrase>
+        <phrase name="power_room">Room</phrase>
+        <phrase name="power_switch">Switch</phrase>
+        <phrase name="alerts_email">Email</phrase>
+        <phrase name="alerts_timelimit">Time Limit (hours)</phrase>
+        <phrase name="alerts_templimit">Temperature</phrase>
+        <phrase name="alerts_sensor">Sensor</phrase>
     </page>
 
 

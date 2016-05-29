@@ -9,7 +9,11 @@
 require_once('libraries/common.inc.php');
 
 
-    echo json_encode(Arduino::getLastTemperatures()); // στέλνει το array σε json στην javascript
+$LastTemps=Arduino::getLastTemperatures();
+$AvgTemps=Arduino::getAvgLastTemperatures();
+
+
+    echo json_encode(array('LastTemps'=>$LastTemps,'AvgTemps'=>$AvgTemps)); // στέλνει το array σε json στην javascript
 
 
 

@@ -303,15 +303,40 @@ footer {
 
 /*Στοιχεία εμφάνισης ρυθμίσεων*/
 .SensorsRow {
-    display: block;
+    display:table-row;
 }
 
 .PowersRow {
-    display: block;
+    display:table-row;
 }
 
 
+.ListTable {
+    display:table;
+    width:auto;
+}
 
+.AlertsRow{
+    display:table-row;
+
+}
+
+.ListColumn {
+    float: left; /*fix for  buggy browsers*/
+    display: table-column;
+    width: 10em;
+}
+
+.input_field {
+    width: 10em;
+    height: 1.9em;
+}
+
+.ListTittleRow {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.7em;
+}
 
 
 /*Εμφάνιση του summary/details*/

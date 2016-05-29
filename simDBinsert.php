@@ -18,10 +18,47 @@ $stmt = RoceanDB::$conn->prepare($sql);
 $counter=1;
 
 
+
+
 do {
+    $lastTemperatures=Arduino::getOnlyLastTemperatures();
+
+
+    $sensors=array();
+
     $DateTime = date('Y-m-d H:i:s');
-    $ArrayValues= array ($DateTime,rand(10,50),rand(10,50),rand(10,50),rand(10,50),rand(10,50),rand(10,50));
+
+    $i=0;
+
+    foreach ($lastTemperatures as $temperature) {
+        $someRandomNumber=rand(1,5);
+
+
+        $lastTemp=$temperature['temp'];
+
+
+        switch ($someRandomNumber) {
+            case 1: $newTemp=$lastTemp+1; break;
+            case 2: $newTemp=$lastTemp-1; break;
+            case 3: $newTemp=$lastTemp; break;
+            case 4: $newTemp=$lastTemp; break;
+            case 5: $newTemp=$lastTemp; break;
+
+        }
+
+        $sensors[$i]=$newTemp;
+
+        $i++;
+
+    }
+
+
+
+    $ArrayValues= array ($DateTime,$sensors[0],$sensors[1],$sensors[2],$sensors[3],$sensors[4],$sensors[5]);
+
     var_dump($ArrayValues);
+
+
     $stmt->execute($ArrayValues);
     $counter++;
     sleep(5);
