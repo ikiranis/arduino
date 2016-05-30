@@ -31,7 +31,8 @@ if (isset($_GET['ChangeLang'])) {
 // Τίτλος της σελίδας
 $MainPage->tittle = PAGE_TITTLE;
 
-$scripts=array ('src=libraries/jquery.min.js', 'src=libraries/scripts.js', 'src=libraries/details.js');
+$scripts=array ('src=libraries/jquery.min.js', 'src=libraries/scripts.js', 
+    'src=libraries/details.js', 'src=https://www.gstatic.com/charts/loader.js');
 
 $MainPage->setScript($scripts);
 
@@ -71,4 +72,14 @@ $MainPage->showFooter();
 
 
 
+
+
 ?>
+
+<script type="text/javascript">
+
+  
+    var IntervalValue= <?php echo INTERVAL_VALUE; ?>;
+
+
+</script>

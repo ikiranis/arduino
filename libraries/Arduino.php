@@ -393,8 +393,12 @@ class Arduino
             <script type="text/javascript">
                 
                 var SensorsIDArray= <?php echo json_encode($sensorsIDArray); ?>;
-    
+
+                CheckTemperatures(); // onload τρέχει τον συνεχώμενο έλεγχο των θερμοκρασιών
+            
             </script>
+            
+
 
     <?php
     }
@@ -402,6 +406,7 @@ class Arduino
     static function showPower () {
         ?>
         <h2><?php echo __('nav_item_3'); ?></h2>
+
         <?php
             $powerDivsArray=array();
             $powerIDArray=array();
@@ -442,7 +447,11 @@ class Arduino
                 var PowerDivsArray= <?php echo json_encode($powerDivsArray); ?>;
                 var PowerIDArray= <?php echo json_encode($powerIDArray); ?>;
 
+                getPowerDivs();
+
             </script>
+
+
 
         <?php
     }
@@ -450,6 +459,24 @@ class Arduino
     static function showStatistics () {
         ?>
         <h2><?php echo __('nav_item_4'); ?></h2>
+
+        <div id="chart_div"></div>
+
+        <?php
+
+            $conn = new RoceanDB();
+            $getStatisticsArray=$conn->getTableArray('data','time, probe2', null, null, ' time desc LIMIT 100' );
+
+        ?>
+
+
+        <script type="text/javascript">
+            var getStatisticsArray= <?php echo json_encode($getStatisticsArray); ?>;
+
+            RunStatistics(); // onload τρέχει το script για graphs
+
+        </script>
+
         <?php
 
     }

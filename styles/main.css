@@ -344,3 +344,9 @@ footer {
 summary {
     cursor: pointer;
 }
+
+
+#statistics {
+    display: block;
+    width: 100%;
+}

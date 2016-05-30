@@ -261,7 +261,7 @@ class RoceanDB
     
     // Επιστρέφει σε array τον πίνακα $table. Δέχεται προεραιτικά συγκεκριμένα fiels σε μορφή string $fields.
     // Επίσης δέχεται $condition (π.χ. id=?) για το WHERE μαζί με τις παραμέτρους σε array για το execute
-    static function getTableArray ($table, $fields, $condition, $ParamsArray) {
+    static function getTableArray ($table, $fields, $condition, $ParamsArray, $orderBy) {
         
         self::CreateConnection();
 
@@ -270,6 +270,9 @@ class RoceanDB
 
         if(isset($condition))
             $sql=$sql.' WHERE '.$condition;
+        
+        if(isset($orderBy))
+            $sql=$sql.' ORDER BY '.$orderBy;
 
 
         $stmt = self::$conn->prepare($sql);

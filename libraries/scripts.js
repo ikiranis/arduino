@@ -272,16 +272,75 @@ function getPowerDivs() {
 
 }
 
+function CheckTemperatures() {
+
+    setInterval(function(){
+        getTemperature();
+
+    }, IntervalValue*1000);
+}
+
+
+
+// Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+function drawChart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Time');
+    data.addColumn('number', 'Temperature');
+    data.addRows(getStatisticsArray.length);
+
+    for(var i=0;i<getStatisticsArray.length;i++) {
+        data.setCell(i, 0, getStatisticsArray[i].time);
+        data.setCell(i, 1, getStatisticsArray[i].probe2);
+    }
+
+    // Set chart options
+        var options = {
+            hAxis: {
+                title: 'Time',
+                direction:-1
+
+            },
+            vAxis: {
+                title: 'Temp'
+
+            },
+            backgroundColor: '#f1f8e9'
+        };
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+}
+
+function RunStatistics() {
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+
+}
+
+
 
 $(function(){
 
     setInterval(function(){
-        getTemperature();
         checkIfMysqlIsAlive();
 
-    }, 5000);
+    }, IntervalValue*1000);
 
-    getPowerDivs();
+    
+
+
 
 });
+
+
 
