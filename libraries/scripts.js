@@ -11,6 +11,9 @@ var AlertKeyPressed=false;
 var SensorKeyPressed=false;
 var PowerKeyPressed=false;  // Αν δεν έχει πατηθεί η εισαγωγή νέας γραμμής είναι false, αλλιώς true για να μην μπορεί να ξαναπατηθεί
 
+var getTemps;
+var db_field;
+
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateAlert(id) {
     email=$("#AlertID"+id).find('input[name="email"]').val();
@@ -272,6 +275,8 @@ function getPowerDivs() {
 
 }
 
+
+// Ελέγχει συνεχώς τις θερμοκρασίες
 function CheckTemperatures() {
 
     setInterval(function(){
@@ -281,21 +286,36 @@ function CheckTemperatures() {
 }
 
 
+// μετράει τα πεδία ενός json object
+function countjson(obj) {
+    var count=0;
+    for(var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+
 
 // Callback that creates and populates a data table,
     // instantiates the pie chart, passes in the data and
     // draws it.
 function drawChart() {
-
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Time');
     data.addColumn('number', 'Temperature');
-    data.addRows(getStatisticsArray.length);
+    data.addRows(countjson(getTemps.times));
 
-    for(var i=0;i<getStatisticsArray.length;i++) {
-        data.setCell(i, 0, getStatisticsArray[i].time);
-        data.setCell(i, 1, getStatisticsArray[i].probe2);
+    for(var i=0;i<countjson(getTemps.times);i++) {  // γέμισμα του chart με τις τιμές από την getTemps
+
+         time=eval("getTemps.times.time"+i);
+         temp=parseInt(eval("getTemps.temps.temp"+i));
+
+        data.setCell(i, 0, time);
+        data.setCell(i, 1, temp);
     }
 
     // Set chart options
@@ -308,8 +328,8 @@ function drawChart() {
             vAxis: {
                 title: 'Temp'
 
-            },
-            backgroundColor: '#f1f8e9'
+            }
+
         };
 
     // Instantiate and draw our chart, passing in some options.
@@ -318,11 +338,25 @@ function drawChart() {
 }
 
 function RunStatistics() {
-    // Load the Visualization API and the corechart package.
-    google.charts.load('current', {'packages':['corechart']});
 
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawChart);
+    db_field=$("#SelectGraph").find('select[name="sensors_list"]').val();
+    date_limit=$("#SelectGraph").find('select[name="date_list"]').val();
+
+    callFile="getStatistics.php?db_field="+db_field+"&date_limit="+date_limit;
+
+    $.get( callFile, function( data ) {
+
+        getTemps=JSON.parse(data);
+
+
+
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+    });
+
+
 
 
 }
@@ -330,6 +364,8 @@ function RunStatistics() {
 
 
 $(function(){
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
 
     setInterval(function(){
         checkIfMysqlIsAlive();

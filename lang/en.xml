@@ -56,5 +56,15 @@
         <phrase name="alerts_sensor">Sensor</phrase>
     </page>
 
+    <page name="statistics">
+        <phrase name="stats_date_item1">Last Hour (by minutes)</phrase>
+        <phrase name="stats_date_item2">Last Day (by hours)</phrase>
+        <phrase name="stats_date_item3">Last Week (by days)</phrase>
+        <phrase name="stats_date_item4">Last Month (by days)</phrase>
+        <phrase name="stats_date_item5">Last Year (by months)</phrase>
+        <phrase name="stats_date_item6">From the beginning (by months)</phrase>
+        <phrase name="show_statistcs">Graph</phrase>
+    </page>
+
 
 </language>

@@ -51,7 +51,8 @@ function ClearString($data) {
 
 $sensorsArray=RoceanDB::getTableArray('sensors','id, db_field'); // Αρχικοποίηση του $SensorsArray
 
-define(INTERVAL_VALUE,'5'); // Κάθε πόσα δευτερόλεπτα θα κάνει ανανέωση εισερχόμενων και πέρασμα της τιμής στην javascript
+define(INTERVAL_VALUE,'5'); // Κάθε πόσα δευτερόλεπτα θα κάνει ανανέωση εισερχόμενων 
+define(DATE_LIST_ITEMS,'6');   // Πόσες επιλογές χρονικής περιόδου θα έχει στα στατιστικά
 
 
 

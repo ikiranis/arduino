@@ -23,6 +23,7 @@ class Arduino
                 round(avg(LastItems.probe5)) as avg5,
                 round(avg(LastItems.probeCPU)) as avg6
                 FROM (SELECT * FROM data ORDER BY time desc limit 1,12) LastItems';
+
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();
@@ -460,22 +461,46 @@ class Arduino
         ?>
         <h2><?php echo __('nav_item_4'); ?></h2>
 
-        <div id="chart_div"></div>
-
         <?php
-
             $conn = new RoceanDB();
-            $getStatisticsArray=$conn->getTableArray('data','time, probe2', null, null, ' time desc LIMIT 100' );
+
+            $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
         ?>
 
+        <div id="SelectGraph">
+            <select name="sensors_list">
+                <?php
+                foreach ($sensors as $sensor) {
+                    ?>
+                    <option value="<?php echo $sensor['db_field']; ?>">
+                        <?php echo $sensor['room'].' '.$sensor['sensor_name']; ?>
+                    </option>
 
-        <script type="text/javascript">
-            var getStatisticsArray= <?php echo json_encode($getStatisticsArray); ?>;
+                    <?php
+                }
+                ?>
+            </select>
+            
+            <select name="date_list">
+                <?php
+                for($counter=1; $counter<=DATE_LIST_ITEMS; $counter++) {
+                    ?>
+                    <option value="<?php echo $counter; ?>">
+                        <?php echo __('stats_date_item'.$counter); ?>
+                    </option>
 
-            RunStatistics(); // onload τρέχει το script για graphs
+                    <?php
+                }
+                ?>
+            </select>
 
-        </script>
+            <button name="show_statistics" onclick="RunStatistics();"><?php echo __('show_statistcs'); ?></button>
+        </div>
+
+
+        <div id="chart_div"></div>
+        
 
         <?php
 

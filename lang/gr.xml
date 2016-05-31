@@ -56,4 +56,14 @@
         <phrase name="alerts_sensor">Αισθητήρας</phrase>
     </page>
 
+    <page name="statistics">
+        <phrase name="stats_date_item1">Τελευταία ώρα (σε λεπτά)</phrase>
+        <phrase name="stats_date_item2">Τελευταία μέρα (σε ώρες)</phrase>
+        <phrase name="stats_date_item3">Τελευταία εβδομάδα (σε μέρες)</phrase>
+        <phrase name="stats_date_item4">Τελευταίος μήνας (σε μέρες)</phrase>
+        <phrase name="stats_date_item5">Τελευταίο έτος (σε μήνες)</phrase>
+        <phrase name="stats_date_item6">Από την αρχή (σε μήνες)</phrase>
+        <phrase name="show_statistcs">Γραφική Παράσταση</phrase>
+    </page>
+
 </language>
