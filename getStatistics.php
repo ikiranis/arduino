@@ -12,9 +12,11 @@ require_once('libraries/common.inc.php');
 
 if(isset($_GET['db_field']))
     $db_field=ClearString($_GET['db_field']);
+else $db_field='probe1';
 
 if(isset($_GET['date_limit']))
     $date_limit=ClearString($_GET['date_limit']);
+else $date_limit=1;
 
 
 $conn = new RoceanDB();
@@ -24,7 +26,29 @@ $conn->CreateConnection();
 
 
 switch ($date_limit) {
-    case 1: $sql = 'SELECT time,'.$db_field.' FROM data ORDER BY time DESC LIMIT 100'; break;
+    case 1: $sql = 'SELECT minute(time) as mytime, avg('.$db_field.') as avg 
+    FROM data where time>= DATE_SUB(NOW(),INTERVAL 1 HOUR) 
+    GROUP BY minute(time) ORDER BY minute(time) DESC'; break;  // Τελευταία ώρα σε λεπτά
+
+    case 2: $sql = 'SELECT hour(time) as mytime, avg('.$db_field.') as avg 
+    FROM data where time>= DATE_SUB(NOW(),INTERVAL 1 DAY) 
+    GROUP BY hour(time) ORDER BY hour(time) DESC'; break;   // Τελευταία μέρα σε ώρες
+
+    case 3: $sql = 'SELECT day(time) as mytime, avg('.$db_field.') as avg 
+    FROM data where time>= DATE_SUB(NOW(),INTERVAL 1 WEEK) 
+    GROUP BY day(time) ORDER BY day(time) DESC'; break;   // Τελευταία βδομάδα σε μέρες
+
+    case 4: $sql = 'SELECT day(time) as mytime, avg('.$db_field.') as avg 
+    FROM data where time>= DATE_SUB(NOW(),INTERVAL 1 month) 
+    GROUP BY day(time) ORDER BY day(time) DESC'; break;   // Τελευταίος μήνας σε μέρες
+
+    case 5: $sql = 'SELECT month(time) as mytime, avg('.$db_field.') as avg 
+    FROM data where time>= DATE_SUB(NOW(),INTERVAL 1 year) 
+    GROUP BY month(time) ORDER BY month(time) DESC'; break;   // Τελευταίο έτος σε μήνες
+
+    case 6: $sql = 'SELECT month(time) as mytime, avg('.$db_field.') as avg 
+    FROM data  
+    GROUP BY month(time) ORDER BY month(time) DESC'; break;   // Από την αρχή σε μήνες
 }
 
 
@@ -41,8 +65,8 @@ while($item=$stmt->fetch(PDO::FETCH_ASSOC))
 {
 
 
-        $temps=$temps+array('temp'.$counter=>$item[$db_field]);
-        $times=$times+array('time'.$counter=>$item['time']);
+        $temps=$temps+array('temp'.$counter=>$item['avg']);
+        $times=$times+array('time'.$counter=>$item['mytime']);
         $counter++;
 
 

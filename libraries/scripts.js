@@ -339,22 +339,32 @@ function drawChart() {
 
 function RunStatistics() {
 
+
+
+
     db_field=$("#SelectGraph").find('select[name="sensors_list"]').val();
     date_limit=$("#SelectGraph").find('select[name="date_list"]').val();
 
     callFile="getStatistics.php?db_field="+db_field+"&date_limit="+date_limit;
 
+    setInterval(function(){
+        
     $.get( callFile, function( data ) {
 
         getTemps=JSON.parse(data);
 
 
 
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawChart);
 
-        // Set a callback to run when the Google Visualization API is loaded.
-        google.charts.setOnLoadCallback(drawChart);
+
+
+
 
     });
+
+}, IntervalValue*1000);
 
 
 
