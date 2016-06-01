@@ -28,6 +28,7 @@ if($stmt->execute(array($newStatus, $id)))
 
     echo json_encode( array( 'success'=>'true', 'status'=>$newStatus));
 
-
+$stmt->closeCursor();
+$stmt = null;
 
 ?>

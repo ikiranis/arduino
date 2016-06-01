@@ -76,6 +76,9 @@ class SysSession implements SessionHandlerInterface
         }else{
             return false;
         }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     public function destroy($id)
@@ -99,6 +102,9 @@ class SysSession implements SessionHandlerInterface
         }else{
             return false;
         }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     public function gc($maxlifetime)
@@ -120,6 +126,9 @@ class SysSession implements SessionHandlerInterface
             return false;
 
         }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
  

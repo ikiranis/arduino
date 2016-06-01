@@ -46,6 +46,9 @@ class Arduino
 
 
         }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
 
@@ -76,6 +79,9 @@ class Arduino
 
 
         }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     // Επιστρέφει μόνο τις θερμοκρασίες με το όνομα του sensor σε array
@@ -104,6 +110,9 @@ class Arduino
 
 
         }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     // Βάζει την τρέχουσα ώρα στο alert με $id
@@ -118,6 +127,9 @@ class Arduino
         if($stmt->execute(array(date('Y-m-d H:i:s'), $id)))
             return true;
         else return false;
+
+        $stmt->closeCursor();
+        $stmt = null;
 
     }
 
@@ -139,6 +151,9 @@ class Arduino
         else $result=false;
 
         return $result;
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     // Εμφάνιση των εγγραφών των sensors σε μορφή form fields για editing
@@ -185,6 +200,9 @@ class Arduino
             <button name="insert_sensor" onclick="insertSensor();"><?php echo __('insert_row'); ?></button>
         <?php
 
+        $stmt->closeCursor();
+        $stmt = null;
+
     }
 
     // Εμφάνιση των εγγραφών των power σε μορφή form fields για editing
@@ -228,6 +246,9 @@ class Arduino
             </div>
             <button name="insert_power" onclick="insertPower();"><?php echo __('insert_row'); ?></button>
         <?php
+
+        $stmt->closeCursor();
+        $stmt = null;
 
     }
 
@@ -297,6 +318,7 @@ class Arduino
 
         <?php
 
+
     }
 
 
@@ -318,6 +340,9 @@ class Arduino
 
         }
 
+        $stmt->closeCursor();
+        $stmt = null;
+
     }
 
     // Επιστρέφει τα id και db_fields σε array από το sensor table
@@ -332,6 +357,9 @@ class Arduino
         $result=$stmt->fetchAll();
         
         return $result;
+
+        $stmt->closeCursor();
+        $stmt = null;
 
     }
     
@@ -398,10 +426,13 @@ class Arduino
                 CheckTemperatures(); // onload τρέχει τον συνεχώμενο έλεγχο των θερμοκρασιών
             
             </script>
-            
+
 
 
     <?php
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     static function showPower () {
@@ -455,6 +486,9 @@ class Arduino
 
 
         <?php
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     static function showStatistics () {
@@ -569,8 +603,9 @@ class Arduino
                 echo '</div>';
 
             }
-        
 
+        $stmt->closeCursor();
+        $stmt = null;
 
     }
 

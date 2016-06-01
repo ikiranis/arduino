@@ -51,7 +51,26 @@ if (isset($_POST['register'])) {
 }
 
 
+function logout() {
+    // remove all session variables
+    session_unset();
 
+// destroy the session
+    session_destroy();
+
+    // unset cookies
+    if (isset($_SERVER['HTTP_COOKIE'])) {
+        $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+        foreach($cookies as $cookie) {
+            $parts = explode('=', $cookie);
+            $name = trim($parts[0]);
+            setcookie($name, '', time()-1000);
+            setcookie($name, '', time()-1000, '/');
+        }
+    }
+
+    header('Location:index.php');
+}
 
 // Εμφάνιση επιλογών login
 function showLoginWindow()
@@ -62,7 +81,7 @@ function showLoginWindow()
 
 
     ?>
-
+    <main>
     <div id="LoginWindow">
 
 
@@ -94,6 +113,7 @@ function showLoginWindow()
         ?>
 
     </div>
+    </main>
 
 
     <?php
@@ -186,6 +206,9 @@ function DisplayUsers ()
         </div>
     <?php
     }
+
+    $stmt->closeCursor();
+    $stmt = null;
 
 
 }

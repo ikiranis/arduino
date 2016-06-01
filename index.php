@@ -28,6 +28,9 @@ if (isset($_GET['ChangeLang'])) {
     header($targetPage);
 }
 
+if (isset($_GET['logout']))
+    logout();
+
 // Τίτλος της σελίδας
 $MainPage->tittle = PAGE_TITTLE;
 
@@ -76,10 +79,3 @@ $MainPage->showFooter();
 
 ?>
 
-<script type="text/javascript">
-
-  
-    var IntervalValue= <?php echo INTERVAL_VALUE; ?>;
-
-
-</script>

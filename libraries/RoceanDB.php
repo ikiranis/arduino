@@ -38,6 +38,9 @@ class RoceanDB
 
         return $inserted_id;
 
+        $stmt->closeCursor();
+        $stmt = null;
+
     }
 
     // Ψάχνει αν υπάρχουν users στηνν βάση. Επιστρέφει true or false.
@@ -54,6 +57,9 @@ class RoceanDB
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
             return true;
         else return false;
+
+        $stmt->closeCursor();
+        $stmt = null;
 
     }
 
@@ -138,14 +144,15 @@ class RoceanDB
         }
 
 
-
+        $stmt->closeCursor();
+        $stmt = null;
 
     }
 
     // Εισάγει τον νέο χρήστη στην βάση
     function CreateUser($username, $email, $password, $agent)
     {
-        $this->CreateConnection();
+        self::CreateConnection();
 
         $sql = 'INSERT INTO user(username, email, password, agent) VALUES(?,?,?,?)';
         
@@ -169,6 +176,7 @@ class RoceanDB
         }
 
         return true;
+        
     }
 
     // Έλεγχος αν ο χρήστης είναι logged id, αν υπάρχουν cookies. Η function επιστρέφει true or false
@@ -176,7 +184,7 @@ class RoceanDB
 
         if (isset($_COOKIE['username'])) {
 
-            $this->CreateConnection();
+            self::CreateConnection();
 
             // Ψάχνουμε να βρούμε το id του user με το συγκεκριμένο username που έχει στο cookie
             $sql='SELECT user_id FROM user WHERE username=?';
@@ -211,6 +219,9 @@ class RoceanDB
         }
         else return false;
 
+        $stmt->closeCursor();
+        $stmt = null;
+
     }
 
     // Άνοιγμα της σύνδεσης στην βάση
@@ -228,7 +239,7 @@ class RoceanDB
 
     // Δέχεται το username και επιστρέφει το user id του. Αλλιώς false
     public function getUserID($username) {
-        $this->CreateConnection();
+        self::CreateConnection();
 
         $sql='SELECT user_id FROM user WHERE username=?';
 
@@ -241,6 +252,9 @@ class RoceanDB
             $result=$item['user_id'];
         }
         else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
         
         return $result;
     }
@@ -283,6 +297,9 @@ class RoceanDB
 
 
         $result=$stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
 
         return $result;
     }

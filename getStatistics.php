@@ -77,5 +77,8 @@ while($item=$stmt->fetch(PDO::FETCH_ASSOC))
 
 echo json_encode(array('times'=>$times, 'temps'=>$temps));    // στέλνει το array σε json στην javascript
 
+$stmt->closeCursor();
+$stmt = null;
+
 
 ?>

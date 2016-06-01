@@ -15,6 +15,7 @@
         <phrase name="user_is_founded">User is founded</phrase>
         <phrase name="wrong_password">Wrong password</phrase>
         <phrase name="user_dont_exist">User don't exist</phrase>
+        <phrase name="logout">Logout</phrase>
     </page>
 
     <page name="footer">

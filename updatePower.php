@@ -45,4 +45,7 @@ else $jsonArray=array( 'success'=>'false');
 
 echo json_encode($jsonArray);
 
+$stmt->closeCursor();
+$stmt = null;
+
 ?>

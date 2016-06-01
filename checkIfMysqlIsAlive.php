@@ -35,4 +35,7 @@ if($item=$stmt->fetch(PDO::FETCH_ASSOC))
 
 }
 
+$stmt->closeCursor();
+$stmt = null;
+
 ?>

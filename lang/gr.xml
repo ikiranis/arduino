@@ -15,6 +15,7 @@
         <phrase name="user_is_founded">Βρέθηκε ο χρήστης</phrase>
         <phrase name="wrong_password">Λάθος συνθηματικό</phrase>
         <phrase name="user_dont_exist">Δεν υπάρχει αυτός ο χρήστης</phrase>
+        <phrase name="logout">Αποσύνδεση</phrase>
     </page>
 
     <page name="footer">

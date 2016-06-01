@@ -113,9 +113,11 @@ class Page
             <?php
             foreach ($form_elements as $item) {
                 ?>
-
-                <label for="<?php echo $item['name']; ?>"><?php echo $item['fieldtext']; ?></label>
-                <input type="<?php echo $item['type']; ?>" name="<?php echo $item['name']; ?>" value="<?php echo $item['value']; ?>">
+                
+                <div class="formRow">
+                    <label for="<?php echo $item['name']; ?>"><?php echo $item['fieldtext']; ?></label>
+                    <input type="<?php echo $item['type']; ?>" name="<?php echo $item['name']; ?>" value="<?php echo $item['value']; ?>">
+                </div>
 
                 <?php
             }
@@ -136,8 +138,8 @@ class Page
             
             <div id="RightSide">
                 <?php echo $rightSideText; ?>
+                <a href="?logout=true"><?php echo __('logout');?></a>
             </div>
-
 
             
         </header>

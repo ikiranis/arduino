@@ -16,6 +16,13 @@ header, footer {
     display:block;
 }
 
+main {
+    display:flex;
+    height:  80%;
+    width: 100%;
+    align-items: center;
+}
+
 /*Κεντρικό box*/
 section {
     margin: 5px;
@@ -165,7 +172,20 @@ header {
 
 
 #LoginWindow {
-    clear: both;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: auto;
+
+    border-radius: 6px;
+    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    padding: 1em;
+    background-color: floralwhite;
+
+}
+
+.formRow {
+    display: block;
 }
 
 
