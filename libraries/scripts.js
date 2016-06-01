@@ -320,13 +320,17 @@ function drawChart() {
 
     // Set chart options
         var options = {
+
+            legend: {position: 'top'},
             hAxis: {
-                title: 'Time',
+              
                 direction:-1
+
+
 
             },
             vAxis: {
-                title: 'Temp'
+                title: 'Temperatures'
 
             }
 
@@ -336,6 +340,7 @@ function drawChart() {
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 }
+
 
 function RunStatistics() {
 
@@ -347,25 +352,22 @@ function RunStatistics() {
 
     callFile="getStatistics.php?db_field="+db_field+"&date_limit="+date_limit;
 
-    setInterval(function(){
+
         
-    $.get( callFile, function( data ) {
+        $.get( callFile, function( data ) {
 
-        getTemps=JSON.parse(data);
-
-
-
-            // Set a callback to run when the Google Visualization API is loaded.
-            google.charts.setOnLoadCallback(drawChart);
+            getTemps=JSON.parse(data);
 
 
 
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(drawChart);
 
 
-    });
 
-}, IntervalValue*1000);
 
+
+        });
 
 
 
