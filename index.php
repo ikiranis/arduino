@@ -71,6 +71,7 @@ if(!$logged_in) showLoginWindow();
 if($logged_in) DisplayMainPage();
 
 
+
 $MainPage->showFooter();
 
 

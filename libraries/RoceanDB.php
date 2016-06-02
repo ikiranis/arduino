@@ -304,5 +304,28 @@ class RoceanDB
         return $result;
     }
 
+
+    // Δέχεται το username και επιστρέφει το user group του. Αλλιώς false
+    public function getUserGroup($username) {
+        self::CreateConnection();
+
+        $sql='SELECT user_group FROM user WHERE username=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array($username));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $result=$item['user_group'];
+        }
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
 }
 

@@ -12,10 +12,13 @@
 require_once('libraries/common.inc.php');
 require_once ('libraries/PHPMailer/PHPMailerAutoload.php');
 
+$conn = new RoceanDB();
+$mail = new PHPMailer;
+
 function CheckForAlerts() {
 
-    $conn = new RoceanDB();
-    $mail = new PHPMailer;
+    global $conn;
+    global $mail;
 
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
@@ -81,6 +84,6 @@ do {     // loop του demon. Τρέχει στο crontab ανά ένα λεπ�
     sleep(INTERVAL_VALUE);
 } while ($counter<((60/INTERVAL_VALUE)+1));    // Αν το INTERVAL_VALUE είναι 5 τότε εκτελείται 12 φορές το λεπτό
 
-
+$conn = null;
 
 ?>

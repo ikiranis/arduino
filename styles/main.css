@@ -330,6 +330,10 @@ footer {
     display:table-row;
 }
 
+.UsersRow {
+    display:table-row;
+}
+
 
 .ListTable {
     display:table;

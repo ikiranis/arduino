@@ -43,6 +43,7 @@
         <phrase name="settings_sensors">Αισθητήρες</phrase>
         <phrase name="settings_power">Διακόπτες</phrase>
         <phrase name="settings_alerts">Ειδοποιήσεις</phrase>
+        <phrase name="settings_users">Χρήστες</phrase>
         <phrase name="update_row">Ενημέρωση</phrase>
         <phrase name="delete_row">Διαγραφή</phrase>
         <phrase name="insert_row">Εισαγωγή</phrase>
@@ -55,6 +56,13 @@
         <phrase name="alerts_timelimit">Χρονικό όριο (ώρες)</phrase>
         <phrase name="alerts_templimit">Θερμοκρασία</phrase>
         <phrase name="alerts_sensor">Αισθητήρας</phrase>
+        <phrase name="users_username">Χρήστης</phrase>
+        <phrase name="users_email">Email</phrase>
+        <phrase name="users_password">Συνθηματικό</phrase>
+        <phrase name="users_repeat_password">Επανάληψη συνθηματικού</phrase>
+        <phrase name="users_user_group">Ομάδα χρηστών</phrase>
+        <phrase name="users_firstname">Όνομα</phrase>
+        <phrase name="users_lastname">Επώνυμο</phrase>
     </page>
 
     <page name="statistics">

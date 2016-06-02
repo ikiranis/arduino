@@ -66,5 +66,6 @@ do {
 
 $stmt->closeCursor();
 $stmt = null;
+$conn = null;
 
 ?>

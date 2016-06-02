@@ -43,6 +43,7 @@
         <phrase name="settings_sensors">Sensors</phrase>
         <phrase name="settings_power">Power</phrase>
         <phrase name="settings_alerts">Alerts</phrase>
+        <phrase name="settings_users">Users</phrase>
         <phrase name="update_row">Update</phrase>
         <phrase name="delete_row">Delete</phrase>
         <phrase name="insert_row">Insert</phrase>
@@ -55,6 +56,13 @@
         <phrase name="alerts_timelimit">Time Limit (hours)</phrase>
         <phrase name="alerts_templimit">Temperature</phrase>
         <phrase name="alerts_sensor">Sensor</phrase>
+        <phrase name="users_username">Username</phrase>
+        <phrase name="users_email">Email</phrase>
+        <phrase name="users_password">Password</phrase>
+        <phrase name="users_repeat_password">Repeat Password</phrase>
+        <phrase name="users_user_group">UserGroup</phrase>
+        <phrase name="users_firstname">FirstName</phrase>
+        <phrase name="users_lastname">LastName</phrase>
     </page>
 
     <page name="statistics">

@@ -253,6 +253,78 @@ class Arduino
     }
 
 
+    // Εμφάνιση των εγγραφών των χρηστών σε μορφή form fields για editing
+    static function getUsersInFormFields () {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        ?>
+        <div class="ListTable ListTittleRow">
+            <div class="UsersRow">
+                <span class="ListColumn"><?php echo __('users_username'); ?></span>
+                <span class="ListColumn"><?php echo __('users_email'); ?></span>
+                <span class="ListColumn"><?php echo __('users_password'); ?></span>
+                <span class="ListColumn"><?php echo __('users_repeat_password'); ?></span>
+                <span class="ListColumn"><?php echo __('users_user_group'); ?></span>
+                <span class="ListColumn"><?php echo __('users_firstname'); ?></span>
+                <span class="ListColumn"><?php echo __('users_lastname'); ?></span>
+            </div>
+
+
+
+            <?php
+
+
+            while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+            {
+                ?>
+                <div class="UsersRow" id="PowerID<?php echo $item['id']; ?>">
+                    <span class="ListColumn">
+                        <input class="input_field" type="text" name="username" value="<?php echo $item['username']; ?>">
+                    </span>
+                    <span class="ListColumn">
+                        <input class="input_field" type="text" name="email" value="<?php echo $item['email']; ?>">
+                    </span>
+                    <span class="ListColumn">
+                        <input class="input_field" type="password" name="password" value="">
+                    </span>
+                    <span class="ListColumn">
+                        <input class="input_field" type="password" name="repeat_password" value="">
+                    </span>
+                    <span class="ListColumn">
+                        <input class="input_field" type="text" name="usergroup" value="<?php echo $item['user_group']; ?>">
+                    </span>
+                    <span class="ListColumn">
+                        <input class="input_field" type="text" name="fname" value="<?php echo $item['fname']; ?>">
+                    </span>
+                    <span class="ListColumn">
+                        <input class="input_field" type="text" name="lname" value="<?php echo $item['lname']; ?>">
+                    </span>
+                    <button name="update_user" onclick="updateUser(<?php echo $item['user.user_id']; ?>);"">
+                    <?php echo __('update_row'); ?></button>
+                    <button name="delete_user" onclick="deleteUser(<?php echo $item['user.user_id']; ?>);"">
+                    <?php echo __('delete_row'); ?></button>
+                    <span id="messageUserID<?php echo $item['user.user_id']; ?>"></span>
+                </div>
+                <?php
+            }
+            ?>
+
+        </div>
+        <button name="insert_user" onclick="insertUser();"><?php echo __('insert_row'); ?></button>
+        <?php
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
+
+
     // Εμφάνιση των εγγραφών των alerts σε μορφή form fields για editing
     static function getAlertsInFormFields () {
         $conn = new RoceanDB();
@@ -541,18 +613,36 @@ class Arduino
     }
 
     static function showConfiguration () {
+        $conn = new RoceanDB();
+        $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
         ?>
         <h2><?php echo __('nav_item_5'); ?></h2>
 
-        <details>
-            <summary><?php echo __('settings_sensors'); ?></summary>
-            <?php Arduino::getSensorsInFormFields () ?>
-        </details>
 
-        <details>
-            <summary><?php echo __('settings_power'); ?></summary>
-            <?php Arduino::getPowerInFormFields () ?>    
-        </details>
+        <?php
+
+        if($UserGroup==1) {  // Αν ο χρήστης είναι admin
+        ?>
+
+            <details>
+                <summary><?php echo __('settings_sensors'); ?></summary>
+                <?php Arduino::getSensorsInFormFields() ?>
+            </details>
+
+            <details>
+                <summary><?php echo __('settings_power'); ?></summary>
+                <?php Arduino::getPowerInFormFields() ?>
+            </details>
+
+            <details>
+                <summary><?php echo __('settings_users'); ?></summary>
+                <?php Arduino::getUsersInFormFields() ?>
+            </details>
+
+        <?php
+        }
+        ?>
 
         <details>
             <summary><?php echo __('settings_alerts'); ?></summary>
