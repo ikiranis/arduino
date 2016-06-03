@@ -39,14 +39,13 @@ $conn->CreateConnection();
 
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
     if($inserted_id=$conn->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) // Δημιουργεί τον χρήστη
-        $jsonArray=array( 'success'=>'true', 'lastInserted'=>$inserted_id);
-    else $jsonArray=array( 'success'=>'false');
+        $jsonArray=array( 'success'=>true, 'lastInserted'=>$inserted_id);
+    else $jsonArray=array( 'success'=>false);
 }
 
 else {   // αλλιώς κάνει update
-    $result=$conn->UpdateUser($id, $username, $email, $password, $usergroup, 'local', $fname, $lname); // Ενημερώνει την εγγραφή
-    
-    $jsonArray=array( 'success'=>$result);
+    if($conn->UpdateUser($id, $username, $email, $password, $usergroup, 'local', $fname, $lname))   // Ενημερώνει την εγγραφή
+        $jsonArray=array( 'success'=>true);
 
 }
 

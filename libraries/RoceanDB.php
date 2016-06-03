@@ -190,14 +190,8 @@ class RoceanDB
     function UpdateUser($id, $username, $email, $password, $usergroup, $agent, $fname, $lname)
     {
         self::CreateConnection();
-        
-        $result=array();
-
-        $result[]=$password;
 
         if(!$password==null) {  // Αν δεν υπάρχει $password
-
-            $result[]='μπήκα για password';
 
             $crypto = new Crypto();
 
@@ -214,25 +208,22 @@ class RoceanDB
             $sql = 'UPDATE user SET username=?, email=?, agent=?, user_group=? WHERE user_id=?';
             $arrayParams = array($username, $email, $agent, $usergroup, $id);
 
-            $result[]=$username.' '.$email.' '. $agent. ' '. $usergroup. ' '. $id;
         }
 
 
-        $result[]=$sql;
         $stmt = self::$conn->prepare($sql);
 
         if($stmt->execute($arrayParams)) {
+            $result=true;
+
             $sql = 'UPDATE user_details SET fname=?, lname=? WHERE user_id=?';  // Εισάγει στον πίνακα user_details
 
             $detailsArray = array($fname, $lname, $id);
 
             $stmt3 = self::$conn->prepare($sql);
 
-            if ($stmt3->execute($detailsArray))  $result[]='Τα details άλλαξαν';
-            else $result[]='Τα details δεν άλλαξαν';
-
-
-
+            if ($stmt3->execute($detailsArray))  $result=true;
+            else $result=false;
 
             if (!$password==null) {
 
@@ -242,17 +233,14 @@ class RoceanDB
 
                 $stmt2 = self::$conn->prepare($sql);
 
-                if ($stmt2->execute($saltArray)) $result[]='Το password άλλαξε';
-                else $result[]='Το password δεν άλλαξε';
+                if ($stmt2->execute($saltArray)) $result=true;
+                else $result=false;
 
             }
 
-            $result[]='To update έγινε';
-
-
 
         }
-        else $result[]='To update δεν έγινε';
+        else $result=false;
         
         return $result;
         

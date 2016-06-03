@@ -186,11 +186,11 @@ class Arduino
                         <span class="ListColumn"><input class="input_field" type="text" name="room" value="<?php echo $item['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field" type="text" name="sensor_name" value="<?php echo $item['sensor_name']; ?>"></span>
                         <span class="ListColumn"><input class="input_field" type="text" name="db_field" value="<?php echo $item['db_field']; ?>"></span>
-                        <button name="update_sensor" onclick="updateSensor(<?php echo $item['id']; ?>);">
-                            <?php echo __('update_row'); ?></button>
-                        <button name="delete_sensor" onclick="deleteSensor(<?php echo $item['id']; ?>);">
-                            <?php echo __('delete_row'); ?></button>
-                        <span id="messageID<?php echo $item['id']; ?>"></span>
+                        <button class="update_button button_img" name="update_sensor" alt="<?php echo __('update_row'); ?>" onclick="updateSensor(<?php echo $item['id']; ?>);">
+                        </button>
+                        <button class="delete_button button_img" name="delete_sensor" alt="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $item['id']; ?>);">
+                        </button>
+                        <span class="message" id="messageID<?php echo $item['id']; ?>"></span>
                     </div>
                     <?php
                 }
@@ -233,11 +233,11 @@ class Arduino
                     <div class="PowersRow" id="PowerID<?php echo $item['id']; ?>">
                         <span class="ListColumn"><input class="input_field" type="text" name="room" value="<?php echo $item['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field" type="text" name="power_name" value="<?php echo $item['power_name']; ?>"></span>
-                        <button name="update_power" onclick="updatePower(<?php echo $item['id']; ?>);"">
-                        <?php echo __('update_row'); ?></button>
-                        <button name="delete_power" onclick="deletePower(<?php echo $item['id']; ?>);"">
-                        <?php echo __('delete_row'); ?></button>
-                        <span id="messagePowerID<?php echo $item['id']; ?>"></span>
+                        <button class="update_button button_img" name="update_power" alt="<?php echo __('update_row'); ?>" onclick="updatePower(<?php echo $item['id']; ?>);"">
+                        </button>
+                        <button class="delete_button button_img" name="delete_power" alt="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $item['id']; ?>);"">
+                        </button>
+                        <span class="message" id="messagePowerID<?php echo $item['id']; ?>"></span>
                     </div>
                     <?php
                 }
@@ -258,12 +258,20 @@ class Arduino
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
+        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+
         global $UserGroups;
 
-        $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id';
+        if($UserGroupID==1)
+            $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id';
+        else $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id WHERE user.user_id=?';
+
         $stmt = RoceanDB::$conn->prepare($sql);
 
-        $stmt->execute();
+        if($UserGroup==1)
+            $stmt->execute();
+        else $stmt->execute(array($userID));
 
         ?>
         <div class="ListTable ListTittleRow">
@@ -299,11 +307,11 @@ class Arduino
                         <input class="input_field" type="password" name="repeat_password" value="">
                     </span>
                     <span class="ListColumn">
-                        <select class="input_field" name="usergroup">
+                        <select class="input_field" name="usergroup" <?php if($UserGroupID!=1) echo ' disabled=disabled'; ?> >
                             <?php
                             foreach ($UserGroups as $UserGroup) {
                                 ?>
-                                <option value="<?php echo $item['user_group']; ?>"
+                                <option value="<?php echo $UserGroup['id']; ?>"
                                     <?php if($UserGroup['id']==$item['user_group']) echo 'selected=selected'; ?>>
                                     <?php echo $UserGroup['group_name']; ?>
                                 </option>
@@ -319,19 +327,25 @@ class Arduino
                     <span class="ListColumn">
                         <input class="input_field" type="text" name="lname" value="<?php echo $item['lname']; ?>">
                     </span>
-                    <button name="update_user" onclick="updateUser(<?php echo $item['user_id']; ?>);"">
-                    <?php echo __('update_row'); ?></button>
-                    <button name="delete_user" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
-                    <?php echo __('delete_row'); ?></button>
-                    <span id="messageUserID<?php echo $item['user_id']; ?>"></span>
+                    <button class="update_button button_img" name="update_user" alt="<?php echo __('update_row'); ?>" onclick="updateUser(<?php echo $item['user_id']; ?>);"">
+                    </button>
+                    <button class="delete_button button_img" name="delete_user" alt="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
+                    </button>
+                    <span class="message" id="messageUserID<?php echo $item['user_id']; ?>"></span>
                 </div>
                 <?php
             }
             ?>
 
         </div>
-        <button name="insert_user" onclick="insertUser();"><?php echo __('insert_row'); ?></button>
+
         <?php
+        if($UserGroupID==1) {  // Αν είναι admin ο user εμφάνισε κουμπί για προσθήκη νέου user
+            ?>
+
+            <button name="insert_user" onclick="insertUser();"><?php echo __('insert_row'); ?></button>
+            <?php
+        }
 
         $stmt->closeCursor();
         $stmt = null;
@@ -388,11 +402,11 @@ class Arduino
                         </select>
                     </span>
                     <input type="hidden" name="user_id" value="<?php echo $userID; ?>">
-                    <button name="update_alert" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
-                    <?php echo __('update_row'); ?></button>
-                    <button name="delete_alert" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
-                    <?php echo __('delete_row'); ?></button>
-                    <span id="messageAlertID<?php echo $alert['id']; ?>"></span>
+                    <button class="update_button button_img" name="update_alert" alt="<?php echo __('update_row'); ?>" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
+                    </button>
+                    <button class="delete_button button_img" name="delete_alert" alt="<?php echo __('delete_row'); ?>" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
+                    </button>
+                    <span class="message" id="messageAlertID<?php echo $alert['id']; ?>"></span>
                 </div>
                 <?php
             }
@@ -649,14 +663,15 @@ class Arduino
                 <?php Arduino::getPowerInFormFields() ?>
             </details>
 
-            <details>
-                <summary><?php echo __('settings_users'); ?></summary>
-                <?php Arduino::getUsersInFormFields() ?>
-            </details>
-
         <?php
         }
         ?>
+
+        <details>
+            <summary><?php echo __('settings_users'); ?></summary>
+            <?php Arduino::getUsersInFormFields() ?>
+        </details>
+
 
         <details>
             <summary><?php echo __('settings_alerts'); ?></summary>

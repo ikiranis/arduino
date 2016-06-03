@@ -15,6 +15,17 @@ var getTemps;
 var db_field;
 
 
+// extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
+// Προσθέτει μια class και την αφερεί μετά από λίγο
+$.fn.addClassDelay = function(className,delay) {
+    var $addClassDelayElement = $(this), $addClassName = className;
+    $addClassDelayElement.addClass($addClassName);
+    setTimeout(function(){
+        $addClassDelayElement.removeClass($addClassName);
+    },delay);
+};
+
+
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateUser(id) {
     username=$("#UserID"+id).find('input[name="username"]').val();
@@ -37,9 +48,9 @@ function updateUser(id) {
         "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
 
     $.get( callFile, function( data ) {
-        console.log(data.success);
 
-        if(data.success=='true') {
+        if(data.success==true) {
+            console.log(data.success);
 
             if (id==0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                 UserKeyPressed=false;
@@ -50,11 +61,11 @@ function updateUser(id) {
                 $("#UserID"+LastInserted).find('button[name="delete_user"]')
                     .attr("onclick", "deleteUser("+LastInserted+")");
                 $("#UserID"+LastInserted).find('span[id^="messageUserID"]').prop('id','messageUserID'+LastInserted);
-                $("#messageUserID"+LastInserted).text("success");
+                $("#messageUserID"+LastInserted).addClassDelay("success",3000);
             }
-            else $("#messageUserID"+id).text("success");
+            else $("#messageUserID"+id).addClassDelay("success",3000);
         }
-        else $("#messageUserID"+id).text("problem");
+        else $("#messageUserID"+id).addClassDelay("failure",3000);
     }, "json" );
 
 
@@ -88,11 +99,11 @@ function updateAlert(id) {
                 $("#AlertID"+LastInserted).find('button[name="delete_alert"]')
                     .attr("onclick", "deleteAlert("+LastInserted+")");
                 $("#AlertID"+LastInserted).find('span[id^="messageAlertID"]').prop('id','messageAlertID'+LastInserted);
-                $("#messageAlertID"+LastInserted).text("success");
+                $("#messageAlertID"+LastInserted).addClassDelay("success",3000);
             }
-            else $("#messageAlertID"+id).text("success");
+            else $("#messageAlertID"+id).addClassDelay("success",3000);
         }
-        else $("#messageAlertID"+id).text("problem");
+        else $("#messageAlertID"+id).addClassDelay("failure",3000);
     }, "json" );
 
 
@@ -117,11 +128,11 @@ function updateSensor(id) {
                 $("#SensorID"+LastInserted).find('button[name="update_sensor"]').attr("onclick", "updateSensor("+LastInserted+")");
                 $("#SensorID"+LastInserted).find('button[name="delete_sensor"]').attr("onclick", "deleteSensor("+LastInserted+")");
                 $("#SensorID"+LastInserted).find('span[id^="messageID"]').prop('id','messageID'+LastInserted);
-                $("#messageID"+LastInserted).text("success");
+                $("#messageID"+LastInserted).addClassDelay("success",3000);
             }
-            else $("#messageID"+id).text("success");
+            else $("#messageID"+id).addClassDelay("success",3000);
         }
-        else $("#messageID"+id).text("problem");
+        else $("#messageID"+id).addClassDelay("failure",3000);
     }, "json" );
 
 
@@ -145,11 +156,11 @@ function updatePower(id) {
                 $("#PowerID" + LastInserted).find('button[name="update_power"]').attr("onclick", "updatePower(" + LastInserted + ")");
                 $("#PowerID" + LastInserted).find('button[name="delete_power"]').attr("onclick", "deletePower(" + LastInserted + ")");
                 $("#PowerID" + LastInserted).find('span[id^="messagePowerID"]').prop('id', 'messagePowerID' + LastInserted);
-                $("#messagePowerID" + LastInserted).text("success");
+                $("#messagePowerID" + LastInserted).addClassDelay("success",3000);
             }
-            else $("#messagePowerID"+id).text("success");
+            else $("#messagePowerID"+id).addClassDelay("success",3000);
         }
-        else $("#messagePowerID"+id).text("problem");
+        else $("#messagePowerID"+id).addClassDelay("failure",3000);
     }, "json" );
 
 }
@@ -176,10 +187,10 @@ function deletePower(id) {
     $.get( callFile, function( data ) {
         if(data.success=='true') {
 
-            $("#messagePowerID"+id).text("success");
+            $("#messagePowerID"+id).addClassDelay("success",3000);
             $("#PowerID"+id).remove();
         }
-        else $("#messagePowerID"+id).text("problem");
+        else $("#messagePowerID"+id).addClassDelay("failure",3000);
     }, "json" );
 
 }
@@ -191,10 +202,10 @@ function deleteAlert(id) {
     $.get( callFile, function( data ) {
         if(data.success=='true') {
 
-            $("#messageAlertID"+id).text("success");
+            $("#messageAlertID"+id).addClassDelay("success",3000);
             $("#AlertID"+id).remove();
         }
-        else $("#messageAlertID"+id).text("problem");
+        else $("#messageAlertID"+id).addClassDelay("failure",3000);
     }, "json" );
 
 }
@@ -207,10 +218,10 @@ function deleteUser(id) {
         console.log(data.success);
         if(data.success=='true') {
 
-            $("#messageUserID"+id).text("success");
+            $("#messageUserID"+id).addClassDelay("success",3000);
             $("#UserID"+id).remove();
         }
-        else $("#messageUserID"+id).text("problem");
+        else $("#messageUserID"+id).addClassDelay("failure",3000);
     }, "json" );
 
 }
@@ -385,6 +396,8 @@ function countjson(obj) {
     // instantiates the pie chart, passes in the data and
     // draws it.
 function drawChart() {
+    backgroundColor=$('section').css( "background-color" );  //  To background color του parent element
+
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Time');
@@ -400,6 +413,8 @@ function drawChart() {
         data.setCell(i, 1, temp);
     }
 
+
+
     // Set chart options
         var options = {
 
@@ -414,7 +429,10 @@ function drawChart() {
             vAxis: {
                 title: 'Temperatures'
 
-            }
+            },
+
+            backgroundColor: backgroundColor,
+            is3D: true
 
         };
 

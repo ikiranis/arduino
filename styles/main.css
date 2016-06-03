@@ -363,11 +363,45 @@ footer {
 }
 
 
+.update_button {
+    background-image: url( '../img/update.png' );
+}
+
+.delete_button {
+    background-image: url( '../img/delete.png' );
+}
+
+.button_img {
+    background-size: 2em;
+    background-color: transparent;
+    height: 2em;
+    width: 2em;
+    border: none;
+    cursor: pointer;
+}
+
+.message {
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.success {
+    content: url( '../img/done.png' );
+}
+
+.failure {
+    content: url( '../img/problem.png' );
+}
+
+
 /*Εμφάνιση του summary/details*/
 
 summary {
     cursor: pointer;
 }
+
+
+
 
 
 #statistics {
