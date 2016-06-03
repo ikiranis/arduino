@@ -6,13 +6,61 @@
 // Javascript controls και functions
 //
 
-
+var UserKeyPressed=false;
 var AlertKeyPressed=false;
 var SensorKeyPressed=false;
 var PowerKeyPressed=false;  // Αν δεν έχει πατηθεί η εισαγωγή νέας γραμμής είναι false, αλλιώς true για να μην μπορεί να ξαναπατηθεί
 
 var getTemps;
 var db_field;
+
+
+// Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
+function updateUser(id) {
+    username=$("#UserID"+id).find('input[name="username"]').val();
+    email=$("#UserID"+id).find('input[name="email"]').val();
+    password=$("#UserID"+id).find('input[name="password"]').val();
+    repeat_password=$("#UserID"+id).find('input[name="repeat_password"]').val();
+    usergroup=$("#UserID"+id).find('select[name="usergroup"]').val();
+    fname=$("#UserID"+id).find('input[name="fname"]').val();
+    lname=$("#UserID"+id).find('input[name="lname"]').val();
+
+    if (password=='') changepass=false;
+    else changepass=true;
+
+    console.log(id+' '+username+' '+email+' '+password+' '+repeat_password+' '+usergroup+' '+fname+' '+lname+ ' '+changepass);
+
+    if(changepass)
+        callFile="updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
+        "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
+    else callFile="updateUser.php?id="+id+"&username="+username+"&email="+email+
+        "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
+
+    $.get( callFile, function( data ) {
+        console.log(data.success);
+
+        if(data.success=='true') {
+
+            if (id==0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                UserKeyPressed=false;
+                LastInserted=data.lastInserted;
+                $("#UserID0").prop('id','UserID'+LastInserted);
+                $("#UserID"+LastInserted).find('button[name="update_user"]')
+                    .attr("onclick", "updateUser("+LastInserted+")");
+                $("#UserID"+LastInserted).find('button[name="delete_user"]')
+                    .attr("onclick", "deleteUser("+LastInserted+")");
+                $("#UserID"+LastInserted).find('span[id^="messageUserID"]').prop('id','messageUserID'+LastInserted);
+                $("#messageUserID"+LastInserted).text("success");
+            }
+            else $("#messageUserID"+id).text("success");
+        }
+        else $("#messageUserID"+id).text("problem");
+    }, "json" );
+
+
+}
+
+
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateAlert(id) {
@@ -151,6 +199,40 @@ function deleteAlert(id) {
 
 }
 
+// Σβήνει την εγγραφή στο user, user_details, salts
+function deleteUser(id) {
+    callFile="deleteUser.php?id="+id;
+
+    $.get( callFile, function( data ) {
+        console.log(data.success);
+        if(data.success=='true') {
+
+            $("#messageUserID"+id).text("success");
+            $("#UserID"+id).remove();
+        }
+        else $("#messageUserID"+id).text("problem");
+    }, "json" );
+
+}
+
+
+// Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
+function insertUser() {
+    if(!UserKeyPressed) {
+
+        // clone last div row
+        $('div[id^="UserID"]:last').clone().insertAfter('div[id^="UserID"]:last').prop('id','UserID0');
+        $("#UserID0").find('input[name="username"]').val(''); // clear field values
+        $("#UserID0").find('input[name="email"]').val('');
+        $("#UserID0").find('input[name="fname"]').val('');
+        $("#UserID0").find('input[name="lname"]').val('');
+        $("#UserID0").find('span[id^="messageUserID"]').text('').prop('id','messageUserID0');
+        // αλλάζει την function στο button
+        $("#UserID0").find('button[name="update_user"]').attr("onclick", "updateUser(0)");
+        $("#UserID0").find('button[name="delete_user"]').attr("onclick", "deleteUser(0)");
+        UserKeyPressed=true;
+    }
+}
 
 // Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
 function insertAlert() {
@@ -344,32 +426,19 @@ function drawChart() {
 
 function RunStatistics() {
 
-
-
-
     db_field=$("#SelectGraph").find('select[name="sensors_list"]').val();
     date_limit=$("#SelectGraph").find('select[name="date_list"]').val();
 
     callFile="getStatistics.php?db_field="+db_field+"&date_limit="+date_limit;
 
-
-        
         $.get( callFile, function( data ) {
 
-            getTemps=JSON.parse(data);
-
-
+            getTemps=JSON.parse(data);   // παίρνει τα json data σαν array
 
                 // Set a callback to run when the Google Visualization API is loaded.
                 google.charts.setOnLoadCallback(drawChart);
 
-
-
-
-
         });
-
-
 
 }
 

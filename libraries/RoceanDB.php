@@ -150,11 +150,11 @@ class RoceanDB
     }
 
     // Εισάγει τον νέο χρήστη στην βάση
-    function CreateUser($username, $email, $password, $agent)
+    function CreateUser($username, $email, $password, $usergroup, $agent, $fname, $lname)
     {
         self::CreateConnection();
 
-        $sql = 'INSERT INTO user(username, email, password, agent) VALUES(?,?,?,?)';
+        $sql = 'INSERT INTO user(username, email, password, user_group, agent) VALUES(?,?,?,?,?)';
         
         $crypto = new Crypto();
 
@@ -164,19 +164,99 @@ class RoceanDB
 
         $EncryptedPassword=$hashed_array['hashed_password'];
 
-        $arrayParams = array($username, $email, $EncryptedPassword, $agent);
+        $arrayParams = array($username, $email, $EncryptedPassword, $usergroup, $agent);
 
         if($inserted_id=$this->ExecuteSQL($sql, $arrayParams)) {
-            $sql = 'INSERT INTO salts(user_id, salt, algo, cost) VALUES(?,?,?,?)';
+            $sql = 'INSERT INTO salts(user_id, salt, algo, cost) VALUES(?,?,?,?)';   // Εισάγει στον πίνακα salts
 
             $saltArray = array($inserted_id, $hashed_array['salt'], $hashed_array['algo'], $hashed_array['cost'] );
 
             $this->ExecuteSQL($sql, $saltArray);
 
+            $sql = 'INSERT INTO user_details(user_id, fname, lname) VALUES(?,?,?)';  // Εισάγει στον πίνακα user_details
+
+            $detailsArray = array($inserted_id, $fname, $lname);
+
+            $this->ExecuteSQL($sql, $detailsArray);
+
+            return $inserted_id;
+
+        }
+        else return false;
+        
+    }
+
+    // Ενημερώνει την εγγραφή ενός χρήστη
+    function UpdateUser($id, $username, $email, $password, $usergroup, $agent, $fname, $lname)
+    {
+        self::CreateConnection();
+        
+        $result=array();
+
+        $result[]=$password;
+
+        if(!$password==null) {  // Αν δεν υπάρχει $password
+
+            $result[]='μπήκα για password';
+
+            $crypto = new Crypto();
+
+            $hashed_array=$crypto->EncryptPassword($password);
+
+            $EncryptedPassword=$hashed_array['hashed_password'];
+
+            $sql = 'UPDATE user SET username=?, email=?, password=?, agent=?, user_group=? WHERE user_id=?';
+
+            $arrayParams = array($username, $email, $EncryptedPassword, $agent, $usergroup, $id);
+
+        }
+        else {
+            $sql = 'UPDATE user SET username=?, email=?, agent=?, user_group=? WHERE user_id=?';
+            $arrayParams = array($username, $email, $agent, $usergroup, $id);
+
+            $result[]=$username.' '.$email.' '. $agent. ' '. $usergroup. ' '. $id;
         }
 
-        return true;
+
+        $result[]=$sql;
+        $stmt = self::$conn->prepare($sql);
+
+        if($stmt->execute($arrayParams)) {
+            $sql = 'UPDATE user_details SET fname=?, lname=? WHERE user_id=?';  // Εισάγει στον πίνακα user_details
+
+            $detailsArray = array($fname, $lname, $id);
+
+            $stmt3 = self::$conn->prepare($sql);
+
+            if ($stmt3->execute($detailsArray))  $result[]='Τα details άλλαξαν';
+            else $result[]='Τα details δεν άλλαξαν';
+
+
+
+
+            if (!$password==null) {
+
+                $sql = 'UPDATE salts SET salt=?, algo=?, cost=? WHERE user_id=?';   // Εισάγει στον πίνακα salts
+
+                $saltArray = array($hashed_array['salt'], $hashed_array['algo'], $hashed_array['cost'], $id);
+
+                $stmt2 = self::$conn->prepare($sql);
+
+                if ($stmt2->execute($saltArray)) $result[]='Το password άλλαξε';
+                else $result[]='Το password δεν άλλαξε';
+
+            }
+
+            $result[]='To update έγινε';
+
+
+
+        }
+        else $result[]='To update δεν έγινε';
         
+        return $result;
+        
+
     }
 
     // Έλεγχος αν ο χρήστης είναι logged id, αν υπάρχουν cookies. Η function επιστρέφει true or false
@@ -325,6 +405,27 @@ class RoceanDB
         $stmt = null;
 
         return $result;
+    }
+
+    // Σβήνει μία εγγραφή από τον $table, όπου το $dbfield=$value
+    public function deleteRowFromTable ($table, $dbfield, $value) {
+        self::CreateConnection();
+
+        $sql='DELETE FROM '.$table.' WHERE '.$dbfield.'=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        if($stmt->execute(array($value)))
+            $result=true;
+        else $result=false;
+
+
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+
     }
 
 }

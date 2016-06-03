@@ -26,12 +26,20 @@ define (LANG_PATH,PROJECT_PATH.'lang/');      // το path του καταλόγ
 
 define (NAV_LIST_ITEMS, '6'); // Ο αριθμός των επιλογών στo Nav Menu
 
-$languages = array (
+$languages = array (    // Οι γλώσσες που υποστηρίζονται
     array ('language' => 'Ελληνικά',
         'lang_id' => 'gr'),
     array ('language' => 'English',
         'lang_id' => 'en')
 );
+
+$UserGroups = array (     // Τα user groups που υπάρχουν
+    array ('id' => '1',
+        'group_name' => 'admin'),
+    array ('id' => '2',
+        'group_name' => 'user')
+);
+
 
 
 // Public functions

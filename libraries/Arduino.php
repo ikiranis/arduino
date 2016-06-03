@@ -258,6 +258,8 @@ class Arduino
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
+        global $UserGroups;
+
         $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id';
         $stmt = RoceanDB::$conn->prepare($sql);
 
@@ -283,7 +285,7 @@ class Arduino
             while($item=$stmt->fetch(PDO::FETCH_ASSOC))
             {
                 ?>
-                <div class="UsersRow" id="PowerID<?php echo $item['id']; ?>">
+                <div class="UsersRow" id="UserID<?php echo $item['user_id']; ?>">
                     <span class="ListColumn">
                         <input class="input_field" type="text" name="username" value="<?php echo $item['username']; ?>">
                     </span>
@@ -297,7 +299,19 @@ class Arduino
                         <input class="input_field" type="password" name="repeat_password" value="">
                     </span>
                     <span class="ListColumn">
-                        <input class="input_field" type="text" name="usergroup" value="<?php echo $item['user_group']; ?>">
+                        <select class="input_field" name="usergroup">
+                            <?php
+                            foreach ($UserGroups as $UserGroup) {
+                                ?>
+                                <option value="<?php echo $item['user_group']; ?>"
+                                    <?php if($UserGroup['id']==$item['user_group']) echo 'selected=selected'; ?>>
+                                    <?php echo $UserGroup['group_name']; ?>
+                                </option>
+
+                                <?php
+                            }
+                            ?>
+                        </select>
                     </span>
                     <span class="ListColumn">
                         <input class="input_field" type="text" name="fname" value="<?php echo $item['fname']; ?>">
@@ -305,11 +319,11 @@ class Arduino
                     <span class="ListColumn">
                         <input class="input_field" type="text" name="lname" value="<?php echo $item['lname']; ?>">
                     </span>
-                    <button name="update_user" onclick="updateUser(<?php echo $item['user.user_id']; ?>);"">
+                    <button name="update_user" onclick="updateUser(<?php echo $item['user_id']; ?>);"">
                     <?php echo __('update_row'); ?></button>
-                    <button name="delete_user" onclick="deleteUser(<?php echo $item['user.user_id']; ?>);"">
+                    <button name="delete_user" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
                     <?php echo __('delete_row'); ?></button>
-                    <span id="messageUserID<?php echo $item['user.user_id']; ?>"></span>
+                    <span id="messageUserID<?php echo $item['user_id']; ?>"></span>
                 </div>
                 <?php
             }
