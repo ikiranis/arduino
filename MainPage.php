@@ -32,7 +32,10 @@ function DisplayMainPage() {
 
     if(!isset($NavActiveItem)) $NavActiveItem=1;
 
+    global $lang;
 
+    $languages_text=$lang->print_languages('lang_id',' ',true,false);
+    
     ?>
     
 
@@ -54,6 +57,9 @@ function DisplayMainPage() {
 
 
         <nav>
+            <div id="languages">
+                <?php echo $languages_text; ?>
+            </div>
             <?php echo Page::NavList($NavActiveItem); ?>
             <div id="MysqlStatus">
                 <span></span><?php echo __('sensors_status'); ?></span> <span id="MysqlStatusText"></span>

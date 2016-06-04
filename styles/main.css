@@ -23,6 +23,7 @@ main {
     align-items: center;
 }
 
+
 /*Κεντρικό box*/
 section {
     margin: 5px;
@@ -141,8 +142,14 @@ nav li a:hover:not(.active) {
 
 /*Οι σημαίες για τις γλώσσες*/
 .flags {
-    width: 1.2em;
-    height: 0.8em;
+    width: 1.8em;
+    height: 1.3em;
+}
+
+#languages {
+    width: 100%;
+    display:block;
+    text-align: center;
 }
 
 
@@ -157,19 +164,58 @@ header {
 #LeftSide {
     width: 30%;
     float: left;
-    display: inline;
-    padding: 0.5em 1em 0.5em 1em;
+    display: inline-block;
 }
 
 #RightSide {
     width: 50%;
     float: right;
-    display: inline;
     text-align: right;
-    padding: 0.5em 1em 0.5em 1em;
+    display: inline-block;
+
+
+}
+
+.mainbarcontent {
+
+
+    display: inline-flex;
+}
+
+#logout img {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#account_name {
+    align-self: center;
+}
+
+#account_image {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#SystemTime {
+    align-self: center;
+    display: inline-flex;
+}
+
+#timetext {
+    align-self: center;
+}
+
+#SystemTime img {
+    width: 1.5em;
+    height: 1.5em;
+
 }
 
 
+
+
+
+/*Login Window*/
 
 #LoginWindow {
     display: block;
@@ -232,20 +278,40 @@ footer {
     border: 1px solid #555;
     margin: 1em 1em;
     background-color: #ee8a10;
+    transition:all 0.5s;
+
+
 }
 
 
 
 .cold {
     background-color: #76e4dc;
+    background-image: url('../img/cold.png'),url('../img/temperature.png') ;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 3em 3em, 4em 4em;
+    background-position: right top, bottom right;
+
+
 }
 
 .warm {
     background-color: orangered;
+    background-image: url('../img/hot.png'),url('../img/temperature.png') ;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 2.5em 2.5em, 4em 4em;
+    background-position: right top, bottom right;
+
+
 }
 
 .equal {
     background-color: #e4e2ac;
+    background-image: url('../img/equal.png'),url('../img/temperature.png') ;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 2.5em 2.5em, 4em 4em;
+    background-position: right top, bottom right;
+
 }
 
 .temperature_text {
@@ -301,6 +367,14 @@ footer {
     border: 1px solid #555;
     margin: 1em 1em;
     cursor: pointer;
+    background-image: url('../img/power.png') ;
+    background-repeat: no-repeat;
+    background-position: right top;
+    transition:all 0.5s;
+}
+
+.power_block:hover  {
+    transform: scale(1.05);
 }
 
 .powerON {

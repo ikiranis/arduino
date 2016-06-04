@@ -323,15 +323,12 @@ function getTemperature () {
 
                 if(AvgTemp>NewTemp) {
                     $("#TempBlock"+SensorsIDArray[i]).removeClass('warm').removeClass('equal').addClass('cold');
-                    $("#diff"+SensorsIDArray[i]).html('&#x21E9');
                 }
                 if(AvgTemp<NewTemp) {
                     $("#TempBlock"+SensorsIDArray[i]).removeClass('cold').removeClass('equal').addClass('warm');
-                    $("#diff"+SensorsIDArray[i]).html('&#x21E7');
                 }
                 if(AvgTemp==NewTemp) {
                     $("#TempBlock"+SensorsIDArray[i]).removeClass('warm').removeClass('cold').addClass('equal');
-                    $("#diff"+SensorsIDArray[i]).html('-');
                 }
 
                 $("#temp"+SensorsIDArray[i]).text( probeText ) ;
@@ -460,9 +457,29 @@ function RunStatistics() {
 
 }
 
+// Προσθέτει το 0 μπροστά από τον αριθμό όταν είναι κάτω από το 10
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
 
+// Επιστρέφει την τρέχουσα ώρα σε string και το εμφανίζει στο element name
+function getTime(name) {
+    var myTime = new Date();
+
+    var curTime=addZero(myTime.getHours())+':'+
+                addZero(myTime.getMinutes())+':'+
+                addZero(myTime.getSeconds());
+
+    $(name).text(curTime);
+}
 
 $(function(){
+
+    getTime('#timetext'); // Εμφανίζει την ώρα
+
     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
 
@@ -471,8 +488,11 @@ $(function(){
 
     }, IntervalValue*1000);
 
-    
 
+    setInterval(function(){  // Εμφανίζει συνεχώς την ώρα
+        getTime('#timetext');
+
+    }, 1000);
 
 
 });

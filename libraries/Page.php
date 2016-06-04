@@ -133,12 +133,15 @@ class Page
     ?>
         <header>
             <div id="LeftSide">
-                <?php echo $leftSideText; ?>
+                <div class="mainbarcontent">
+                    <?php echo $leftSideText; ?>
+                </div>
             </div>
             
-            <div id="RightSide">
-                <?php echo $rightSideText; ?>
-                <a href="?logout=true"><?php echo __('logout');?></a>
+            <div id="RightSide" >
+                <div class="mainbarcontent">
+                    <?php echo $rightSideText; ?>
+                </div>
             </div>
 
             

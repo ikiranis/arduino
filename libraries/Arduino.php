@@ -186,9 +186,9 @@ class Arduino
                         <span class="ListColumn"><input class="input_field" type="text" name="room" value="<?php echo $item['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field" type="text" name="sensor_name" value="<?php echo $item['sensor_name']; ?>"></span>
                         <span class="ListColumn"><input class="input_field" type="text" name="db_field" value="<?php echo $item['db_field']; ?>"></span>
-                        <button class="update_button button_img" name="update_sensor" alt="<?php echo __('update_row'); ?>" onclick="updateSensor(<?php echo $item['id']; ?>);">
+                        <button class="update_button button_img" name="update_sensor" title="<?php echo __('update_row'); ?>" onclick="updateSensor(<?php echo $item['id']; ?>);">
                         </button>
-                        <button class="delete_button button_img" name="delete_sensor" alt="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $item['id']; ?>);">
+                        <button class="delete_button button_img" name="delete_sensor" title="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $item['id']; ?>);">
                         </button>
                         <span class="message" id="messageID<?php echo $item['id']; ?>"></span>
                     </div>
@@ -233,9 +233,9 @@ class Arduino
                     <div class="PowersRow" id="PowerID<?php echo $item['id']; ?>">
                         <span class="ListColumn"><input class="input_field" type="text" name="room" value="<?php echo $item['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field" type="text" name="power_name" value="<?php echo $item['power_name']; ?>"></span>
-                        <button class="update_button button_img" name="update_power" alt="<?php echo __('update_row'); ?>" onclick="updatePower(<?php echo $item['id']; ?>);"">
+                        <button class="update_button button_img" name="update_power" title="<?php echo __('update_row'); ?>" onclick="updatePower(<?php echo $item['id']; ?>);"">
                         </button>
-                        <button class="delete_button button_img" name="delete_power" alt="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $item['id']; ?>);"">
+                        <button class="delete_button button_img" name="delete_power" title="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $item['id']; ?>);"">
                         </button>
                         <span class="message" id="messagePowerID<?php echo $item['id']; ?>"></span>
                     </div>
@@ -327,9 +327,9 @@ class Arduino
                     <span class="ListColumn">
                         <input class="input_field" type="text" name="lname" value="<?php echo $item['lname']; ?>">
                     </span>
-                    <button class="update_button button_img" name="update_user" alt="<?php echo __('update_row'); ?>" onclick="updateUser(<?php echo $item['user_id']; ?>);"">
+                    <button class="update_button button_img" name="update_user" title="<?php echo __('update_row'); ?>" onclick="updateUser(<?php echo $item['user_id']; ?>);"">
                     </button>
-                    <button class="delete_button button_img" name="delete_user" alt="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
+                    <button class="delete_button button_img" name="delete_user" title="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
                     </button>
                     <span class="message" id="messageUserID<?php echo $item['user_id']; ?>"></span>
                 </div>
@@ -402,9 +402,9 @@ class Arduino
                         </select>
                     </span>
                     <input type="hidden" name="user_id" value="<?php echo $userID; ?>">
-                    <button class="update_button button_img" name="update_alert" alt="<?php echo __('update_row'); ?>" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
+                    <button class="update_button button_img" name="update_alert" title="<?php echo __('update_row'); ?>" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
                     </button>
-                    <button class="delete_button button_img" name="delete_alert" alt="<?php echo __('delete_row'); ?>" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
+                    <button class="delete_button button_img" name="delete_alert" title="<?php echo __('delete_row'); ?>" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
                     </button>
                     <span class="message" id="messageAlertID<?php echo $alert['id']; ?>"></span>
                 </div>
@@ -510,7 +510,6 @@ class Arduino
                     echo '<span class=room_text>'.$sensor['room'].'</span>';
                     echo '<span class=sensor_name_text>'.$sensor['sensor_name'].'</span>';
                     echo '<span class=time_text id=time'.$counter.'>'.date('Y-m-d H:i:s',time()).'</span>';
-                    echo '<span class=dif_text id=diff'.$counter.'></span>';
                 echo '</div>';
 
                 $counter++;

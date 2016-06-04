@@ -41,7 +41,7 @@ $MainPage->setScript($scripts);
 
 $MainPage->showHeader();
 
-$languages_text=$lang->print_languages('lang_id',' ',true,false);
+//$languages_text=$lang->print_languages('lang_id',' ',true,false);
 
 $logged_in=false;
 
@@ -50,7 +50,7 @@ if(!$conn->CheckCookiesForLoggedUser()) {
     if (isset($_SESSION["username"]))
     {
 
-        $LoginNameText= __('user_logged_in').$conn->getSession('username');
+        $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$conn->getSession('username').'</span>';
 //        session_regenerate_id(true);
 
         $logged_in=true;
@@ -58,11 +58,17 @@ if(!$conn->CheckCookiesForLoggedUser()) {
     }
 }
 else {
-    $LoginNameText= __('user_logged_in').$_COOKIE["username"];
+    $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$_COOKIE["username"].'</span>';
     $logged_in=true;
 }
 
-$MainPage->showMainBar($LoginNameText,$languages_text);
+
+if($logged_in)
+    $LoginNameText.=' <span id=logout><a href=?logout=true title='.__('logout').'><img src=img/exit.png></a></span>';
+
+$timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
+
+$MainPage->showMainBar($timediv, $LoginNameText);
 
 
 
