@@ -119,7 +119,7 @@ function showLoginWindow()
             array('name' => 'submit',
                 'fieldtext' => '',
                 'type' => 'submit',
-                'onclick' => 'login();',
+                'onclick' => 'login(event);',
                 'required' => 'no',
                 'maxlength' => '',
                 'pattern' => '',

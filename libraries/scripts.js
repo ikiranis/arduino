@@ -42,7 +42,7 @@ function CheckValidForm (element) {
 }
 
 // Έλεγχος του login
-function login() {
+function login(event) {
 
 
 
@@ -57,6 +57,7 @@ function login() {
 
             // Cancels the form's submit action. Fix αλλιώς δεν παίζει σωστά με το submit button
             // Επίσης πρέπει να μπει μετά το validation, αλλιώς δεν παίζει το validation
+            // Θέλει το event στην function, αλλιώς δεν παίζει στον firefox
             event.preventDefault();
 
             // alert(username + ' ' + password + ' ' + SavePassword);
