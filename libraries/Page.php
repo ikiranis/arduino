@@ -30,6 +30,7 @@ class Page
         <!DOCTYPE html>
         <HTML>
         <head>
+            <meta charset="utf-8">
 
             <link rel="stylesheet" href="styles/main.css">
             
@@ -109,14 +110,23 @@ class Page
     function MakeForm($action, $form_elements)
     {
         ?>
-        <form method="POST" action="<?php echo $action; ?>">
+        <form name="loginForm" method="post">
             <?php
             foreach ($form_elements as $item) {
                 ?>
                 
                 <div class="formRow">
-                    <label for="<?php echo $item['name']; ?>"><?php echo $item['fieldtext']; ?></label>
-                    <input type="<?php echo $item['type']; ?>" name="<?php echo $item['name']; ?>" value="<?php echo $item['value']; ?>">
+                    <label for="<?php echo $item['name']; ?>"><?php if($item['type']=='checkbox') echo $item['fieldtext']; ?></label>
+                    <input type="<?php echo $item['type']; ?>"
+                           <?php if(!$item['onclick']=='') echo 'onClick='.$item['onclick']; ?>
+                           <?php if(!$item['name']=='') echo 'name='.$item['name']; ?>
+                           <?php if(!$item['value']=='')echo 'value='.$item['value']; ?>
+                           <?php if(!$item['maxlength']=='')echo 'maxlength='.$item['maxlength']; ?>
+                           <?php if(!$item['pattern']=='')echo 'pattern='.$item['pattern']; ?>
+                           <?php if(!$item['title']=='')echo 'title="'.$item['title'].'"'; ?>
+                           <?php if($item['required']=='yes') echo 'required'; ?>
+                           <?php echo 'placeholder="'.$item['fieldtext'].'"'; ?>
+                    >
                 </div>
 
                 <?php

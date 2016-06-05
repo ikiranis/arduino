@@ -62,7 +62,6 @@
             ];
 
             if (/*IE7*/ false) {
-                //TODO - add a background-image for right and down arrows
                 styles.push ('details > summary { ... }');
             }
             styles = styles.join ('\n');

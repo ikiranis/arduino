@@ -1,3 +1,6 @@
+/*TODO βελτιώσεις στην εμφάνιση της εφαρμογής*/
+
+
 html, body {
     height:100%;
     width: 99%;
@@ -147,6 +150,7 @@ nav li a:hover:not(.active) {
 }
 
 #languages {
+    margin-top: 1em;
     width: 100%;
     display:block;
     text-align: center;
@@ -232,9 +236,40 @@ header {
 
 .formRow {
     display: block;
+    margin-top: 1em;
 }
 
+#LoginWindow input[type=text] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
 
+#LoginWindow input[type=password] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#LoginWindow input[type=submit] {
+    background-color: black;
+    color: white;
+    width: 15em;
+    border-radius: 6px;
+    border: none;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition:all 0.5s;
+}
+
+#LoginWindow input[type=submit]:hover {
+    transform: scale(1.05);
+}
 
 
 /*To footer της σελίδας*/
@@ -477,8 +512,21 @@ summary {
 
 
 
+/*Input Fields Validation*/
 
-#statistics {
-    display: block;
-    width: 100%;
+
+
+input:required:invalid, input:focus:invalid {
+    background-image: url(../img/invalid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid red;
+    outline: none;
+}
+input:required:valid {
+    background-image: url(../img/valid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid blue;
+    outline: none;
 }

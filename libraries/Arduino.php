@@ -166,6 +166,8 @@ class Arduino
 
         $stmt->execute();
 
+        // TODO να θέτει μηδενικές αρχικές τιμές αν δεν υπάρχει καμιά εγγραφή, όπως κάνει στα alerts
+
         ?>
             <div class="ListTable ListTittleRow">
                 <div class="SensorsRow">
@@ -214,6 +216,8 @@ class Arduino
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();
+
+        // TODO να θέτει μηδενικές αρχικές τιμές αν δεν υπάρχει καμιά εγγραφή, όπως κάνει στα alerts
 
         ?>
             <div class="ListTable ListTittleRow">
@@ -463,7 +467,7 @@ class Arduino
 
     }
     
-    
+    // TODO Να εμφανίζει alerts που έχουν γίνει. Και όλα τα άλλα πεδία του dashboard
     static function showDashboard () {
         ?>
         <h2><?php echo __('nav_item_1'); ?></h2>

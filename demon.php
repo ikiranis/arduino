@@ -9,6 +9,8 @@
  * PHP Mailer https://github.com/PHPMailer/PHPMailer
  */
 
+// TODO να γίνει και έλεγχος για inserts και να σώζει στην βάση αν είναι ON ή OFF
+
 require_once('libraries/common.inc.php');
 require_once ('libraries/PHPMailer/PHPMailerAutoload.php');
 

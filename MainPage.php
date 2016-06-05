@@ -57,12 +57,14 @@ function DisplayMainPage() {
 
 
         <nav>
-            <div id="languages">
-                <?php echo $languages_text; ?>
-            </div>
+
             <?php echo Page::NavList($NavActiveItem); ?>
             <div id="MysqlStatus">
                 <span></span><?php echo __('sensors_status'); ?></span> <span id="MysqlStatusText"></span>
+            </div>
+
+            <div id="languages">
+                <?php echo $languages_text; ?>
             </div>
         </nav>
 

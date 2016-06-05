@@ -15,25 +15,25 @@ $lang = new Language();
 
 
 
-if (isset($_POST['submit'])) {
-
-    if (isset($_POST['SavePassword']))
-        $SavePassword=true;
-    else $SavePassword=false;
-
-    $myConnect = new RoceanDB();
-    $login=$myConnect->CheckLogin(ClearString($_POST['username']), ClearString($_POST['password']), $SavePassword);
-    if($login['success']) {
-        echo $login['message'];
-        header('Location:index.php');
-    }
-    else {
-        echo $login['message'];
-        header('Refresh:3;URL=index.php');
-    }
-
-
-}
+//if (isset($_POST['submit'])) {
+//
+//    if (isset($_POST['SavePassword']))
+//        $SavePassword=true;
+//    else $SavePassword=false;
+//
+//    $myConnect = new RoceanDB();
+//    $login=$myConnect->CheckLogin(ClearString($_POST['username']), ClearString($_POST['password']), $SavePassword);
+//    if($login['success']) {
+//        echo $login['message'];
+//        header('Location:index.php');
+//    }
+//    else {
+//        echo $login['message'];
+//        header('Refresh:3;URL=index.php');
+//    }
+//
+//
+//}
 
 if (isset($_POST['register'])) {
     
@@ -92,23 +92,45 @@ function showLoginWindow()
             array('name' => 'username',
                 'fieldtext' => __('form_user_name'),
                 'type' => 'text',
+                'onclick' => '',
+                'required' => 'yes',
+                'maxlength' => '15',
+                'pattern' => '^[a-zA-Z0-9]+$',
+                'title' => 'Give the username',
                 'value' => null),
             array('name' => 'password',
                 'fieldtext' => __('form_password'),
                 'type' => 'password',
+                'onclick' => '',
+                'required' => 'yes',
+                'maxlength' => '15',
+                'pattern' => '^[a-zA-Z0-9]+$',  // (?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}
+                'title' => 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters',
                 'value' => null),
             array('name' => 'SavePassword',
                 'fieldtext' => __('form_save_password'),
                 'type' => 'checkbox',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '',
+                'pattern' => '',
+                'title' => '',
                 'value' => 'yes'),
             array('name' => 'submit',
                 'fieldtext' => '',
                 'type' => 'submit',
+                'onclick' => 'login();',
+                'required' => 'no',
+                'maxlength' => '',
+                'pattern' => '',
+                'title' => '',
                 'value' => __('form_login'))
         );
 
-        $LoginWindow->MakeForm('login.php', $FormElementsArray);
-
+        $LoginWindow->MakeForm('login();', $FormElementsArray);
+        
+        // TODO να το κάνω να στέλνει και όταν πατηθεί enter
+        
 
         ?>
 

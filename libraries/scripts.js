@@ -26,6 +26,61 @@ $.fn.addClassDelay = function(className,delay) {
 };
 
 
+// Ελέγχει όλα τα πεδία της φόρμας αν είναι valid
+function CheckValidForm (element) {
+    ValidFieldsOK=0;
+
+    $(element).find('input').each(function(){
+        if(!$(this)[0].checkValidity()){
+            ValidFieldsOK++;
+
+        }
+    });
+
+    if(ValidFieldsOK==0) return true;
+    else return false;
+}
+
+// Έλεγχος του login
+function login() {
+
+
+
+        username = $("#LoginWindow").find('input[name="username"]').val();
+        password = $("#LoginWindow").find('input[name="password"]').val();
+        if ($("#LoginWindow").find('input[name="SavePassword"]').is(":checked"))
+            SavePassword = true;
+        else SavePassword = false;
+
+
+        if (CheckValidForm('#LoginWindow')) {
+
+            // Cancels the form's submit action. Fix αλλιώς δεν παίζει σωστά με το submit button
+            // Επίσης πρέπει να μπει μετά το validation, αλλιώς δεν παίζει το validation
+            event.preventDefault();
+
+            // alert(username + ' ' + password + ' ' + SavePassword);
+
+            callFile = "checkLogin.php?username=" + username + "&password=" + password + "&SavePassword=" + SavePassword;
+
+            $.get(callFile, function (data) {
+
+                result = JSON.parse(data);
+                console.log(result['success']);
+                if (result['success'] == true) {
+
+                    window.location.href = "index.php";
+                }
+                else  alert(result['message']);
+
+            });
+        }
+
+
+
+}
+
+
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateUser(id) {
     username=$("#UserID"+id).find('input[name="username"]').val();
@@ -39,7 +94,7 @@ function updateUser(id) {
     if (password=='') changepass=false;
     else changepass=true;
 
-    console.log(id+' '+username+' '+email+' '+password+' '+repeat_password+' '+usergroup+' '+fname+' '+lname+ ' '+changepass);
+    // console.log(id+' '+username+' '+email+' '+password+' '+repeat_password+' '+usergroup+' '+fname+' '+lname+ ' '+changepass);
 
     if(changepass)
         callFile="updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
@@ -50,7 +105,7 @@ function updateUser(id) {
     $.get( callFile, function( data ) {
 
         if(data.success==true) {
-            console.log(data.success);
+            // console.log(data.success);
 
             if (id==0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                 UserKeyPressed=false;
@@ -392,6 +447,7 @@ function countjson(obj) {
 // Callback that creates and populates a data table,
     // instantiates the pie chart, passes in the data and
     // draws it.
+    // Source https://developers.google.com/chart/
 function drawChart() {
     backgroundColor=$('section').css( "background-color" );  //  To background color του parent element
 
@@ -411,7 +467,7 @@ function drawChart() {
     }
 
 
-
+    // TODO βελτίωση της εμφάνισης των charts
     // Set chart options
         var options = {
 
@@ -483,6 +539,7 @@ $(function(){
     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
 
+    // TODO ο έλεγχος αυτός να γίνεται στο σχετικό πεδίο της βάσης το οποίο θα σετάρεται από το demon
     setInterval(function(){
         checkIfMysqlIsAlive();
 

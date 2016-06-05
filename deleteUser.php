@@ -16,7 +16,7 @@ if(isset($_GET['id']))
 
 $conn = new RoceanDB();
 
-
+// @TODO σβήσιμο και της εγγραφής στα alerts αν υπάρχει για τον συγκεκριμένο χρήστη
 $deleteSalts=$conn->deleteRowFromTable ('salts','user_id',$id);
 $deleteUserDetails=$conn->deleteRowFromTable ('user_details','user_id',$id);
 

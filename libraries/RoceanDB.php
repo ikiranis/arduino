@@ -19,6 +19,8 @@ class RoceanDB
     public static $conn = NULL;
 
 
+
+
     // 30 μέρες
     private static $CookieTime=60*60*24*30;
     
@@ -75,6 +77,7 @@ class RoceanDB
         $stmt->execute(array($username));
 
 
+
         // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
         {
@@ -102,15 +105,13 @@ class RoceanDB
             if (password_verify($HashThePassword, $combined_password)) {
 
 
-
                 // Αν ο χρήστης έχει επιλέξει να τον θυμάται η εφαρμογή ότι είναι logged in
-                if($SavePassword) {
+                if($SavePassword=='true') {
 
                     // Χρησιμοποιούμε 2 cookies. Στο ένα έχουμε το username και στο άλλο το salt του χρήστη
                     // Τα Cookies θα μείνουν ανοιχτά για self::$CookieTime χρόνο
                     setcookie('username', $item['username'], time()+self::$CookieTime);
                     setcookie('salt', $user_salt, time()+self::$CookieTime);
-
 
                 }
                 else {
@@ -120,32 +121,38 @@ class RoceanDB
                         unset($_COOKIE['salt']);
                         setcookie('salt','',-1);
                     }
+
+
                 }
 
                 self::setSession('username',$item['username']);
+
+
 //                $_SESSION["username"]=$crypto->EncryptText($item['username']);
 
                 // Επιστρέφει την επιτυχία (ή όχι) στο array $result με ανάλογο μήνυμα
                 $result = array ('success'=>true, 'message'=>__('user_is_founded'));
-                return $result;
+
 //                echo '<p>Βρέθηκε ο χρήστης: '.$crypto->DecryptText($_SESSION["username"]).'</p>';
 
 
             }
             else {
                 $result = array ('success'=>false, 'message'=>__('wrong_password'));
-                return $result;
+
             }
 
         }
         else {
             $result = array ('success'=>false, 'message'=>__('user_dont_exist'));
-            return $result;
+
         }
 
 
-        $stmt->closeCursor();
-        $stmt = null;
+        return $result;
+
+//        $stmt->closeCursor();
+//        $stmt = null;
 
     }
 
