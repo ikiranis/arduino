@@ -36,9 +36,15 @@ function CheckValidForm (element) {
 
         }
     });
+    
+    
 
     if(ValidFieldsOK==0) return true;
     else return false;
+}
+
+function hasHtml5Validation () {
+    return typeof document.createElement('input').checkValidity === 'function';
 }
 
 // Έλεγχος του login
@@ -52,13 +58,23 @@ function login(event) {
             SavePassword = true;
         else SavePassword = false;
 
+    if (hasHtml5Validation()) {
+        $('.validate-form').submit(function (e) {
+            if (!this.checkValidity()) {
+                // Prevent default stops form from firing
+                e.preventDefault();
+                $(this).addClass('invalid');
+                $('#status').html('invalid');
+            } else {
+                $(this).removeClass('invalid');
+                $('#status').html('submitted');
+            }
+        });
+    }
 
         if (CheckValidForm('#LoginWindow')) {
 
-            // Cancels the form's submit action. Fix αλλιώς δεν παίζει σωστά με το submit button
-            // Επίσης πρέπει να μπει μετά το validation, αλλιώς δεν παίζει το validation
-            // Θέλει το event στην function, αλλιώς δεν παίζει στον firefox
-            event.preventDefault();
+
 
             // alert(username + ' ' + password + ' ' + SavePassword);
 
@@ -75,6 +91,12 @@ function login(event) {
                 else  alert(result['message']);
 
             });
+
+
+            // Cancels the form's submit action. Fix αλλιώς δεν παίζει σωστά με το submit button
+            // Επίσης πρέπει να μπει μετά το validation, αλλιώς δεν παίζει το validation
+            // Θέλει το event στην function, αλλιώς δεν παίζει στον firefox
+            event.preventDefault();
         }
 
 

@@ -272,6 +272,16 @@ header {
 }
 
 
+.invalid input:required:invalid {
+    background: #BE4C54;
+}
+
+.invalid input:required:valid {
+    background: #17D654 ;
+}
+
+
+
 /*To footer της σελίδας*/
 footer {
     clear: both;

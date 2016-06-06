@@ -52,9 +52,7 @@ class Page
                     echo '<script ' . $a . '></script>';
                 }
             ?>
-
-
-
+            
 
         </head>
 
@@ -110,7 +108,7 @@ class Page
     function MakeForm($action, $form_elements)
     {
         ?>
-        <form name="loginForm" method="post">
+        <form name="loginForm" method="post" class="validate-form">
             <?php
             foreach ($form_elements as $item) {
                 ?>
@@ -128,7 +126,7 @@ class Page
                            <?php echo 'placeholder="'.$item['fieldtext'].'"'; ?>
                     >
                 </div>
-
+                <span id="status"></span>
                 <?php
             }
             ?>
