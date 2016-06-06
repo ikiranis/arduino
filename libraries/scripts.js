@@ -73,11 +73,8 @@ function login(t) {
     //     });
     // }
 
-    // $('#loginForm').valid();
-    alert($('#loginForm').valid());
-        if ($('#loginForm').valid()) {
-            // alert('validform');
 
+        if ($('#loginForm').valid()) {
 
             // alert(username + ' ' + password + ' ' + SavePassword);
 

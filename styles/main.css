@@ -272,14 +272,13 @@ header {
 }
 
 
-.invalid input:required:invalid {
-    background: #BE4C54;
+label.error {
+    position: relative;
+    display: block;
+    width: 20em;
+    color: red;
+    font-size: 0.7em;
 }
-
-.invalid input:required:valid {
-    background: #17D654 ;
-}
-
 
 
 /*To footer της σελίδας*/
