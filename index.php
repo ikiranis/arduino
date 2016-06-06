@@ -41,7 +41,7 @@ if (isset($_GET['logout']))
 $MainPage->tittle = PAGE_TITTLE;
 
 $scripts=array ('src=libraries/jquery.min.js', 'src=libraries/scripts.js', 
-    'src=libraries/details.js', 'src=https://www.gstatic.com/charts/loader.js');
+    'src=libraries/details.js', 'src=libraries/jquery.validate.min.js', 'src=libraries/pattern.js', 'src=https://www.gstatic.com/charts/loader.js');
 
 $MainPage->setScript($scripts);
 

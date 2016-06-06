@@ -108,7 +108,7 @@ class Page
     function MakeForm($action, $form_elements)
     {
         ?>
-        <form name="loginForm" method="post" class="validate-form">
+        <form name="loginForm" method="post" id="loginForm" >
             <?php
             foreach ($form_elements as $item) {
                 ?>
@@ -117,16 +117,17 @@ class Page
                     <label for="<?php echo $item['name']; ?>"><?php if($item['type']=='checkbox') echo $item['fieldtext']; ?></label>
                     <input type="<?php echo $item['type']; ?>"
                            <?php if(!$item['onclick']=='') echo 'onClick='.$item['onclick']; ?>
+                           <?php if(!$item['name']=='') echo 'id='.$item['name']; ?>
                            <?php if(!$item['name']=='') echo 'name='.$item['name']; ?>
                            <?php if(!$item['value']=='')echo 'value='.$item['value']; ?>
                            <?php if(!$item['maxlength']=='')echo 'maxlength='.$item['maxlength']; ?>
                            <?php if(!$item['pattern']=='')echo 'pattern='.$item['pattern']; ?>
                            <?php if(!$item['title']=='')echo 'title="'.$item['title'].'"'; ?>
-                           <?php if($item['required']=='yes') echo 'required'; ?>
+                           <?php if($item['required']=='yes') echo ' required=required '; ?>
                            <?php echo 'placeholder="'.$item['fieldtext'].'"'; ?>
                     >
                 </div>
-                <span id="status"></span>
+                <span class="status"></span>
                 <?php
             }
             ?>

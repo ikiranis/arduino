@@ -118,8 +118,8 @@ function showLoginWindow()
                 'value' => 'yes'),
             array('name' => 'submit',
                 'fieldtext' => '',
-                'type' => 'submit',
-                'onclick' => 'login(event);',
+                'type' => 'button',
+                'onclick' => 'login();',
                 'required' => 'no',
                 'maxlength' => '',
                 'pattern' => '',
@@ -127,7 +127,7 @@ function showLoginWindow()
                 'value' => __('form_login'))
         );
 
-        $LoginWindow->MakeForm('login();', $FormElementsArray);
+        $LoginWindow->MakeForm('', $FormElementsArray);
         
         // TODO να το κάνω να στέλνει και όταν πατηθεί enter
         

@@ -33,6 +33,7 @@ function CheckValidForm (element) {
     $(element).find('input').each(function(){
         if(!$(this)[0].checkValidity()){
             ValidFieldsOK++;
+            $(this).append()
 
         }
     });
@@ -48,7 +49,7 @@ function hasHtml5Validation () {
 }
 
 // Έλεγχος του login
-function login(event) {
+function login(t) {
 
 
 
@@ -58,22 +59,24 @@ function login(event) {
             SavePassword = true;
         else SavePassword = false;
 
-    if (hasHtml5Validation()) {
-        $('.validate-form').submit(function (e) {
-            if (!this.checkValidity()) {
-                // Prevent default stops form from firing
-                e.preventDefault();
-                $(this).addClass('invalid');
-                $('#status').html('invalid');
-            } else {
-                $(this).removeClass('invalid');
-                $('#status').html('submitted');
-            }
-        });
-    }
+    // if (hasHtml5Validation()) {
+    //     $('.validate-form').submit(function (e) {
+    //         if (!this.checkValidity()) {
+    //             // Prevent default stops form from firing
+    //             // e.preventDefault();
+    //             $(this).addClass('invalid');
+    //             $('#status').html('invalid');
+    //         } else {
+    //             $(this).removeClass('invalid');
+    //             $('#status').html('submitted');
+    //         }
+    //     });
+    // }
 
-        if (CheckValidForm('#LoginWindow')) {
-
+    // $('#loginForm').valid();
+    alert($('#loginForm').valid());
+        if ($('#loginForm').valid()) {
+            // alert('validform');
 
 
             // alert(username + ' ' + password + ' ' + SavePassword);
@@ -96,7 +99,7 @@ function login(event) {
             // Cancels the form's submit action. Fix αλλιώς δεν παίζει σωστά με το submit button
             // Επίσης πρέπει να μπει μετά το validation, αλλιώς δεν παίζει το validation
             // Θέλει το event στην function, αλλιώς δεν παίζει στον firefox
-            event.preventDefault();
+            // event.preventDefault();
         }
 
 
@@ -556,6 +559,7 @@ function getTime(name) {
 }
 
 $(function(){
+    $('#loginForm').validate();
 
     getTime('#timetext'); // Εμφανίζει την ώρα
 
@@ -573,6 +577,7 @@ $(function(){
         getTime('#timetext');
 
     }, 1000);
+
 
 
 });
