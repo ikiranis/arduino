@@ -334,6 +334,28 @@ class RoceanDB
         return $result;
     }
 
+    // Επιστρέφει true αν ο $username υπάρχει στην βάση
+    public function checkIfUserExists ($username) {
+        self::CreateConnection();
+
+        $sql='SELECT user_id FROM user WHERE username=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array($username));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $result=true;
+        }
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+    
     // Επιστρέφει το decrypted text του session $name
     public function getSession($name) {
         $crypto = new Crypto();

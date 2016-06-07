@@ -169,14 +169,9 @@ class Arduino
         // TODO να θέτει μηδενικές αρχικές τιμές αν δεν υπάρχει καμιά εγγραφή, όπως κάνει στα alerts
 
         ?>
-            <div class="ListTable ListTittleRow">
-                <div class="SensorsRow">
-                    <span class="ListColumn"><?php echo __('sensors_room'); ?></span>
-                    <span class="ListColumn"><?php echo __('sensors_sensor'); ?></span>
-                    <span class="ListColumn"><?php echo __('sensors_dbfield'); ?></span>
-                </div>
-
-            <form id="sensors_form" name="sensors_form">
+            <div class="ListTable">
+            
+            
 
         <?php
 
@@ -184,34 +179,41 @@ class Arduino
                 while($item=$stmt->fetch(PDO::FETCH_ASSOC))
                 {
                 ?>
+
                     <div class="SensorsRow" id="SensorID<?php echo $item['id']; ?>">
-                        <span class="ListColumn"><input class="input_field" 
+                        <form class="table_form sensors_form" id="sensors_formID<?php echo $item['id']; ?>">
+                        <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('sensors_room'); ?>"
                                                         title="<?php echo __('valid_room'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$'
-                                                        maxlength="15" required type="text" name="room"
+                                                        maxlength="15" required type="text" id="room" name="room"
                                                         value="<?php echo $item['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('sensors_sensor'); ?>"
                                                         title="<?php echo __('valid_sensor'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ ][a-zA-ZΆ-Ϋά-ώ0-9- _\.]{2,20}$'
-                                                        maxlength="20"  type="text"  name="sensor_name" value="<?php echo $item['sensor_name']; ?>"></span>
+                                                        maxlength="20"  type="text"  id="sensor_name" name="sensor_name" value="<?php echo $item['sensor_name']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('sensors_dbfield'); ?>"
                                                         title="<?php echo __('valid_dbfield'); ?>"
                                                         pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{2,20}$'
-                                                        maxlength="20" required type="text"  name="db_field" value="<?php echo $item['db_field']; ?>"></span>
+                                                        maxlength="20" required type="text"  id=="db_field" name="db_field" value="<?php echo $item['db_field']; ?>"></span>
 
                         <input type="button" class="update_button button_img" name="update_sensor" title="<?php echo __('update_row'); ?>" onclick="updateSensor(<?php echo $item['id']; ?>);">
 
                         <input type="button" class="delete_button button_img" name="delete_sensor" title="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $item['id']; ?>);">
 
                         <span class="message" id="messageID<?php echo $item['id']; ?>"></span>
+                        </form>
                     </div>
+
                     <?php
                 }
                 ?>
 
             </div>
             <input type="button" name="insert_sensor" onclick="insertSensor();" value="<?php echo __('insert_row'); ?>">
-            </form>
+            
         <?php
 
         $stmt->closeCursor();
@@ -232,13 +234,10 @@ class Arduino
         // TODO να θέτει μηδενικές αρχικές τιμές αν δεν υπάρχει καμιά εγγραφή, όπως κάνει στα alerts
 
         ?>
-            <div class="ListTable ListTittleRow">
-                <div class="PowersRow">
-                    <span class="ListColumn"><?php echo __('power_room'); ?></span>
-                    <span class="ListColumn"><?php echo __('power_switch'); ?></span>
-                </div>
+            <div class="ListTable">
+
                 
-                <form id="powers_form" name="powers_form">
+
 
         <?php
 
@@ -247,11 +246,14 @@ class Arduino
                 {
                     ?>
                     <div class="PowersRow" id="PowerID<?php echo $item['id']; ?>">
+                        <form class="table_form powers_form" id="powers_formID<?php echo $item['id']; ?>">
                         <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('power_room'); ?>"
                                                         title="<?php echo __('valid_room'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$'
                                                         maxlength="15" required type="text" name="room" value="<?php echo $item['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('power_switch'); ?>"
                                                         title="<?php echo __('valid_power_name'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ ][a-zA-ZΆ-Ϋά-ώ0-9- _\.]{2,20}$'
                                                         maxlength="20" required type="text" name="power_name" value="<?php echo $item['power_name']; ?>"></span>
@@ -261,6 +263,8 @@ class Arduino
                         <input type="button" class="delete_button button_img" name="delete_power" title="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $item['id']; ?>);"">
  
                         <span class="message" id="messagePowerID<?php echo $item['id']; ?>"></span>
+                        </form>
+
                     </div>
                     <?php
                 }
@@ -268,7 +272,7 @@ class Arduino
 
             </div>
             <input type="button" name="insert_power" onclick="insertPower();" value="<?php echo __('insert_row'); ?>">
-            </form>
+
         <?php
 
         $stmt->closeCursor();
@@ -293,23 +297,15 @@ class Arduino
 
         $stmt = RoceanDB::$conn->prepare($sql);
 
-        if($UserGroup==1)
+        if($UserGroupID==1)
             $stmt->execute();
         else $stmt->execute(array($userID));
 
         ?>
-        <div class="ListTable ListTittleRow">
-            <div class="UsersRow">
-                <span class="ListColumn"><?php echo __('users_username'); ?></span>
-                <span class="ListColumn"><?php echo __('users_email'); ?></span>
-                <span class="ListColumn"><?php echo __('users_password'); ?></span>
-                <span class="ListColumn"><?php echo __('users_repeat_password'); ?></span>
-                <span class="ListColumn"><?php echo __('users_user_group'); ?></span>
-                <span class="ListColumn"><?php echo __('users_firstname'); ?></span>
-                <span class="ListColumn"><?php echo __('users_lastname'); ?></span>
-            </div>
+        <div class="ListTable">
 
-            <form id="users_form" name="user_form">
+
+
 
             <?php
 
@@ -318,30 +314,39 @@ class Arduino
             {
                 ?>
                 <div class="UsersRow" id="UserID<?php echo $item['user_id']; ?>">
+                    <form class="table_form users_form" id="users_formID<?php echo $item['user_id']; ?>">
                     <span class="ListColumn">
                         <input class="input_field"
+                               placeholder="<?php echo __('users_username'); ?>"
                                title="<?php echo __('valid_username'); ?>"
                                pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$'
                                maxlength="15" required type="text" name="username" value="<?php echo $item['username']; ?>">
                     </span>
                     <span class="ListColumn">
                         <input class="input_field"
+                               placeholder="<?php echo __('users_email'); ?>"
                                title="<?php echo __('valid_email'); ?>"
                                maxlength="50" required type="email" name="email" value="<?php echo $item['email']; ?>">
                     </span>
                     <span class="ListColumn">
                         <input class="input_field"
+                               placeholder="<?php echo __('users_password'); ?>"
                                title="<?php echo __('valid_register_password'); ?>"
                                pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                               maxlength="15"  type="password" name="password" value="">
+                               maxlength="15"  type="password" id="password<?php echo $item['user_id']; ?>" name="password" value="">
                     </span>
                     <span class="ListColumn">
                         <input class="input_field"
-                               title="<?php echo __('valid_register_password'); ?>"
+                               placeholder="<?php echo __('users_repeat_password'); ?>"
+                               title="<?php echo __('valid_register_repeat_password'); ?>"
                                pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                               maxlength="15"  type="password" name="repeat_password" value="">
+                               maxlength="15"  type="password" id="<?php echo $item['user_id']; ?>" name="repeat_password" value="">
                     </span>
-<!--                    TODO validation για το αν το repeat είναι ίδιο με το αρχικό-->
+
+
+
+
+
                     <span class="ListColumn">
                         <select class="input_field" name="usergroup" <?php if($UserGroupID!=1) echo ' disabled=disabled'; ?> >
                             <?php
@@ -359,12 +364,14 @@ class Arduino
                     </span>
                     <span class="ListColumn">
                         <input class="input_field"
+                               placeholder="<?php echo __('users_firstname'); ?>"
                                title="<?php echo __('valid_fname'); ?>"
                                pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$'
                                maxlength="15"  type="text" name="fname" value="<?php echo $item['fname']; ?>">
                     </span>
                     <span class="ListColumn">
                         <input class="input_field"
+                               placeholder="<?php echo __('users_lastname'); ?>"
                                title="<?php echo __('valid_lname'); ?>"
                                pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,25}$'
                                maxlength="25"  type="text" name="lname" value="<?php echo $item['lname']; ?>">
@@ -375,6 +382,7 @@ class Arduino
                     <input type="button" class="delete_button button_img" name="delete_user" title="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
 
                     <span class="message" id="messageUserID<?php echo $item['user_id']; ?>"></span>
+                    </form>
                 </div>
                 <?php
             }
@@ -390,7 +398,7 @@ class Arduino
             <?php
         }
         ?>
-        </form>
+
         <?php
         $stmt->closeCursor();
         $stmt = null;
@@ -412,17 +420,12 @@ class Arduino
 
         ?>
 
-        <div class="ListTable ListTittleRow">
-            <div class="AlertsRow">
-                <span class="ListColumn"><?php echo __('alerts_email'); ?></span>
-                <span class="ListColumn"><?php echo __('alerts_timelimit'); ?></span>
-                <span class="ListColumn"><?php echo __('alerts_templimit'); ?></span>
-                <span class="ListColumn"><?php echo __('alerts_sensor'); ?></span>
-            </div>
+        <div class="ListTable">
+
 
         
 
-            <form id="alerts_form" name="alerts_form">
+
 
         <?php
 
@@ -430,14 +433,18 @@ class Arduino
         {
             ?>
                 <div class="AlertsRow" id="AlertID<?php echo $alert['id']; ?>">
+                    <form class="table_form alerts_form" id="alerts_formID<?php echo $alert['id']; ?>">
                     <span class="ListColumn"><input class="input_field"
+                                                    placeholder="<?php echo __('alerts_email'); ?>"
                                                     title="<?php echo __('valid_email'); ?>"
                                                     maxlength="50" required type="email" name="email" value="<?php echo $alert['email']; ?>"></span>
                     <span class="ListColumn"><input class="input_field"
+                                                    placeholder="<?php echo __('alerts_timelimit'); ?>"
                                                     title="<?php echo __('valid_time_limit'); ?>"
                                                     pattern='\d+'
                                                     maxlength="2" required type="text" name="time_limit" value="<?php echo $alert['time_limit']; ?>"></span>
                     <span class="ListColumn"><input class="input_field"
+                                                    placeholder="<?php echo __('alerts_templimit'); ?>"
                                                     title="<?php echo __('valid_temp_limit'); ?>"
                                                     pattern='\d+'
                                                     maxlength="2" required type="text" name="temp_limit" value="<?php echo $alert['temp_limit']; ?>"></span>
@@ -463,6 +470,7 @@ class Arduino
                     <input type="button" class="delete_button button_img" name="delete_alert" title="<?php echo __('delete_row'); ?>" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
 
                     <span class="message" id="messageAlertID<?php echo $alert['id']; ?>"></span>
+                    </form>
                 </div>
                 <?php
             }
@@ -471,7 +479,6 @@ class Arduino
         
         </div>
         <input type="button" name="insert_alert" onclick="insertAlert();" value="<?php echo __('insert_row'); ?>">
-        </form>
 
         <?php
 

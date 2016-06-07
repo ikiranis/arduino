@@ -77,6 +77,7 @@ function showLoginWindow()
 {
 
     $LoginWindow = new Page();
+    $lang=new Language();
 
 
 
@@ -130,11 +131,14 @@ function showLoginWindow()
         $LoginWindow->MakeForm('', $FormElementsArray);
         
         // TODO να το κάνω να στέλνει και όταν πατηθεί enter
-        
+        $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
         ?>
-
+        <div id="languages">
+            <?php echo $languages_text; ?>
+        </div>
     </div>
+
     </main>
 
 

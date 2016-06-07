@@ -274,20 +274,20 @@ header {
 
 /*Τα errors στο validation*/
 div.error {
-    position: absolute;
+    position: relative;
     display: block;
     color: black;
     border: 1px dotted black;
     font-size: 0.8em;
     margin-top: 0.3em;
-    margin-left: 10em;
     box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
     padding: 0.5em;
     background-color: #FFEDED;
     border-radius: 6px;
     width: 20em;
-    float:right;
 }
+
+
 
 
 
@@ -478,15 +478,15 @@ footer {
     float: left; /*fix for  buggy browsers*/
     display: table-column;
     width: 10em;
+    text-align: center;
 }
 
 .input_field {
-    width: 10em;
+    width: 13em;
     height: 1.9em;
 }
 
 .ListTittleRow {
-    text-align: center;
     font-weight: bold;
     font-size: 0.7em;
 }
@@ -522,6 +522,11 @@ footer {
     content: url( '../img/problem.png' );
 }
 
+.table_form {
+    padding: 0;
+    margin: 0;
+}
+
 
 /*Εμφάνιση του summary/details*/
 
@@ -536,7 +541,7 @@ summary {
 
 
 
-input:required:invalid, input:focus:invalid {
+input:required:invalid, input:focus:invalid, input:invalid {
     background-image: url(../img/invalid.png);
     background-position: right center;
     background-repeat: no-repeat;

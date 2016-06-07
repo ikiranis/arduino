@@ -25,22 +25,27 @@ $.fn.addClassDelay = function(className,delay) {
     },delay);
 };
 
+(function ($) {
 
+    $.fn.initValidation = function () {
+
+        $(this).removeData("validator");
+        $(this).removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse(this);
+
+        return this;
+    };
+
+}(jQuery));
 
 
 // Έλεγχος του login
-function login(t) {
-
-
-
+function login() {
         username = $("#LoginWindow").find('input[name="username"]').val();
         password = $("#LoginWindow").find('input[name="password"]').val();
         if ($("#LoginWindow").find('input[name="SavePassword"]').is(":checked"))
             SavePassword = true;
         else SavePassword = false;
-
-
-
 
         if ($('.validate-form').valid()) {
 
@@ -60,17 +65,27 @@ function login(t) {
 
             });
 
-
             // Cancels the form's submit action. Fix αλλιώς δεν παίζει σωστά με το submit button
             // Επίσης πρέπει να μπει μετά το validation, αλλιώς δεν παίζει το validation
             // Θέλει το event στην function, αλλιώς δεν παίζει στον firefox
             // event.preventDefault();
         }
 
+}
+
+function checkIfUserExists(username) {
+    callFile="checkIfUserExists.php?username="+username;
+
+
+    $.get(callFile, function (data) {
+        console.log('data.success '+data['success']);
+
+        return data['success'];
+
+    }, "json");
 
 
 }
-
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateUser(id) {
@@ -93,7 +108,10 @@ function updateUser(id) {
     else callFile="updateUser.php?id="+id+"&username="+username+"&email="+email+
         "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
 
-    if ($('#users_form').valid()) {
+
+
+    if ( $('#users_formID'+id).valid() && password==repeat_password ) {
+
         $.get(callFile, function (data) {
 
             if (data.success == true) {
@@ -103,16 +121,21 @@ function updateUser(id) {
                     UserKeyPressed = false;
                     LastInserted = data.lastInserted;
                     $("#UserID0").prop('id', 'UserID' + LastInserted);
-                    $("#UserID" + LastInserted).find('button[name="update_user"]')
+                    $("#UserID" + LastInserted).find('input[name="update_user"]')
                         .attr("onclick", "updateUser(" + LastInserted + ")");
-                    $("#UserID" + LastInserted).find('button[name="delete_user"]')
+                    $("#UserID" + LastInserted).find('input[name="delete_user"]')
                         .attr("onclick", "deleteUser(" + LastInserted + ")");
                     $("#UserID" + LastInserted).find('span[id^="messageUserID"]').prop('id', 'messageUserID' + LastInserted);
                     $("#messageUserID" + LastInserted).addClassDelay("success", 3000);
                 }
                 else $("#messageUserID" + id).addClassDelay("success", 3000);
             }
-            else $("#messageUserID" + id).addClassDelay("failure", 3000);
+            else if(data.UserExists) {
+                    $("#messageUserID" + id).addClassDelay("failure", 3000);
+                    alert('O Χρήστης '+username+' υπάρχει ήδη');
+                // TODO να εμφανίζει το error σε συγκεκριμένο  div
+                } else $("#messageUserID" + id).addClassDelay("failure", 3000);
+
         }, "json");
     }
 
@@ -134,7 +157,7 @@ function updateAlert(id) {
     callFile="updateAlert.php?id="+id+"&email="+email+"&time_limit="+time_limit+
         "&temp_limit="+temp_limit+"&sensors_id="+sensors_id+"&user_id="+user_id;
 
-    if ($('#alerts_form').valid()) {
+    if ($('#alerts_formID'+id).valid()) {
         $.get(callFile, function (data) {
             if (data.success == 'true') {
 
@@ -142,9 +165,9 @@ function updateAlert(id) {
                     AlertKeyPressed = false;
                     LastInserted = data.lastInserted;
                     $("#AlertID0").prop('id', 'AlertID' + LastInserted);
-                    $("#AlertID" + LastInserted).find('button[name="update_alert"]')
+                    $("#AlertID" + LastInserted).find('input[name="update_alert"]')
                         .attr("onclick", "updateAlert(" + LastInserted + ")");
-                    $("#AlertID" + LastInserted).find('button[name="delete_alert"]')
+                    $("#AlertID" + LastInserted).find('input[name="delete_alert"]')
                         .attr("onclick", "deleteAlert(" + LastInserted + ")");
                     $("#AlertID" + LastInserted).find('span[id^="messageAlertID"]').prop('id', 'messageAlertID' + LastInserted);
                     $("#messageAlertID" + LastInserted).addClassDelay("success", 3000);
@@ -166,7 +189,9 @@ function updateSensor(id) {
 
     callFile="updateSensor.php?id="+id+"&room="+room+"&sensor_name="+sensor_name+"&db_field="+db_field;
 
-    if ($('#sensors_form').valid()) {
+
+
+    if ($('#sensors_formID'+id).valid()) {
         $.get(callFile, function (data) {
             if (data.success == 'true') {
 
@@ -174,8 +199,8 @@ function updateSensor(id) {
                     SensorKeyPressed = false;
                     LastInserted = data.lastInserted;
                     $("#SensorID0").prop('id', 'SensorID' + LastInserted);
-                    $("#SensorID" + LastInserted).find('button[name="update_sensor"]').attr("onclick", "updateSensor(" + LastInserted + ")");
-                    $("#SensorID" + LastInserted).find('button[name="delete_sensor"]').attr("onclick", "deleteSensor(" + LastInserted + ")");
+                    $("#SensorID" + LastInserted).find('input[name="update_sensor"]').attr("onclick", "updateSensor(" + LastInserted + ")");
+                    $("#SensorID" + LastInserted).find('input[name="delete_sensor"]').attr("onclick", "deleteSensor(" + LastInserted + ")");
                     $("#SensorID" + LastInserted).find('span[id^="messageID"]').prop('id', 'messageID' + LastInserted);
                     $("#messageID" + LastInserted).addClassDelay("success", 3000);
                 }
@@ -196,15 +221,15 @@ function updatePower(id) {
 
     callFile="updatePower.php?id="+id+"&room="+room+"&power_name="+power_name;
 
-    if ($('#powers_form').valid()) {
+    if ($('#powers_formID'+id).valid()) {
         $.get(callFile, function (data) {
             if (data.success == 'true') {
                 if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                     PowerKeyPressed = false;
                     LastInserted = data.lastInserted;
                     $("#PowerID0").prop('id', 'PowerID' + LastInserted);
-                    $("#PowerID" + LastInserted).find('button[name="update_power"]').attr("onclick", "updatePower(" + LastInserted + ")");
-                    $("#PowerID" + LastInserted).find('button[name="delete_power"]').attr("onclick", "deletePower(" + LastInserted + ")");
+                    $("#PowerID" + LastInserted).find('input[name="update_power"]').attr("onclick", "updatePower(" + LastInserted + ")");
+                    $("#PowerID" + LastInserted).find('input[name="delete_power"]').attr("onclick", "deletePower(" + LastInserted + ")");
                     $("#PowerID" + LastInserted).find('span[id^="messagePowerID"]').prop('id', 'messagePowerID' + LastInserted);
                     $("#messagePowerID" + LastInserted).addClassDelay("success", 3000);
                 }
@@ -284,14 +309,32 @@ function insertUser() {
         // clone last div row
         $('div[id^="UserID"]:last').clone().insertAfter('div[id^="UserID"]:last').prop('id','UserID0');
         $("#UserID0").find('input[name="username"]').val(''); // clear field values
+        $("#UserID0").find('form').prop('id','users_formID0');
         $("#UserID0").find('input[name="email"]').val('');
         $("#UserID0").find('input[name="fname"]').val('');
         $("#UserID0").find('input[name="lname"]').val('');
+        $("#UserID0").find('input[name="password"]').prop('required',true).prop('id','password0');
+        $("#UserID0").find('input[name="repeat_password"]').prop('required',true).prop('id','0');
         $("#UserID0").find('span[id^="messageUserID"]').text('').prop('id','messageUserID0');
         // αλλάζει την function στο button
-        $("#UserID0").find('button[name="update_user"]').attr("onclick", "updateUser(0)");
-        $("#UserID0").find('button[name="delete_user"]').attr("onclick", "deleteUser(0)");
+        $("#UserID0").find('input[name="update_user"]').attr("onclick", "updateUser(0)");
+        $("#UserID0").find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
         UserKeyPressed=true;
+
+
+
+
+        $('#users_formID0').validate({ // initialize the plugin
+            errorElement: 'div'
+            // rules : {
+            //     repeat_password: {
+            //         equalTo : '[name="password"]'
+            //     }
+            // }
+        });
+
+
+
     }
 }
 
@@ -302,29 +345,44 @@ function insertAlert() {
         // clone last div row
         $('div[id^="AlertID"]:last').clone().insertAfter('div[id^="AlertID"]:last').prop('id','AlertID0');
         $("#AlertID0").find('input[name="email"]').val('');   // clear field values
+        $("#AlertID0").find('form').prop('id','alerts_formID0');
         $("#AlertID0").find('input[name="time_limit"]').val('');
         $("#AlertID0").find('input[name="temp_limit"]').val('');
         $("#AlertID0").find('input[name="sensors_id"]').val('');
         $("#AlertID0").find('span[id^="messageAlertID"]').text('').prop('id','messageAlertID0');
         // αλλάζει την function στο button
-        $("#AlertID0").find('button[name="update_alert"]').attr("onclick", "updateAlert(0)");
-        $("#AlertID0").find('button[name="delete_alert"]').attr("onclick", "deleteAlert(0)");
+        $("#AlertID0").find('input[name="update_alert"]').attr("onclick", "updateAlert(0)");
+        $("#AlertID0").find('input[name="delete_alert"]').attr("onclick", "deleteAlert(0)");
         AlertKeyPressed=true;
+
+        $('#alerts_formID0').validate({ // initialize the plugin
+            errorElement: 'div'
+        });
     }
 }
 
 // Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
 function insertSensor() {
     if(!SensorKeyPressed) {
+        
         // clone last div row
         $('div[id^="SensorID"]:last').clone().insertAfter('div[id^="SensorID"]:last').prop('id','SensorID0');
         $("#SensorID0").find('input').val('');   // clear field values
+        $("#SensorID0").find('form').prop('id','sensors_formID0');
         $("#SensorID0").find('span[id^="messageID"]').text('').prop('id','messageID0');
         // αλλάζει την function στο button
-        $("#SensorID0").find('button[name="update_sensor"]').attr("onclick", "updateSensor(0)");
-        $("#SensorID0").find('button[name="delete_sensor"]').attr("onclick", "deleteSensor(0)");
+        $("#SensorID0").find('input[name="update_sensor"]').attr("onclick", "updateSensor(0)");
+        $("#SensorID0").find('input[name="delete_sensor"]').attr("onclick", "deleteSensor(0)");
         SensorKeyPressed=true;
+
+        $('#sensors_formID0').validate({ // initialize the plugin
+            errorElement: 'div'
+        });
+
+
     }
+    // $("#sensors_form").initValidation();
+
 }
 
 // Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
@@ -334,11 +392,18 @@ function insertPower() {
         // clone last div row
         $('div[id^="PowerID"]:last').clone().insertAfter('div[id^="PowerID"]:last').prop('id','PowerID0');
         $("#PowerID0").find('input').val('');   // clear field values
+        $("#PowerID0").find('form').prop('id','powers_formID0');
         $("#PowerID0").find('span[id^="messagePowerID"]').text('').prop('id','messagePowerID0');
         // αλλάζει την function στο button
-        $("#PowerID0").find('button[name="update_power"]').attr("onclick", "updatePower(0)");
-        $("#PowerID0").find('button[name="delete_power"]').attr("onclick", "deletePower(0)");
+        $("#PowerID0").find('input[name="update_power"]').attr("onclick", "updatePower(0)");
+        $("#PowerID0").find('input[name="delete_power"]').attr("onclick", "deletePower(0)");
         PowerKeyPressed=true;
+
+        $('#powers_formID0').validate({ // initialize the plugin
+            errorElement: 'div'
+        });
+
+
     }
 }
 
@@ -532,21 +597,39 @@ $(function(){
         errorElement: 'div'
     });
 
-    $('#sensors_form').validate({ // initialize the plugin
-        errorElement: 'div'
+
+    $('.users_form').each(function() {  // attach to all form elements on page
+        $(this).validate({       // initialize plugin on each form
+            errorElement: 'div'
+        //     rules : {
+        //         repeat_password: {
+        //             equalTo : '[name="password"]'
+        //         }
+        //     }
+        });
     });
 
-    $('#powers_form').validate({ // initialize the plugin
-        errorElement: 'div'
+    $('.alerts_form').each(function() {  // attach to all form elements on page
+        $(this).validate({       // initialize plugin on each form
+            errorElement: 'div'
+        });
     });
 
-    $('#users_form').validate({ // initialize the plugin
-        errorElement: 'div'
+    $('.powers_form').each(function() {  // attach to all form elements on page
+        $(this).validate({       // initialize plugin on each form
+            errorElement: 'div'
+        });
     });
 
-    $('#alerts_form').validate({ // initialize the plugin
-        errorElement: 'div'
+    $('.sensors_form').each(function() {  // attach to all form elements on page
+        $(this).validate({       // initialize plugin on each form
+            errorElement: 'div'
+        });
     });
+
+
+
+
 
     getTime('#timetext'); // Εμφανίζει την ώρα
 
@@ -564,6 +647,23 @@ $(function(){
         getTime('#timetext');
 
     }, 1000);
+
+
+    // Έλεγχος αν το repeat password  συμφωνεί με το password
+    $('input[name=repeat_password]').keyup(function () {
+        curEl=eval($(document.activeElement).prop('id'));
+
+        // console.log($('#password'+curEl).val());
+
+        if ($('#password'+curEl).val() === $(this).val()) {
+            $(this)[0].setCustomValidity('');
+
+        } else {
+            $(this)[0].setCustomValidity('Passwords must match');
+        }
+
+    });
+    
 
 
 

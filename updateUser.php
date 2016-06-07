@@ -37,10 +37,19 @@ else $lname='';
 $conn = new RoceanDB();
 $conn->CreateConnection();
 
+
+
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
-    if($inserted_id=$conn->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) // Δημιουργεί τον χρήστη
-        $jsonArray=array( 'success'=>true, 'lastInserted'=>$inserted_id);
-    else $jsonArray=array( 'success'=>false);
+
+    $IsUserExist=$conn->checkIfUserExists($username);  // Ελέγχει αν χρήστης υπάρχει ήδη
+    
+    if(!$IsUserExist){
+        if($inserted_id=$conn->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) // Δημιουργεί τον χρήστη
+            $jsonArray=array( 'success'=>true, 'lastInserted'=>$inserted_id);
+        else $jsonArray=array( 'success'=>false);
+    }
+    else $jsonArray=array( 'success'=>false, 'UserExists'=>true);
+    
 }
 
 else {   // αλλιώς κάνει update
