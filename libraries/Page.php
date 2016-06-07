@@ -108,7 +108,7 @@ class Page
     function MakeForm($action, $form_elements)
     {
         ?>
-        <form name="loginForm" method="post" id="loginForm" >
+        <form class="validate-form">
             <?php
             foreach ($form_elements as $item) {
                 ?>
@@ -123,11 +123,11 @@ class Page
                            <?php if(!$item['maxlength']=='')echo 'maxlength='.$item['maxlength']; ?>
                            <?php if(!$item['pattern']=='')echo 'pattern='.$item['pattern']; ?>
                            <?php if(!$item['title']=='')echo 'title="'.$item['title'].'"'; ?>
-                           <?php if($item['required']=='yes') echo ' required=required '; ?>
+                           <?php if($item['required']=='yes') echo ' required '; ?>
                            <?php echo 'placeholder="'.$item['fieldtext'].'"'; ?>
                     >
                 </div>
-                <span class="status"></span>
+ 
                 <?php
             }
             ?>

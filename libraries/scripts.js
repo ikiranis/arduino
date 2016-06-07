@@ -26,27 +26,7 @@ $.fn.addClassDelay = function(className,delay) {
 };
 
 
-// Ελέγχει όλα τα πεδία της φόρμας αν είναι valid
-function CheckValidForm (element) {
-    ValidFieldsOK=0;
 
-    $(element).find('input').each(function(){
-        if(!$(this)[0].checkValidity()){
-            ValidFieldsOK++;
-            $(this).append()
-
-        }
-    });
-    
-    
-
-    if(ValidFieldsOK==0) return true;
-    else return false;
-}
-
-function hasHtml5Validation () {
-    return typeof document.createElement('input').checkValidity === 'function';
-}
 
 // Έλεγχος του login
 function login(t) {
@@ -59,22 +39,10 @@ function login(t) {
             SavePassword = true;
         else SavePassword = false;
 
-    // if (hasHtml5Validation()) {
-    //     $('.validate-form').submit(function (e) {
-    //         if (!this.checkValidity()) {
-    //             // Prevent default stops form from firing
-    //             // e.preventDefault();
-    //             $(this).addClass('invalid');
-    //             $('#status').html('invalid');
-    //         } else {
-    //             $(this).removeClass('invalid');
-    //             $('#status').html('submitted');
-    //         }
-    //     });
-    // }
 
 
-        if ($('#loginForm').valid()) {
+
+        if ($('.validate-form').valid()) {
 
             // alert(username + ' ' + password + ' ' + SavePassword);
 
@@ -125,27 +93,28 @@ function updateUser(id) {
     else callFile="updateUser.php?id="+id+"&username="+username+"&email="+email+
         "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
 
-    $.get( callFile, function( data ) {
+    if ($('#users_form').valid()) {
+        $.get(callFile, function (data) {
 
-        if(data.success==true) {
-            // console.log(data.success);
+            if (data.success == true) {
+                // console.log(data.success);
 
-            if (id==0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
-                UserKeyPressed=false;
-                LastInserted=data.lastInserted;
-                $("#UserID0").prop('id','UserID'+LastInserted);
-                $("#UserID"+LastInserted).find('button[name="update_user"]')
-                    .attr("onclick", "updateUser("+LastInserted+")");
-                $("#UserID"+LastInserted).find('button[name="delete_user"]')
-                    .attr("onclick", "deleteUser("+LastInserted+")");
-                $("#UserID"+LastInserted).find('span[id^="messageUserID"]').prop('id','messageUserID'+LastInserted);
-                $("#messageUserID"+LastInserted).addClassDelay("success",3000);
+                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                    UserKeyPressed = false;
+                    LastInserted = data.lastInserted;
+                    $("#UserID0").prop('id', 'UserID' + LastInserted);
+                    $("#UserID" + LastInserted).find('button[name="update_user"]')
+                        .attr("onclick", "updateUser(" + LastInserted + ")");
+                    $("#UserID" + LastInserted).find('button[name="delete_user"]')
+                        .attr("onclick", "deleteUser(" + LastInserted + ")");
+                    $("#UserID" + LastInserted).find('span[id^="messageUserID"]').prop('id', 'messageUserID' + LastInserted);
+                    $("#messageUserID" + LastInserted).addClassDelay("success", 3000);
+                }
+                else $("#messageUserID" + id).addClassDelay("success", 3000);
             }
-            else $("#messageUserID"+id).addClassDelay("success",3000);
-        }
-        else $("#messageUserID"+id).addClassDelay("failure",3000);
-    }, "json" );
-
+            else $("#messageUserID" + id).addClassDelay("failure", 3000);
+        }, "json");
+    }
 
 }
 
@@ -165,25 +134,26 @@ function updateAlert(id) {
     callFile="updateAlert.php?id="+id+"&email="+email+"&time_limit="+time_limit+
         "&temp_limit="+temp_limit+"&sensors_id="+sensors_id+"&user_id="+user_id;
 
-    $.get( callFile, function( data ) {
-        if(data.success=='true') {
+    if ($('#alerts_form').valid()) {
+        $.get(callFile, function (data) {
+            if (data.success == 'true') {
 
-            if (id==0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
-                AlertKeyPressed=false;
-                LastInserted=data.lastInserted;
-                $("#AlertID0").prop('id','AlertID'+LastInserted);
-                $("#AlertID"+LastInserted).find('button[name="update_alert"]')
-                    .attr("onclick", "updateAlert("+LastInserted+")");
-                $("#AlertID"+LastInserted).find('button[name="delete_alert"]')
-                    .attr("onclick", "deleteAlert("+LastInserted+")");
-                $("#AlertID"+LastInserted).find('span[id^="messageAlertID"]').prop('id','messageAlertID'+LastInserted);
-                $("#messageAlertID"+LastInserted).addClassDelay("success",3000);
+                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                    AlertKeyPressed = false;
+                    LastInserted = data.lastInserted;
+                    $("#AlertID0").prop('id', 'AlertID' + LastInserted);
+                    $("#AlertID" + LastInserted).find('button[name="update_alert"]')
+                        .attr("onclick", "updateAlert(" + LastInserted + ")");
+                    $("#AlertID" + LastInserted).find('button[name="delete_alert"]')
+                        .attr("onclick", "deleteAlert(" + LastInserted + ")");
+                    $("#AlertID" + LastInserted).find('span[id^="messageAlertID"]').prop('id', 'messageAlertID' + LastInserted);
+                    $("#messageAlertID" + LastInserted).addClassDelay("success", 3000);
+                }
+                else $("#messageAlertID" + id).addClassDelay("success", 3000);
             }
-            else $("#messageAlertID"+id).addClassDelay("success",3000);
-        }
-        else $("#messageAlertID"+id).addClassDelay("failure",3000);
-    }, "json" );
-
+            else $("#messageAlertID" + id).addClassDelay("failure", 3000);
+        }, "json");
+    }
 
 }
 
@@ -195,24 +165,25 @@ function updateSensor(id) {
     db_field=$("#SensorID"+id).find('input[name="db_field"]').val();
 
     callFile="updateSensor.php?id="+id+"&room="+room+"&sensor_name="+sensor_name+"&db_field="+db_field;
-    
-    $.get( callFile, function( data ) {
-        if(data.success=='true') {
 
-            if (id==0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
-                SensorKeyPressed=false;
-                LastInserted=data.lastInserted;
-                $("#SensorID0").prop('id','SensorID'+LastInserted);
-                $("#SensorID"+LastInserted).find('button[name="update_sensor"]').attr("onclick", "updateSensor("+LastInserted+")");
-                $("#SensorID"+LastInserted).find('button[name="delete_sensor"]').attr("onclick", "deleteSensor("+LastInserted+")");
-                $("#SensorID"+LastInserted).find('span[id^="messageID"]').prop('id','messageID'+LastInserted);
-                $("#messageID"+LastInserted).addClassDelay("success",3000);
+    if ($('#sensors_form').valid()) {
+        $.get(callFile, function (data) {
+            if (data.success == 'true') {
+
+                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                    SensorKeyPressed = false;
+                    LastInserted = data.lastInserted;
+                    $("#SensorID0").prop('id', 'SensorID' + LastInserted);
+                    $("#SensorID" + LastInserted).find('button[name="update_sensor"]').attr("onclick", "updateSensor(" + LastInserted + ")");
+                    $("#SensorID" + LastInserted).find('button[name="delete_sensor"]').attr("onclick", "deleteSensor(" + LastInserted + ")");
+                    $("#SensorID" + LastInserted).find('span[id^="messageID"]').prop('id', 'messageID' + LastInserted);
+                    $("#messageID" + LastInserted).addClassDelay("success", 3000);
+                }
+                else $("#messageID" + id).addClassDelay("success", 3000);
             }
-            else $("#messageID"+id).addClassDelay("success",3000);
-        }
-        else $("#messageID"+id).addClassDelay("failure",3000);
-    }, "json" );
-
+            else $("#messageID" + id).addClassDelay("failure", 3000);
+        }, "json");
+    }
 
 }
 
@@ -225,22 +196,23 @@ function updatePower(id) {
 
     callFile="updatePower.php?id="+id+"&room="+room+"&power_name="+power_name;
 
-    $.get( callFile, function( data ) {
-        if(data.success=='true') {
-            if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
-                PowerKeyPressed = false;
-                LastInserted = data.lastInserted;
-                $("#PowerID0").prop('id', 'PowerID' + LastInserted);
-                $("#PowerID" + LastInserted).find('button[name="update_power"]').attr("onclick", "updatePower(" + LastInserted + ")");
-                $("#PowerID" + LastInserted).find('button[name="delete_power"]').attr("onclick", "deletePower(" + LastInserted + ")");
-                $("#PowerID" + LastInserted).find('span[id^="messagePowerID"]').prop('id', 'messagePowerID' + LastInserted);
-                $("#messagePowerID" + LastInserted).addClassDelay("success",3000);
+    if ($('#powers_form').valid()) {
+        $.get(callFile, function (data) {
+            if (data.success == 'true') {
+                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                    PowerKeyPressed = false;
+                    LastInserted = data.lastInserted;
+                    $("#PowerID0").prop('id', 'PowerID' + LastInserted);
+                    $("#PowerID" + LastInserted).find('button[name="update_power"]').attr("onclick", "updatePower(" + LastInserted + ")");
+                    $("#PowerID" + LastInserted).find('button[name="delete_power"]').attr("onclick", "deletePower(" + LastInserted + ")");
+                    $("#PowerID" + LastInserted).find('span[id^="messagePowerID"]').prop('id', 'messagePowerID' + LastInserted);
+                    $("#messagePowerID" + LastInserted).addClassDelay("success", 3000);
+                }
+                else $("#messagePowerID" + id).addClassDelay("success", 3000);
             }
-            else $("#messagePowerID"+id).addClassDelay("success",3000);
-        }
-        else $("#messagePowerID"+id).addClassDelay("failure",3000);
-    }, "json" );
-
+            else $("#messagePowerID" + id).addClassDelay("failure", 3000);
+        }, "json");
+    }
 }
 
 // Σβήνει την εγγραφή στο sensors
@@ -556,7 +528,25 @@ function getTime(name) {
 }
 
 $(function(){
-    $('#loginForm').validate();
+    $('.validate-form').validate({ // initialize the plugin
+        errorElement: 'div'
+    });
+
+    $('#sensors_form').validate({ // initialize the plugin
+        errorElement: 'div'
+    });
+
+    $('#powers_form').validate({ // initialize the plugin
+        errorElement: 'div'
+    });
+
+    $('#users_form').validate({ // initialize the plugin
+        errorElement: 'div'
+    });
+
+    $('#alerts_form').validate({ // initialize the plugin
+        errorElement: 'div'
+    });
 
     getTime('#timetext'); // Εμφανίζει την ώρα
 

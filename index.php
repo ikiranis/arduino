@@ -7,10 +7,10 @@
  * Time: 01:17
  */
 
-// TODO Έλεγχος πεδίων παντού
+
 // TODO Αρχικός έλεγχος αν υπάρχουν χρήστες στην βάση, αλλιώς κάνε registration του χρήστη σαν admin
 // TODO Έλεγχος στο registration αν ο χρήστης υπάρχει ήδη
-// TODO Δεν παίζει το validation στον safari. Κάνει clear την form αντί να βγάλει μήνυμα
+
 
 
 require_once ('libraries/common.inc.php');

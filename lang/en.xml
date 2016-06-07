@@ -75,5 +75,20 @@
         <phrase name="show_statistcs">Graph</phrase>
     </page>
 
+    <page name="validation_errors">
+        <phrase name="valid_username">Required. At least 5 characters. Only latin alphanumerics. Not special characters</phrase>
+        <phrase name="valid_password">Required. At least 8 characters. Only latin alphanumerics. Must contain at least one number and one uppercase and lowercase letter</phrase>
+        <phrase name="valid_register_password">Not Required. At least 8 characters. Only latin alphanumerics. Must contain at least one number and one uppercase and lowercase letter</phrase>
+        <phrase name="valid_room">Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_sensor">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_dbfield">Required. At least 3 characters. Only latin alphanumerics. Not special characters</phrase>
+        <phrase name="valid_power_name">Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_email">Required. Valid email</phrase>
+        <phrase name="valid_fname">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_lname">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_time_limit">Required. Valid number</phrase>
+        <phrase name="valid_temp_limit">Required. Valid number</phrase>
+    </page>
+
 
 </language>
