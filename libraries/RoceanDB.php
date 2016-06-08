@@ -445,5 +445,23 @@ class RoceanDB
 
     }
 
+    public function updateDBStatus ($newStatus) {
+        self::CreateConnection();
+
+        $sql = 'UPDATE status SET dbstatus=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        if($stmt->execute(array($newStatus)))
+
+            $result=true;
+        
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+        
+        return $result;
+    }
+
 }
 

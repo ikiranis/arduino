@@ -10,6 +10,7 @@
  */
 
 // TODO να γίνει και έλεγχος για inserts και να σώζει στην βάση αν είναι ON ή OFF
+// TODO να φτιαχτούν τα κείμενα για την αποστολή email
 
 require_once('libraries/common.inc.php');
 require_once ('libraries/PHPMailer/PHPMailerAutoload.php');
@@ -76,12 +77,37 @@ function CheckForAlerts() {
 }
 
 
+function CheckForMysqlAlive() {
+    global $conn;
+
+    $sql = 'SELECT UNIX_TIMESTAMP(time) FROM data ORDER BY time DESC';
+    $stmt = RoceanDB::$conn->prepare($sql);
+
+    $stmt->execute();
+
+    if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        $diff= time()-$item['UNIX_TIMESTAMP(time)']; // Διαφορά της τρέχουσας ώρας με την ώρα της τελευταίας εγγραφής
+
+        // Αν η διαφορά είναι μικρότερη από το 10 τότε η mysql είναι ζωντανή (true), αλλιώς false
+        if($diff<intval((INTERVAL_VALUE*2)-(INTERVAL_VALUE/2)))
+            $conn->updateDBStatus(true);
+        else $conn->updateDBStatus(false);
+
+
+    }
+
+    $stmt->closeCursor();
+    $stmt = null;
+}
+
 
 
 $counter=1;
 
 do {     // loop του demon. Τρέχει στο crontab ανά ένα λεπτό. Οπότε οι ενδιάμεσοι έλεγχοι γίνονται με αυτό το loop
     CheckForAlerts();
+    CheckForMysqlAlive();
     $counter++;
     sleep(INTERVAL_VALUE);
 } while ($counter<((60/INTERVAL_VALUE)+1));    // Αν το INTERVAL_VALUE είναι 5 τότε εκτελείται 12 φορές το λεπτό

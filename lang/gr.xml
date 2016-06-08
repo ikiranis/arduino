@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language name="gr">
-
+    <!--TODO να βγάλω τα : από τα login items-->
     <page name="login">
         <phrase name="user_logged_in">Είσοδος χρήστη: </phrase>
         <phrase name="form_user_name">Όνομα χρήστη: </phrase>

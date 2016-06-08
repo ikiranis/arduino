@@ -105,10 +105,10 @@ class Page
 // );
 
 
-    function MakeForm($action, $form_elements)
+    function MakeForm($name, $form_elements)
     {
         ?>
-        <form class="validate-form">
+        <form class="validate-form" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
             <?php
             foreach ($form_elements as $item) {
                 ?>

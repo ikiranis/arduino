@@ -25,18 +25,35 @@ $.fn.addClassDelay = function(className,delay) {
     },delay);
 };
 
-(function ($) {
 
-    $.fn.initValidation = function () {
+// Εισαγωγή αρχικού χρήστη admin
+function registerUser() {
+    username = $("#RegisterUserWindow").find('input[name="username"]').val();
+    email = $("#RegisterUserWindow").find('input[name="email"]').val();
+    password = $("#RegisterUserWindow").find('input[name="password"]').val();
+    repeat_password = $("#RegisterUserWindow").find('input[name="repeat_password"]').val();
 
-        $(this).removeData("validator");
-        $(this).removeData("unobtrusiveValidation");
-        $.validator.unobtrusive.parse(this);
+    if ($('#RegisterForm').valid()) {
 
-        return this;
-    };
 
-}(jQuery));
+        callFile = "registerUser.php?username=" + username + "&password=" + password + "&email=" + email;
+
+        $.get(callFile, function (data) {
+
+            result = JSON.parse(data);
+            console.log(result['success']);
+            if (result['success'] == true) {
+
+                window.location.href = "index.php";
+            }
+            else  alert('Δεν έγινε εισαγωγή του χρήστη');
+
+        });
+
+
+    }
+
+}
 
 
 // Έλεγχος του login
@@ -47,7 +64,7 @@ function login() {
             SavePassword = true;
         else SavePassword = false;
 
-        if ($('.validate-form').valid()) {
+        if ($('#LoginForm').valid()) {
 
             // alert(username + ' ' + password + ' ' + SavePassword);
 
@@ -73,19 +90,8 @@ function login() {
 
 }
 
-function checkIfUserExists(username) {
-    callFile="checkIfUserExists.php?username="+username;
 
 
-    $.get(callFile, function (data) {
-        console.log('data.success '+data['success']);
-
-        return data['success'];
-
-    }, "json");
-
-
-}
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateUser(id) {
@@ -593,8 +599,17 @@ function getTime(name) {
 }
 
 $(function(){
-    $('.validate-form').validate({ // initialize the plugin
+    $('#LoginForm').validate({ // initialize the plugin
         errorElement: 'div'
+    });
+
+    $('#RegisterForm').validate({ // initialize the plugin
+        errorElement: 'div',
+             rules : {
+                 repeat_password: {
+                     equalTo : '[name="password"]'
+                 }
+             }
     });
 
 
@@ -650,12 +665,27 @@ $(function(){
 
 
     // Έλεγχος αν το repeat password  συμφωνεί με το password
-    $('input[name=repeat_password]').keyup(function () {
+    $('.UsersList').find('input[name=repeat_password]').keyup(function () {
         curEl=eval($(document.activeElement).prop('id'));
 
         // console.log($('#password'+curEl).val());
 
         if ($('#password'+curEl).val() === $(this).val()) {
+            $(this)[0].setCustomValidity('');
+
+        } else {
+            $(this)[0].setCustomValidity('Passwords must match');
+        }
+
+    });
+
+
+    $('#RegisterForm').find('input[name=repeat_password]').keyup(function () {
+        // curEl=eval($(document.activeElement).prop('id'));
+        //
+        // console.log($(this).val());
+
+        if ($('input[name=password]').val() === $(this).val()) {
             $(this)[0].setCustomValidity('');
 
         } else {

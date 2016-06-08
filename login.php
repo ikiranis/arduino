@@ -105,7 +105,7 @@ function showLoginWindow()
                 'onclick' => '',
                 'required' => 'yes',
                 'maxlength' => '15',
-                'pattern' => '^[a-zA-Z0-9]+$',  // (?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}
+                'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
                 'title' => __('valid_password'),
                 'value' => null),
             array('name' => 'SavePassword',
@@ -128,7 +128,7 @@ function showLoginWindow()
                 'value' => __('form_login'))
         );
 
-        $LoginWindow->MakeForm('', $FormElementsArray);
+        $LoginWindow->MakeForm('LoginForm', $FormElementsArray);
         
         // TODO να το κάνω να στέλνει και όταν πατηθεί enter
         $languages_text=$lang->print_languages('lang_id',' ',true,false);
@@ -150,10 +150,11 @@ function showLoginWindow()
 function ShowRegisterUser()
 {
     $RegisterUserWindow = new Page();
+    $lang=new Language();
 
 
     ?>
-
+    <main>
     <div id="RegisterUserWindow">
 
 
@@ -163,31 +164,64 @@ function ShowRegisterUser()
         $FormElementsArray = array(
             array('name' => 'username',
                 'fieldtext' => __('form_user_name'),
-                'type' => 'text'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'yes',
+                'maxlength' => '15',
+                'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
+                'title' => __('valid_username'),
+                'value' => null),
             array('name' => 'email',
                 'fieldtext' => __('form_email'),
-                'type' => 'text',
+                'type' => 'email',
+                'onclick' => '',
+                'required' => 'yes',
+                'maxlength' => '50',
+                'pattern' => '',
+                'title' => __('valid_email'),
                 'value' => null),
             array('name' => 'password',
                 'fieldtext' => __('form_password'),
                 'type' => 'password',
+                'onclick' => '',
+                'required' => 'yes',
+                'maxlength' => '15',
+                'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                'title' => __('valid_password'),
                 'value' => null),
             array('name' => 'repeat_password',
                 'fieldtext' => __('form_repeat_password'),
                 'type' => 'password',
+                'onclick' => '',
+                'required' => 'yes',
+                'maxlength' => '15',
+                'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                'title' => __('valid_password'),
                 'value' => null),
             array('name' => 'register',
                 'fieldtext' => '',
-                'type' => 'submit',
+                'type' => 'button',
+                'onclick' => 'registerUser();',
+                'required' => 'no',
+                'maxlength' => '',
+                'pattern' => '',
+                'title' => '',
                 'value' => __('form_register'))
         );
 
-        $RegisterUserWindow->MakeForm('login.php', $FormElementsArray);
+        $RegisterUserWindow->MakeForm('RegisterForm', $FormElementsArray);
 
+        $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
         ?>
+        <div id="languages">
+            <?php echo $languages_text; ?>
+        </div>
+
 
     </div>
+
+    </main>
 
 
     <?php

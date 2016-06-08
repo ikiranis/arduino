@@ -8,10 +8,6 @@
  */
 
 
-// TODO Αρχικός έλεγχος αν υπάρχουν χρήστες στην βάση, αλλιώς κάνε registration του χρήστη σαν admin
-
-
-
 
 require_once ('libraries/common.inc.php');
 require_once ('login.php');
@@ -78,15 +74,18 @@ $MainPage->showMainBar($timediv, $LoginNameText);
 
 
 
-if(!$logged_in) showLoginWindow();
+if(!$logged_in) {
+    if ($conn->CheckIfThereIsUsers())
+        showLoginWindow();
+    else ShowRegisterUser();
+}
+
 
 if($logged_in) DisplayMainPage();
 
 
 
 $MainPage->showFooter();
-
-
 
 
 

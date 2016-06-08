@@ -302,7 +302,7 @@ class Arduino
         else $stmt->execute(array($userID));
 
         ?>
-        <div class="ListTable">
+        <div class="ListTable UsersList">
 
 
 
