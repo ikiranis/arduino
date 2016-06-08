@@ -2,14 +2,14 @@
 <language name="en">
 
     <page name="login">
-        <phrase name="user_logged_in">User Logged in: </phrase>
-        <phrase name="form_user_name">Username: </phrase>
-        <phrase name="form_password">Password: </phrase>
-        <phrase name="form_repeat_password">Repeat Password: </phrase>
-        <phrase name="form_save_password">Don't Forget: </phrase>
+        <phrase name="user_logged_in">User Logged in </phrase>
+        <phrase name="form_user_name">Username </phrase>
+        <phrase name="form_password">Password </phrase>
+        <phrase name="form_repeat_password">Repeat Password </phrase>
+        <phrase name="form_save_password">Don't Forget </phrase>
         <phrase name="form_login">Login</phrase>
-        <phrase name="form_email">E-mail: </phrase>
-        <phrase name="form_register">Register: </phrase>
+        <phrase name="form_email">E-mail </phrase>
+        <phrase name="form_register">Register </phrase>
         <phrase name="register_with_success">Registration completed successfully</phrase>
         <phrase name="not_the_same_password">Not the same password</phrase>
         <phrase name="user_is_founded">User is founded</phrase>

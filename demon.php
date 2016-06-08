@@ -9,8 +9,11 @@
  * PHP Mailer https://github.com/PHPMailer/PHPMailer
  */
 
-// TODO να γίνει και έλεγχος για inserts και να σώζει στην βάση αν είναι ON ή OFF
+
 // TODO να φτιαχτούν τα κείμενα για την αποστολή email
+// TODO όταν ξαναανοίγει η βάση να επεναφέρει τους διακόπτες στην προηγούμενη κατάσταση
+// TODO να κάνω το demon να τρέχει ανα 5 δευτερόλεπτα από το crontab
+// TODO να βάλω το INTERVAL_VALUE στην βάση σαν option και να φτιάξω και αντίστοιχο editing στα settings
 
 require_once('libraries/common.inc.php');
 require_once ('libraries/PHPMailer/PHPMailerAutoload.php');
@@ -91,8 +94,8 @@ function CheckForMysqlAlive() {
 
         // Αν η διαφορά είναι μικρότερη από το 10 τότε η mysql είναι ζωντανή (true), αλλιώς false
         if($diff<intval((INTERVAL_VALUE*2)-(INTERVAL_VALUE/2)))
-            $conn->updateDBStatus(true);
-        else $conn->updateDBStatus(false);
+            $conn->changeOption('dbstatus', 'on');
+        else $conn->changeOption('dbstatus', 'off');
 
 
     }

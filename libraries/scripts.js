@@ -415,11 +415,12 @@ function insertPower() {
 
 
 // Έλεγχος αν συνεχίζουν να γίνονται inserts στην βάση
-function checkIfMysqlIsAlive() {
-    $.get( "checkIfMysqlIsAlive.php", function( data ) {   // Αλλαγή του status
-        if (data.DBStatus==true)
-            $("#MysqlStatusText").text("ON").removeClass('SensorsOFF').addClass('SensorsON');
-        else $("#MysqlStatusText").text("OFF").removeClass('SensorsON').addClass('SensorsOFF');
+function checkIfMysqlIsAlive(element) {
+
+    $.get( "getDBstatus.php", function( data ) {   // Αλλαγή του status
+        if (data.DBStatus=="on")
+            $(element).text("ON").removeClass('SensorsOFF').addClass('SensorsON');
+        else $(element).text("OFF").removeClass('SensorsON').addClass('SensorsOFF');
 
 
     }, "json" );
@@ -651,9 +652,9 @@ $(function(){
     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
 
-    // TODO ο έλεγχος αυτός να γίνεται στο σχετικό πεδίο της βάσης το οποίο θα σετάρεται από το demon
+
     setInterval(function(){
-        checkIfMysqlIsAlive();
+        checkIfMysqlIsAlive('#MysqlStatusText');
 
     }, IntervalValue*1000);
 

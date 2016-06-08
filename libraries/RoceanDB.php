@@ -445,13 +445,14 @@ class RoceanDB
 
     }
 
-    public function updateDBStatus ($newStatus) {
+    // Αλλάζει το $value ενός $option
+    public function changeOption ($option, $value) {
         self::CreateConnection();
 
-        $sql = 'UPDATE status SET dbstatus=?';
+        $sql = 'UPDATE options SET option_value=? WHERE option_name=?';
         $stmt = RoceanDB::$conn->prepare($sql);
 
-        if($stmt->execute(array($newStatus)))
+        if($stmt->execute(array($value, $option)))
 
             $result=true;
         
@@ -460,6 +461,46 @@ class RoceanDB
         $stmt->closeCursor();
         $stmt = null;
         
+        return $result;
+    }
+
+    // Δημιουργία ενός option
+    public function createOption ($option, $value, $setting) {
+        self::CreateConnection();
+
+        $sql = 'INSERT INTO options (option_name, option_value, setting) VALUES(?,?,?)';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        if($stmt->execute(array($option, $value, $setting)))
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Ανάγνωση ενός option
+    public function getOption ($option) {
+        self::CreateConnection();
+
+        $sql = 'SELECT option_value FROM options WHERE option_name=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($option));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item['option_value'];
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
         return $result;
     }
 

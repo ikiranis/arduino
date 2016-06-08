@@ -6,6 +6,7 @@
  * Time: 22:22
  */
 
+// TODO όταν ανοιγοκλείνει να εκτελεί και ανάλογο σκριπτ με exec. Να δω πιο θα είναι αυτό
 
 require_once('libraries/common.inc.php');
 

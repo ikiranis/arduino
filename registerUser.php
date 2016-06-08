@@ -36,6 +36,12 @@ else {
 }
 
 
+$dbstatus=$conn->getOption('dbstatus');
+
+if(!$dbstatus)
+    $conn->createOption('dbstatus','off',0);
+
+
 echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
 
 ?>

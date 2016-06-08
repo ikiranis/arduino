@@ -527,6 +527,7 @@ class Arduino
 
     }
     
+    // TODO Να δω τι άλλο μπορεί να έχει το dashboard
     // TODO Να εμφανίζει alerts που έχουν γίνει. Και όλα τα άλλα πεδία του dashboard
     static function showDashboard () {
         ?>
@@ -534,8 +535,20 @@ class Arduino
 
         <p><?php echo __('system_time'); echo date('Y-m-d H:i:s',time()); ?></p>
         <p><?php echo __('system_temperature'); echo '99&deg; C'?></p>
-        <p><?php echo __('system_status'); echo 'ON'?></p>
-        <p><?php echo __('db_status'); echo 'ON'?></p>
+        <p><?php echo __('system_status');?><span id="dbstatus"></span></p>
+ 
+
+
+        <script type="text/javascript">
+
+            setInterval(function(){
+                checkIfMysqlIsAlive('#dbstatus');
+
+            }, IntervalValue*1000);
+
+        </script>
+        
+        
         <?php
     }
 
