@@ -62,7 +62,7 @@ do {
     $stmt->execute($ArrayValues);
     $counter++;
     sleep(5);
-} while ($counter<13);
+} while ($counter<12);
 
 $stmt->closeCursor();
 $stmt = null;

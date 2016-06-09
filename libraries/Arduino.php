@@ -159,14 +159,14 @@ class Arduino
     // Εμφάνιση των εγγραφών των sensors σε μορφή form fields για editing
     static function getSensorsInFormFields () {
         $conn = new RoceanDB();
-        $conn->CreateConnection();
 
-        $sql = 'SELECT * FROM sensors';
-        $stmt = RoceanDB::$conn->prepare($sql);
 
-        $stmt->execute();
+        $sensors=$conn->getTableArray('sensors', null, null, null);  // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
-        // TODO να θέτει μηδενικές αρχικές τιμές αν δεν υπάρχει καμιά εγγραφή, όπως κάνει στα alerts
+        if(empty($sensors)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
+            $sensors[]=array('id'=>'0', 'room'=>'', 'sensor_name'=>'', 'db_field'=>'');
+        }
+
 
         ?>
             <div class="ListTable">
@@ -176,34 +176,34 @@ class Arduino
         <?php
 
 
-                while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+                foreach($sensors as $sensor)
                 {
                 ?>
 
-                    <div class="SensorsRow" id="SensorID<?php echo $item['id']; ?>">
-                        <form class="table_form sensors_form" id="sensors_formID<?php echo $item['id']; ?>">
+                    <div class="SensorsRow" id="SensorID<?php echo $sensor['id']; ?>">
+                        <form class="table_form sensors_form" id="sensors_formID<?php echo $sensor['id']; ?>">
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('sensors_room'); ?>"
                                                         title="<?php echo __('valid_room'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$'
                                                         maxlength="15" required type="text" id="room" name="room"
-                                                        value="<?php echo $item['room']; ?>"></span>
+                                                        value="<?php echo $sensor['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('sensors_sensor'); ?>"
                                                         title="<?php echo __('valid_sensor'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ ][a-zA-ZΆ-Ϋά-ώ0-9- _\.]{2,20}$'
-                                                        maxlength="20"  type="text"  id="sensor_name" name="sensor_name" value="<?php echo $item['sensor_name']; ?>"></span>
+                                                        maxlength="20"  type="text"  id="sensor_name" name="sensor_name" value="<?php echo $sensor['sensor_name']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('sensors_dbfield'); ?>"
                                                         title="<?php echo __('valid_dbfield'); ?>"
                                                         pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{2,20}$'
-                                                        maxlength="20" required type="text"  id=="db_field" name="db_field" value="<?php echo $item['db_field']; ?>"></span>
+                                                        maxlength="20" required type="text"  id=="db_field" name="db_field" value="<?php echo $sensor['db_field']; ?>"></span>
 
-                        <input type="button" class="update_button button_img" name="update_sensor" title="<?php echo __('update_row'); ?>" onclick="updateSensor(<?php echo $item['id']; ?>);">
+                        <input type="button" class="update_button button_img" name="update_sensor" title="<?php echo __('update_row'); ?>" onclick="updateSensor(<?php echo $sensor['id']; ?>);">
 
-                        <input type="button" class="delete_button button_img" name="delete_sensor" title="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $item['id']; ?>);">
+                        <input type="button" class="delete_button button_img" name="delete_sensor" title="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $sensor['id']; ?>);">
 
-                        <span class="message" id="messageID<?php echo $item['id']; ?>"></span>
+                        <span class="message" id="messageID<?php echo $sensor['id']; ?>"></span>
                         </form>
                     </div>
 
@@ -216,22 +216,21 @@ class Arduino
             
         <?php
 
-        $stmt->closeCursor();
-        $stmt = null;
+
 
     }
 
     // Εμφάνιση των εγγραφών των power σε μορφή form fields για editing
     static function getPowerInFormFields () {
         $conn = new RoceanDB();
-        $conn->CreateConnection();
 
-        $sql = 'SELECT * FROM power';
-        $stmt = RoceanDB::$conn->prepare($sql);
 
-        $stmt->execute();
+        $powers=$conn->getTableArray('power', null, null, null);  // Παίρνει τα δεδομένα του πίνακα power σε array
 
-        // TODO να θέτει μηδενικές αρχικές τιμές αν δεν υπάρχει καμιά εγγραφή, όπως κάνει στα alerts
+        if(empty($powers)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
+            $powers[]=array('id'=>'0', 'room'=>'', 'power_name'=>'');
+        }
+
 
         ?>
             <div class="ListTable">
@@ -242,27 +241,27 @@ class Arduino
         <?php
 
 
-                while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+                foreach($powers as $power)
                 {
                     ?>
-                    <div class="PowersRow" id="PowerID<?php echo $item['id']; ?>">
-                        <form class="table_form powers_form" id="powers_formID<?php echo $item['id']; ?>">
+                    <div class="PowersRow" id="PowerID<?php echo $power['id']; ?>">
+                        <form class="table_form powers_form" id="powers_formID<?php echo $power['id']; ?>">
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('power_room'); ?>"
                                                         title="<?php echo __('valid_room'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$'
-                                                        maxlength="15" required type="text" name="room" value="<?php echo $item['room']; ?>"></span>
+                                                        maxlength="15" required type="text" name="room" value="<?php echo $power['room']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('power_switch'); ?>"
                                                         title="<?php echo __('valid_power_name'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ ][a-zA-ZΆ-Ϋά-ώ0-9- _\.]{2,20}$'
-                                                        maxlength="20" required type="text" name="power_name" value="<?php echo $item['power_name']; ?>"></span>
+                                                        maxlength="20" required type="text" name="power_name" value="<?php echo $power['power_name']; ?>"></span>
                         
-                        <input type="button" class="update_button button_img" name="update_power" title="<?php echo __('update_row'); ?>" onclick="updatePower(<?php echo $item['id']; ?>);"">
+                        <input type="button" class="update_button button_img" name="update_power" title="<?php echo __('update_row'); ?>" onclick="updatePower(<?php echo $power['id']; ?>);"">
  
-                        <input type="button" class="delete_button button_img" name="delete_power" title="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $item['id']; ?>);"">
+                        <input type="button" class="delete_button button_img" name="delete_power" title="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $power['id']; ?>);"">
  
-                        <span class="message" id="messagePowerID<?php echo $item['id']; ?>"></span>
+                        <span class="message" id="messagePowerID<?php echo $power['id']; ?>"></span>
                         </form>
 
                     </div>
@@ -275,8 +274,6 @@ class Arduino
 
         <?php
 
-        $stmt->closeCursor();
-        $stmt = null;
 
     }
 
@@ -486,59 +483,47 @@ class Arduino
     }
 
 
-    static function getPowerStatus($id) {
 
-        $conn = new RoceanDB();
-        $conn->CreateConnection();
-
-        $sql = 'SELECT status FROM power WHERE id=?';
-        $stmt = RoceanDB::$conn->prepare($sql);
-
-        $stmt->execute(array($id));
-
-
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
-        {
-
-            return $item['status'];
-
-        }
-
-        $stmt->closeCursor();
-        $stmt = null;
-
-    }
-
-    // Επιστρέφει τα id και db_fields σε array από το sensor table
-    static function getSensorsArray() {
-        $conn = new RoceanDB();
-        $conn->CreateConnection();
-
-        $sql = 'SELECT id, db_field FROM sensors';
-        $stmt = RoceanDB::$conn->prepare($sql);
-
-        $stmt->execute();
-        $result=$stmt->fetchAll();
-        
-        return $result;
-
-        $stmt->closeCursor();
-        $stmt = null;
-
-    }
-    
     // TODO Να δω τι άλλο μπορεί να έχει το dashboard
     // TODO Να εμφανίζει alerts που έχουν γίνει. Και όλα τα άλλα πεδία του dashboard
     static function showDashboard () {
+        $conn = new RoceanDB();
         ?>
         <h2><?php echo __('nav_item_1'); ?></h2>
 
         <p><?php echo __('system_time'); echo date('Y-m-d H:i:s',time()); ?></p>
         <p><?php echo __('system_temperature'); echo '99&deg; C'?></p>
         <p><?php echo __('system_status');?><span id="dbstatus"></span></p>
- 
 
+        <div class="ListTable">
 
+            <div class="AlertsRow">
+                <span class="ListColumn"><?php echo __('alerts_email'); ?></span>
+                <span class="ListColumn"><?php echo __('alerts_timelimit'); ?></span>
+                <span class="ListColumn"><?php echo __('alerts_templimit'); ?></span>
+                <span class="ListColumn"><?php echo __('alerts_sensor'); ?></span>
+            </div>
+
+        <?php
+
+            $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+            $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
+            $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
+
+            foreach ($alerts as $alert) {
+            ?>
+                <div class="AlertsRow">
+                    <span class="ListColumn"><?php echo $alert['email']; ?></span>
+                    <span class="ListColumn"><?php echo $alert['time_limit']; ?></span>
+                    <span class="ListColumn"><?php echo $alert['temp_limit']; ?></span>
+                    <span class="ListColumn"><?php echo $alert['sensors_id']; ?></span>
+                </div>
+
+            <?php
+            }
+
+        ?>
+        </div>
         <script type="text/javascript">
 
             setInterval(function(){

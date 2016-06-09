@@ -12,7 +12,6 @@
 
 // TODO να φτιαχτούν τα κείμενα για την αποστολή email
 // TODO όταν ξαναανοίγει η βάση να επεναφέρει τους διακόπτες στην προηγούμενη κατάσταση
-// TODO να κάνω το demon να τρέχει ανα 5 δευτερόλεπτα από το crontab
 // TODO να βάλω το INTERVAL_VALUE στην βάση σαν option και να φτιάξω και αντίστοιχο editing στα settings
 
 require_once('libraries/common.inc.php');
@@ -93,7 +92,7 @@ function CheckForMysqlAlive() {
         $diff= time()-$item['UNIX_TIMESTAMP(time)']; // Διαφορά της τρέχουσας ώρας με την ώρα της τελευταίας εγγραφής
 
         // Αν η διαφορά είναι μικρότερη από το 10 τότε η mysql είναι ζωντανή (true), αλλιώς false
-        if($diff<intval((INTERVAL_VALUE*2)-(INTERVAL_VALUE/2)))
+        if($diff<intval((INTERVAL_VALUE*2)-(INTERVAL_VALUE/2))+1)
             $conn->changeOption('dbstatus', 'on');
         else $conn->changeOption('dbstatus', 'off');
 
@@ -113,7 +112,7 @@ do {     // loop του demon. Τρέχει στο crontab ανά ένα λεπ�
     CheckForMysqlAlive();
     $counter++;
     sleep(INTERVAL_VALUE);
-} while ($counter<((60/INTERVAL_VALUE)+1));    // Αν το INTERVAL_VALUE είναι 5 τότε εκτελείται 12 φορές το λεπτό
+} while ($counter<((60/INTERVAL_VALUE)));    // Αν το INTERVAL_VALUE είναι 5 τότε εκτελείται 12 φορές το λεπτό
 
 $conn = null;
 
