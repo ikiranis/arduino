@@ -38,8 +38,13 @@ else {
 
 $dbstatus=$conn->getOption('dbstatus');
 
-if(!$dbstatus)
+if(!$dbstatus) {  // αρχικοποίηση options
     $conn->createOption('dbstatus','off',0);
+    $conn->createOption('interval_value','5',1);
+    $conn->createOption('date_list_items','6',1);
+    $conn->createOption('cpu_field','probeCPU',1);
+}
+
 
 
 echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);

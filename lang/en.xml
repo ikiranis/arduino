@@ -44,6 +44,7 @@
         <phrase name="settings_power">Power</phrase>
         <phrase name="settings_alerts">Alerts</phrase>
         <phrase name="settings_users">Users</phrase>
+        <phrase name="settings_options">Options</phrase>
         <phrase name="update_row">Update</phrase>
         <phrase name="delete_row">Delete</phrase>
         <phrase name="insert_row">Insert</phrase>
@@ -56,6 +57,7 @@
         <phrase name="alerts_timelimit">Time Limit (hours)</phrase>
         <phrase name="alerts_templimit">Temperature</phrase>
         <phrase name="alerts_sensor">Sensor</phrase>
+        <phrase name="alerts_alert_time">Alert Time</phrase>
         <phrase name="users_username">Username</phrase>
         <phrase name="users_email">Email</phrase>
         <phrase name="users_password">Password</phrase>
@@ -63,6 +65,8 @@
         <phrase name="users_user_group">UserGroup</phrase>
         <phrase name="users_firstname">FirstName</phrase>
         <phrase name="users_lastname">LastName</phrase>
+        <phrase name="options_option">Option</phrase>
+        <phrase name="options_value">Value</phrase>
     </page>
 
     <page name="statistics">

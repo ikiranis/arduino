@@ -26,6 +26,18 @@ $.fn.addClassDelay = function(className,delay) {
 };
 
 
+// Παίρνει την τελευταία θερμοκρασία της CPU και το τυπώνει στο element
+function checkCPUtemp(element) {
+    $.get( "checkCPUtemp.php", function( data ) {   // Αλλαγή του status
+        if (data.lastCPUtemp)
+            $(element).text(data.lastCPUtemp);
+        else $(element).text("0");
+
+
+    }, "json" );
+}
+
+
 // Εισαγωγή αρχικού χρήστη admin
 function registerUser() {
     username = $("#RegisterUserWindow").find('input[name="username"]').val();
@@ -66,7 +78,6 @@ function login() {
 
         if ($('#LoginForm').valid()) {
 
-            // alert(username + ' ' + password + ' ' + SavePassword);
 
             callFile = "checkLogin.php?username=" + username + "&password=" + password + "&SavePassword=" + SavePassword;
 
@@ -82,10 +93,6 @@ function login() {
 
             });
 
-            // Cancels the form's submit action. Fix αλλιώς δεν παίζει σωστά με το submit button
-            // Επίσης πρέπει να μπει μετά το validation, αλλιώς δεν παίζει το validation
-            // Θέλει το event στην function, αλλιώς δεν παίζει στον firefox
-            // event.preventDefault();
         }
 
 }
@@ -213,6 +220,25 @@ function updateSensor(id) {
                 else $("#messageID" + id).addClassDelay("success", 3000);
             }
             else $("#messageID" + id).addClassDelay("failure", 3000);
+        }, "json");
+    }
+
+}
+
+// Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table options, ή εισάγει νέα εγγραφή
+function updateOption(id) {
+    option_name=$("#OptionID"+id).find('input[name="option_name"]').val();
+    option_value=$("#OptionID"+id).find('input[name="option_value"]').val();
+
+    callFile="updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+option_value;
+
+    if ($('#options_formID'+id).valid()) {
+        $.get(callFile, function (data) {
+            if (data.success == 'true') {
+
+               $("#messageOptionID" + id).addClassDelay("success", 3000);
+            }
+            else $("#messageOptionID" + id).addClassDelay("failure", 3000);
         }, "json");
     }
 
@@ -435,9 +461,11 @@ function getTemperature () {
 
         $.get( "getTemperature.php", function( data ) {   // Αλλαγή του status
             for(var i=0;i<SensorsIDArray.length;i++) {
-                
+
+
                 probeText=eval("data.LastTemps.probe"+SensorsIDArray[i]);  // μετατροπή του sting σε όνομα μεταβλητής
                 AvgTempText=eval("data.AvgTemps.temp"+SensorsIDArray[i]);
+
 
                 NewTemp=parseInt(probeText);
                 AvgTemp=parseInt(AvgTempText);
@@ -452,6 +480,7 @@ function getTemperature () {
                 if(AvgTemp==NewTemp) {
                     $("#TempBlock"+SensorsIDArray[i]).removeClass('warm').removeClass('cold').addClass('equal');
                 }
+
 
                 $("#temp"+SensorsIDArray[i]).text( probeText ) ;
                 $("#time"+SensorsIDArray[i]).text( data.LastTemps.time) ;
@@ -631,6 +660,12 @@ $(function(){
         });
     });
 
+    $('.options_form').each(function() {  // attach to all form elements on page
+        $(this).validate({       // initialize plugin on each form
+            errorElement: 'div'
+        });
+    });
+
     $('.powers_form').each(function() {  // attach to all form elements on page
         $(this).validate({       // initialize plugin on each form
             errorElement: 'div'
@@ -653,6 +688,8 @@ $(function(){
     google.charts.load('current', {'packages':['corechart']});
 
 
+    // Κάνει τον συνεχή έλεγχο για την κατάσταση των αισθητήρων αφού πρώτα το εμφανίσει αμέσως
+    checkIfMysqlIsAlive('#MysqlStatusText');
     setInterval(function(){
         checkIfMysqlIsAlive('#MysqlStatusText');
 

@@ -51,13 +51,37 @@ class Arduino
         $stmt = null;
     }
 
+    // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
+    static function getLastCPUTemp($cpufield) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT '.$cpufield.' FROM data ORDER BY time DESC LIMIT 1';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $result=$item[$cpufield];
+
+        }
+        else $result=false;
+        
+        return $result;
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
 
     // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
     static function getLastTemperatures() {
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
-        $sql = 'SELECT * FROM data ORDER BY time DESC';
+        $sql = 'SELECT * FROM data ORDER BY time DESC LIMIT 1';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();
@@ -89,7 +113,7 @@ class Arduino
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
-        $sql = 'SELECT * FROM data ORDER BY time DESC';
+        $sql = 'SELECT * FROM data ORDER BY time DESC LIMIT 1';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();
@@ -419,11 +443,6 @@ class Arduino
 
         <div class="ListTable">
 
-
-        
-
-
-
         <?php
 
         foreach ($alerts as $alert)
@@ -482,52 +501,113 @@ class Arduino
 
     }
 
+    // Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
+    static function getOptionsInFormFields () {
+        $conn = new RoceanDB();
+
+        $options=$conn->getTableArray('options', null, 'setting=?', array(1));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
+
+
+        ?>
+
+        <div class="ListTable">
+
+            <?php
+
+            foreach ($options as $option)
+            {
+                ?>
+                <div class="OptionsRow" id="OptionID<?php echo $option['option_id']; ?>">
+                    <form class="table_form options_form" id="options_formID<?php echo $option['option_id']; ?>">
+                    <span class="ListColumn"><input class="input_field" disabled
+                                                    placeholder="<?php echo __('options_option'); ?>"
+                                                    type="text" name="option_name" value="<?php echo $option['option_name']; ?>"></span>
+                    <span class="ListColumn"><input class="input_field"
+                                                    placeholder="<?php echo __('options_value'); ?>"
+                                                    title="<?php echo __('valid_time_limit'); ?>"
+                                                    pattern='[a-zA-Z0-9]+'
+                                                    maxlength="30" required type="text" name="option_value" value="<?php echo $option['option_value']; ?>"></span>
+
+                        <input type="button" class="update_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
+
+                        <span class="message" id="messageOptionID<?php echo $option['option_id']; ?>"></span>
+                    </form>
+                </div>
+                <?php
+            }
+            ?>
+
+
+        </div>
+
+        <?php
+
+
+    }
+
 
 
     // TODO Να δω τι άλλο μπορεί να έχει το dashboard
-    // TODO Να εμφανίζει alerts που έχουν γίνει. Και όλα τα άλλα πεδία του dashboard
     static function showDashboard () {
         $conn = new RoceanDB();
         ?>
         <h2><?php echo __('nav_item_1'); ?></h2>
-
-        <p><?php echo __('system_time'); echo date('Y-m-d H:i:s',time()); ?></p>
-        <p><?php echo __('system_temperature'); echo '99&deg; C'?></p>
-        <p><?php echo __('system_status');?><span id="dbstatus"></span></p>
-
-        <div class="ListTable">
-
-            <div class="AlertsRow">
-                <span class="ListColumn"><?php echo __('alerts_email'); ?></span>
-                <span class="ListColumn"><?php echo __('alerts_timelimit'); ?></span>
-                <span class="ListColumn"><?php echo __('alerts_templimit'); ?></span>
-                <span class="ListColumn"><?php echo __('alerts_sensor'); ?></span>
-            </div>
+        
+        <p><?php echo __('system_temperature'); ?><span id="cputemp">0</span><?php echo '&deg; C'?></p>
+        <p><?php echo __('sensors_status');?><span id="dbstatus"></span></p>
 
         <?php
-
             $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
             $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
             $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
-            foreach ($alerts as $alert) {
-            ?>
-                <div class="AlertsRow">
-                    <span class="ListColumn"><?php echo $alert['email']; ?></span>
-                    <span class="ListColumn"><?php echo $alert['time_limit']; ?></span>
-                    <span class="ListColumn"><?php echo $alert['temp_limit']; ?></span>
-                    <span class="ListColumn"><?php echo $alert['sensors_id']; ?></span>
+            if($alerts) { // αν το $alerts δεν είναι κενό τότε τύπωσε τα
+
+                ?>
+
+                <h3><?php echo __('settings_alerts'); ?></h3>
+
+                <div class="ListTable">
+
+                    <div class="AlertsRow ListTittleRow">
+                        <span class="ListColumn"><?php echo __('alerts_email'); ?></span>
+                        <span class="ListColumn"><?php echo __('alerts_templimit'); ?></span>
+                        <span class="ListColumn"><?php echo __('alerts_sensor'); ?></span>
+                        <span class="ListColumn"><?php echo __('alerts_alert_time'); ?></span>
+                    </div>
+
+                    <?php
+
+
+                    foreach ($alerts as $alert) {
+                        ?>
+                        <div class="AlertsRow">
+                            <span class="ListColumn"><?php echo $alert['email']; ?></span>
+                            <span class="ListColumn"><?php echo $alert['temp_limit']; ?></span>
+                            <?php
+                            $key = array_search($alert['sensors_id'], array_column($sensors, 'id'));
+                            ?>
+                            <span
+                                class="ListColumn"><?php echo $sensors[$key]['room'] . ' ' . $sensors[$key]['sensor_name']; ?></span>
+                            <span class="ListColumn"><?php echo $alert['alert_time']; ?></span>
+                        </div>
+
+                        <?php
+                    }
+
+                    ?>
                 </div>
-
-            <?php
+                <?php
             }
+                ?>
 
-        ?>
-        </div>
+
         <script type="text/javascript">
-
+            checkCPUtemp('#cputemp');
+            checkIfMysqlIsAlive('#dbstatus');
             setInterval(function(){
                 checkIfMysqlIsAlive('#dbstatus');
+                checkCPUtemp('#cputemp');
 
             }, IntervalValue*1000);
 
@@ -556,16 +636,9 @@ class Arduino
             while($sensor=$stmt->fetch(PDO::FETCH_ASSOC))
             {
 
-                $somerandomnumber=rand(1,3);
 
-                $sensorsIDArray[]= $sensor['id'];
+                $sensorsIDArray[]= $counter;
 
-                switch ($somerandomnumber) {
-                    case '1': $temp_diff=' cold'; $dif_text='&#x21E9'; break;
-                    case '2': $temp_diff=' warm'; $dif_text='&#x21E7'; break;
-                    case '3': $temp_diff=' equal'; $dif_text='-'; break;
-                }
-                
 
                 echo '<div id="TempBlock'.$counter.'" class="temperature_block equal">';
                     echo '<span class=temperature_text><span id=temp'.$counter.'>0</span>&deg; C</span>';
@@ -583,6 +656,8 @@ class Arduino
             <script type="text/javascript">
                 
                 var SensorsIDArray= <?php echo json_encode($sensorsIDArray); ?>;
+
+                getTemperature ();
 
                 CheckTemperatures(); // onload τρέχει τον συνεχώμενο έλεγχο των θερμοκρασιών
             
@@ -713,6 +788,10 @@ class Arduino
 
         if($UserGroup==1) {  // Αν ο χρήστης είναι admin
         ?>
+            <details>
+                <summary><?php echo __('settings_options'); ?></summary>
+                <?php Arduino::getOptionsInFormFields() ?>
+            </details>
 
             <details>
                 <summary><?php echo __('settings_sensors'); ?></summary>

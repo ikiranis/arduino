@@ -12,7 +12,6 @@
 
 // TODO να φτιαχτούν τα κείμενα για την αποστολή email
 // TODO όταν ξαναανοίγει η βάση να επεναφέρει τους διακόπτες στην προηγούμενη κατάσταση
-// TODO να βάλω το INTERVAL_VALUE στην βάση σαν option και να φτιάξω και αντίστοιχο editing στα settings
 
 require_once('libraries/common.inc.php');
 require_once ('libraries/PHPMailer/PHPMailerAutoload.php');
@@ -82,7 +81,7 @@ function CheckForAlerts() {
 function CheckForMysqlAlive() {
     global $conn;
 
-    $sql = 'SELECT UNIX_TIMESTAMP(time) FROM data ORDER BY time DESC';
+    $sql = 'SELECT UNIX_TIMESTAMP(time) FROM data ORDER BY time DESC LIMIT 1';
     $stmt = RoceanDB::$conn->prepare($sql);
 
     $stmt->execute();
@@ -112,7 +111,7 @@ do {     // loop του demon. Τρέχει στο crontab ανά ένα λεπ�
     CheckForMysqlAlive();
     $counter++;
     sleep(INTERVAL_VALUE);
-} while ($counter<((60/INTERVAL_VALUE)));    // Αν το INTERVAL_VALUE είναι 5 τότε εκτελείται 12 φορές το λεπτό
+} while ($counter<((60/INTERVAL_VALUE))+1);    // Αν το INTERVAL_VALUE είναι 5 τότε εκτελείται 12 φορές το λεπτό
 
 $conn = null;
 
