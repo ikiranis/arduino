@@ -501,6 +501,7 @@ class Arduino
 
     }
 
+    // TODO όταν σβήνεις όλες τις εγγραφές να παραμένει μία για να μπορεί να γίνει αντιγραφή
     // Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
     static function getOptionsInFormFields () {
         $conn = new RoceanDB();
@@ -524,9 +525,9 @@ class Arduino
                                                     type="text" name="option_name" value="<?php echo $option['option_name']; ?>"></span>
                     <span class="ListColumn"><input class="input_field"
                                                     placeholder="<?php echo __('options_value'); ?>"
-                                                    title="<?php echo __('valid_time_limit'); ?>"
-                                                    pattern='[a-zA-Z0-9]+'
-                                                    maxlength="30" required type="text" name="option_value" value="<?php echo $option['option_value']; ?>"></span>
+                                                    title="<?php echo __('valid_option'); ?>"
+
+                                                    maxlength="255" required type="<?php if($option['encrypt']==0) echo 'text'; else echo 'password'; ?>" name="option_value" value="<?php if($option['encrypt']==0) echo $option['option_value']; ?>"></span>
 
                         <input type="button" class="update_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
 
@@ -546,8 +547,30 @@ class Arduino
     }
 
 
+    static function getPowerStatus($id) {
 
-    // TODO Να δω τι άλλο μπορεί να έχει το dashboard
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT status FROM power WHERE id=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($id));
+
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+
+            return $item['status'];
+
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
+
+
     static function showDashboard () {
         $conn = new RoceanDB();
         ?>

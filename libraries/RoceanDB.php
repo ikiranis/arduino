@@ -424,6 +424,28 @@ class RoceanDB
         return $result;
     }
 
+    // Δέχεται το user id και επιστρέφει το πλήρες όνομα του. Αλλιώς false
+    public function getUserName($id) {
+        self::CreateConnection();
+
+        $sql='SELECT fname, lname FROM user_details WHERE user_id=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array($id));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $result=$item['fname'].' '.$item['lname'];
+        }
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
     // Σβήνει μία εγγραφή από τον $table, όπου το $dbfield=$value
     public function deleteRowFromTable ($table, $dbfield, $value) {
         self::CreateConnection();
@@ -447,10 +469,14 @@ class RoceanDB
 
     // Αλλάζει το $value ενός $option
     public function changeOption ($option, $value) {
+        $crypto = new Crypto();
         self::CreateConnection();
 
         $sql = 'UPDATE options SET option_value=? WHERE option_name=?';
         $stmt = RoceanDB::$conn->prepare($sql);
+
+        if(self::getOptionEncrypt($option)==1)
+            $value= $crypto->EncryptText($value);
 
         if($stmt->execute(array($value, $option)))
 
@@ -465,13 +491,13 @@ class RoceanDB
     }
 
     // Δημιουργία ενός option
-    public function createOption ($option, $value, $setting) {
+    public function createOption ($option, $value, $setting, $encrypt) {
         self::CreateConnection();
 
-        $sql = 'INSERT INTO options (option_name, option_value, setting) VALUES(?,?,?)';
+        $sql = 'INSERT INTO options (option_name, option_value, setting, encrypt) VALUES(?,?,?,?)';
         $stmt = RoceanDB::$conn->prepare($sql);
 
-        if($stmt->execute(array($option, $value, $setting)))
+        if($stmt->execute(array($option, $value, $setting, $encrypt)))
 
             $result=true;
 
@@ -485,9 +511,10 @@ class RoceanDB
 
     // Ανάγνωση ενός option
     public function getOption ($option) {
+        $crypto = new Crypto();
         self::CreateConnection();
 
-        $sql = 'SELECT option_value FROM options WHERE option_name=?';
+        $sql = 'SELECT encrypt,option_value FROM options WHERE option_name=?';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute(array($option));
@@ -495,6 +522,31 @@ class RoceanDB
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
 
             $result=$item['option_value'];
+
+        else $result=false;
+
+
+        if($item['encrypt']==1)
+            $result= $crypto->DecryptText($result);
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Ανάγνωση του encrypt πεδίου από τα options
+    public function getOptionEncrypt ($option) {
+        self::CreateConnection();
+
+        $sql = 'SELECT encrypt FROM options WHERE option_name=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($option));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item['encrypt'];
 
         else $result=false;
 

@@ -18,7 +18,8 @@ class Language
     
     public function load_phrases($lang_id) {
         $xml = new DomDocument('1.0');
-
+        
+        
         //path to language directory
         $lang_path=('..'.LANG_PATH.$lang_id.'.xml');
         $xml->load($lang_path);

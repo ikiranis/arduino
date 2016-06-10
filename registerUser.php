@@ -39,10 +39,15 @@ else {
 $dbstatus=$conn->getOption('dbstatus');
 
 if(!$dbstatus) {  // αρχικοποίηση options
-    $conn->createOption('dbstatus','off',0);
-    $conn->createOption('interval_value','5',1);
-    $conn->createOption('date_list_items','6',1);
-    $conn->createOption('cpu_field','probeCPU',1);
+    $conn->createOption('dbstatus','off',0,0);
+    $conn->createOption('interval_value','5',1,0);
+    $conn->createOption('date_list_items','6',1,0);
+    $conn->createOption('cpu_field','probeCPU',1,0);
+    $conn->createOption('mail_host','smtp.gmail.com',1,0);
+    $conn->createOption('mail_username','username',1,0);
+    $conn->createOption('mail_password','',1,1);
+    $conn->createOption('mail_from','username@mail.com',1,0);
+    $conn->createOption('mail_from_name','name',1,0);
 }
 
 

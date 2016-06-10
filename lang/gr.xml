@@ -93,6 +93,8 @@
         <phrase name="valid_λname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
         <phrase name="valid_time_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
         <phrase name="valid_temp_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
+        <phrase name="valid_option">Απαιτείται</phrase>
     </page>
+
 
 </language>

@@ -93,7 +93,9 @@
         <phrase name="valid_lname">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
         <phrase name="valid_time_limit">Required. Valid number</phrase>
         <phrase name="valid_temp_limit">Required. Valid number</phrase>
+        <phrase name="valid_option">Required</phrase>
     </page>
+
 
 
 </language>

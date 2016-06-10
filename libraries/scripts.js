@@ -230,7 +230,11 @@ function updateOption(id) {
     option_name=$("#OptionID"+id).find('input[name="option_name"]').val();
     option_value=$("#OptionID"+id).find('input[name="option_value"]').val();
 
-    callFile="updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+option_value;
+
+    callFile="updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
+
+
+    // console.log(callFile);
 
     if ($('#options_formID'+id).valid()) {
         $.get(callFile, function (data) {

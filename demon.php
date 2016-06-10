@@ -10,7 +10,6 @@
  */
 
 
-// TODO να φτιαχτούν τα κείμενα για την αποστολή email
 // TODO όταν ξαναανοίγει η βάση να επεναφέρει τους διακόπτες στην προηγούμενη κατάσταση
 
 require_once('libraries/common.inc.php');
@@ -18,25 +17,18 @@ require_once ('libraries/PHPMailer/PHPMailerAutoload.php');
 
 $conn = new RoceanDB();
 $mail = new PHPMailer;
+$lang = new Language();
+
+
 
 function CheckForAlerts() {
 
     global $conn;
     global $mail;
-
-    $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = 'rocean74test';                 // SMTP username
-    $mail->Password = 'Wvi5$a$YPH#c';                           // SMTP password
-    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;                                    // TCP port to connect to
-
-    $mail->setFrom('rocean74@gmail.com', 'itbusiness');
+    global $lang;
 
     $alerts = $conn->getTableArray('alerts');
 
-    $mail->isHTML(true);
 
     $lastTemperatures=Arduino::getOnlyLastTemperatures();
 
@@ -50,13 +42,31 @@ function CheckForAlerts() {
                     // $alert['time_limit'] * 60 -> λεπτά, $alert['time_limit'] * 60 * 60 -> ώρες
                     $newtime = strtotime($alert['alert_time']) + ($alert['time_limit'] * 60 * 60);
                     if ($newtime < time()) {
-                        $mailText = 'ALERT: ' . $temperature['sensor']
-                            . ' έχει περάσει το όριο. Είναι: ' . $temperature['temp'];
+                        $mail->isSMTP();                                      // Set mailer to use SMTP
+                        $mail->CharSet = 'UTF-8';
+                        $mail->Host = $conn->getOption('mail_host');  // Specify main and backup SMTP servers
+                        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                        $mail->Username = $conn->getOption('mail_username');                 // SMTP username
+                        $mail->Password = $conn->getOption('mail_password');                           // SMTP password
+                        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                        $mail->Port = 587;                                    // TCP port to connect to
+
+                        $mail->setFrom($conn->getOption('mail_from'), $conn->getOption('mail_from_name'));
+
+                        $mail->isHTML(true);
+
+                        $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
+
+                        $key = array_search($alert['sensors_id'], array_column($sensors, 'id'));
+
+
+                        $mailText = 'Sensor: '. $sensors[$key]['room'] . ':' . $sensors[$key]['sensor_name']. '<br>'
+                            . 'Temperature: ' . $temperature['temp'];
 
                         Arduino::setTimeToAlert($alert['id']);
 
-                        $mail->addAddress($alert['email'], 'rocean');
-                        $mail->Subject = 'ALERT for Sensor '.$temperature['sensor'];
+                        $mail->addAddress($alert['email'], 'user');
+                        $mail->Subject = 'ALERT for Sensor '.$sensors[$key]['room'] . ':' . $sensors[$key]['sensor_name'];
                         $mail->Body    = $mailText;
 
                         if(!$mail->send()) {
@@ -91,9 +101,13 @@ function CheckForMysqlAlive() {
         $diff= time()-$item['UNIX_TIMESTAMP(time)']; // Διαφορά της τρέχουσας ώρας με την ώρα της τελευταίας εγγραφής
 
         // Αν η διαφορά είναι μικρότερη από το 10 τότε η mysql είναι ζωντανή (true), αλλιώς false
-        if($diff<intval((INTERVAL_VALUE*2)-(INTERVAL_VALUE/2))+1)
+        if($diff<intval((INTERVAL_VALUE*2)-(INTERVAL_VALUE/2))+1){
             $conn->changeOption('dbstatus', 'on');
-        else $conn->changeOption('dbstatus', 'off');
+        }
+        
+        else {
+            $conn->changeOption('dbstatus', 'off');
+        }
 
 
     }
