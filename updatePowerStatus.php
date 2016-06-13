@@ -13,22 +13,24 @@ if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
 
-$conn = new RoceanDB();
-$conn->CreateConnection();
 
 $oldStatus=Arduino::getPowerStatus($id);
 
 if($oldStatus=='ON') $newStatus='OFF';
 else $newStatus='ON';
 
-$sql = 'UPDATE power SET status=? WHERE id=?';
-$stmt = RoceanDB::$conn->prepare($sql);
 
-if($stmt->execute(array($newStatus, $id)))
 
+if(Arduino::setPowerStatus($id,$newStatus)) {
+    // TODO ενεργοποιηθεί ο κώδικας του τρεξίματος του script
+   // Arduino::runPowerScript($id,$newStatus);
     echo json_encode( array( 'success'=>'true', 'status'=>$newStatus));
+}
 
-$stmt->closeCursor();
-$stmt = null;
+
+
+else echo json_encode( array( 'success'=>'false'));
+
+
 
 ?>

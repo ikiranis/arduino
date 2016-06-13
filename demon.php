@@ -10,14 +10,13 @@
  */
 
 
-// TODO όταν ξαναανοίγει η βάση να επεναφέρει τους διακόπτες στην προηγούμενη κατάσταση
 
 require_once('libraries/common.inc.php');
 require_once ('libraries/PHPMailer/PHPMailerAutoload.php');
 
 $conn = new RoceanDB();
 $mail = new PHPMailer;
-$lang = new Language();
+
 
 
 
@@ -25,7 +24,7 @@ function CheckForAlerts() {
 
     global $conn;
     global $mail;
-    global $lang;
+
 
     $alerts = $conn->getTableArray('alerts');
 
@@ -99,10 +98,19 @@ function CheckForMysqlAlive() {
     if($item=$stmt->fetch(PDO::FETCH_ASSOC))
     {
         $diff= time()-$item['UNIX_TIMESTAMP(time)']; // Διαφορά της τρέχουσας ώρας με την ώρα της τελευταίας εγγραφής
+        
+        $lastDBStatus=$conn->getOption('dbstatus');  // Παίρνει την τρέχουσα κατάσταση του συστήματος
+        
 
         // Αν η διαφορά είναι μικρότερη από το 10 τότε η mysql είναι ζωντανή (true), αλλιώς false
         if($diff<intval((INTERVAL_VALUE*2)-(INTERVAL_VALUE/2))+1){
+            if($lastDBStatus=='off') { // Αν ήταν off η προηγούμενη κατάσταση τότε να τρέξει κώδικα που επαναφέρει τους διακόπτες
+                Arduino::putSwitchesToPreviousPosition();
+
+            }
+
             $conn->changeOption('dbstatus', 'on');
+                
         }
         
         else {

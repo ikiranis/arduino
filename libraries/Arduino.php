@@ -11,11 +11,42 @@
 class Arduino
 {
 
+    // Επαναφέρει τους διακόπτες στην αρχική τους κατάσταση, πριν να κλείσει το σύστημα
+    static function putSwitchesToPreviousPosition () {
+        $conn = new RoceanDB();
+
+
+        $powers=$conn->getTableArray('power', 'id, status', null, null);  // Παίρνει τα δεδομένα του πίνακα power σε array
+
+        foreach ($powers as $power) {
+
+
+            if ($power['status']=='ON')
+                self::runPowerScript($power['id'], 'ON');
+                
+        }
+        
+    }
+
+
+    // Τρέχει το κατάλληλο script για να ανοίξει ή να κλέισει ο διακόπτης
+    static function runPowerScript ($id, $newStatus) {
+//        echo '<p>Opening '.$id.' '.$newStatus.'</p>';
+
+        // TODO Να μπει ο κατάλληλος κώδικας
+    }
+    
+    
+    
+    
+
     // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
     static function getAvgLastTemperatures() {
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
+
+        // TODO να γραφεί πιο παραμετροποιήσιμος κώδικας
         $sql = 'SELECT round(avg(LastItems.probe1)) as avg1, 
                 round(avg(LastItems.probe2)) as avg2,
                 round(avg(LastItems.probe3)) as avg3,
@@ -438,6 +469,8 @@ class Arduino
         if(empty($alerts)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
             $alerts[]=array('id'=>'0', 'email'=>'', 'time_limit'=>'', 'temp_limit'=>'', 'sensors_id'=>'', 'user_id'=>'');
         }
+        
+        $counter=1;
 
         ?>
 
@@ -483,12 +516,13 @@ class Arduino
 
                     <input type="button" class="update_button button_img" name="update_alert" title="<?php echo __('update_row'); ?>" onclick="updateAlert(<?php echo $alert['id']; ?>);"">
 
-                    <input type="button" class="delete_button button_img" name="delete_alert" title="<?php echo __('delete_row'); ?>" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
+                    <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_alert" title="<?php echo __('delete_row'); ?>" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
 
                     <span class="message" id="messageAlertID<?php echo $alert['id']; ?>"></span>
                     </form>
                 </div>
                 <?php
+                $counter++;
             }
             ?>
 
@@ -546,6 +580,23 @@ class Arduino
 
     }
 
+    // Θέτει το $newStatus στον διακόπτη $id
+    static function setPowerStatus ($id, $newStatus) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+ 
+        $sql = 'UPDATE power SET status=? WHERE id=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        if($stmt->execute(array($newStatus, $id)))
+            $result=true;
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+        
+        return $result;
+    }
 
     static function getPowerStatus($id) {
 

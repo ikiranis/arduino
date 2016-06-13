@@ -31,7 +31,7 @@ do {
     $i=0;
 
     foreach ($lastTemperatures as $temperature) {
-        $someRandomNumber=rand(1,5);
+        $someRandomNumber=rand(1,12);
 
 
         $lastTemp=$temperature['temp'];
@@ -43,6 +43,14 @@ do {
             case 3: $newTemp=$lastTemp; break;
             case 4: $newTemp=$lastTemp; break;
             case 5: $newTemp=$lastTemp; break;
+            case 6: $newTemp=$lastTemp; break;
+            case 7: $newTemp=$lastTemp; break;
+            case 8: $newTemp=$lastTemp; break;
+            case 9: $newTemp=$lastTemp; break;
+            case 10: $newTemp=$lastTemp; break;
+            case 11: $newTemp=$lastTemp; break;
+            case 12: $newTemp=$lastTemp; break;
+
 
         }
 

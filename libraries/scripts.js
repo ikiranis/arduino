@@ -26,6 +26,30 @@ $.fn.addClassDelay = function(className,delay) {
 };
 
 
+// extension του jquery που επιστρέφει την λίστα των κλάσεων ενός element, σε array
+// π.χ myClasses= $("#AlertID"+id).find('input[name=delete_alert]').classes();
+!(function ($) {
+    $.fn.classes = function (callback) {
+        var classes = [];
+        $.each(this, function (i, v) {
+            var splitClassName = v.className.split(/\s+/);
+            for (var j in splitClassName) {
+                var className = splitClassName[j];
+                if (-1 === classes.indexOf(className)) {
+                    classes.push(className);
+                }
+            }
+        });
+        if ('function' === typeof callback) {
+            for (var i in classes) {
+                callback(classes[i]);
+            }
+        }
+        return classes;
+    };
+})(jQuery);
+
+
 // Παίρνει την τελευταία θερμοκρασία της CPU και το τυπώνει στο element
 function checkCPUtemp(element) {
     $.get( "checkCPUtemp.php", function( data ) {   // Αλλαγή του status
@@ -283,10 +307,10 @@ function deleteSensor(id) {
     $.get( callFile, function( data ) {
         if(data.success=='true') {
 
-            $("#messageID"+id).text("success");
+            // $("#messageID"+id).text("success");
             $("#SensorID"+id).remove();
         }
-        else $("#messageID"+id).text("problem");
+        // else $("#messageID"+id).text("problem");
     }, "json" );
 
 }
@@ -314,7 +338,17 @@ function deleteAlert(id) {
         if(data.success=='true') {
 
             $("#messageAlertID"+id).addClassDelay("success",3000);
-            $("#AlertID"+id).remove();
+
+            // TODO να το κάνω αυτό και για τα υπόλοιπα
+            myClasses= $("#AlertID"+id).find('input[name=delete_alert]').classes();   // Παίρνει τις κλάσεις του delete_alert
+
+            if(!myClasses[2])   // Αν δεν έχει κλάση dontdelete σβήνει το div
+                $("#AlertID"+id).remove();
+            else {   // αλλιώς καθαρίζει μόνο τα πεδία
+                $("#AlertID"+id).find('input[name="email"]').val('');   // clear field values
+                $("#AlertID"+id).find('input[name="time_limit"]').val('');
+                $("#AlertID"+id).find('input[name="temp_limit"]').val('');
+            }
         }
         else $("#messageAlertID"+id).addClassDelay("failure",3000);
     }, "json" );
