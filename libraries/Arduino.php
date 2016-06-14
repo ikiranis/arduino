@@ -37,7 +37,7 @@ class Arduino
     }
     
     
-    
+
 
     // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
     static function getAvgLastTemperatures() {
@@ -901,6 +901,19 @@ class Arduino
             <summary><?php echo __('settings_alerts'); ?></summary>
                 <?php Arduino::getAlertsInFormFields () ?>
         </details>
+
+        
+
+        <div id="error_container">
+            <div id="alert_error"></div>
+        </div>
+
+        <script type="text/javascript">
+
+            var error1='<?php echo __('user_error1'); ?>';
+            var error2='<?php echo __('user_error2'); ?>';
+
+        </script>
 
         <?php
 

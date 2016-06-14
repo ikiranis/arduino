@@ -94,6 +94,8 @@
         <phrase name="valid_time_limit">Required. Valid number</phrase>
         <phrase name="valid_temp_limit">Required. Valid number</phrase>
         <phrase name="valid_option">Required</phrase>
+        <phrase name="user_error1">The user</phrase>
+        <phrase name="user_error2">already exists</phrase>
     </page>
 
 

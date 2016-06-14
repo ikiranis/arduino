@@ -134,13 +134,21 @@ function showLoginWindow()
         $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
         ?>
+
         <div id="languages">
             <?php echo $languages_text; ?>
         </div>
+
+
     </div>
+
+
 
     </main>
 
+    <div id="error_container">
+        <div id="alert_error"></div>
+    </div>
 
     <?php
 

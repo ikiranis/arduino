@@ -94,6 +94,8 @@
         <phrase name="valid_time_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
         <phrase name="valid_temp_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
         <phrase name="valid_option">Απαιτείται</phrase>
+        <phrase name="user_error1">Ο χρήστης</phrase>
+        <phrase name="user_error2">υπάρχει ήδη</phrase>
     </page>
 
 

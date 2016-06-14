@@ -71,7 +71,8 @@ if($logged_in)
 
 $timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
 
-$MainPage->showMainBar($timediv, $LoginNameText);
+if($logged_in)
+    $MainPage->showMainBar($timediv, $LoginNameText);
 
 
 
@@ -85,8 +86,8 @@ if(!$logged_in) {
 if($logged_in) DisplayMainPage();
 
 
-
-$MainPage->showFooter();
+if($logged_in)
+    $MainPage->showFooter();
 
 
 

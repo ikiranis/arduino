@@ -50,6 +50,12 @@ $.fn.addClassDelay = function(className,delay) {
 })(jQuery);
 
 
+function DisplayMessage (element, error) {
+    $(element).text(error);
+    $(element).show('slow').delay(5000).hide('fast');
+}
+
+
 // Παίρνει την τελευταία θερμοκρασία της CPU και το τυπώνει στο element
 function checkCPUtemp(element) {
     $.get( "checkCPUtemp.php", function( data ) {   // Αλλαγή του status
@@ -82,7 +88,7 @@ function registerUser() {
 
                 window.location.href = "index.php";
             }
-            else  alert('Δεν έγινε εισαγωγή του χρήστη');
+            else  DisplayMessage('#alert_error',result['message']);
 
         });
 
@@ -113,7 +119,7 @@ function login() {
 
                     window.location.href = "index.php";
                 }
-                else  alert(result['message']);
+                else  DisplayMessage('#alert_error',result['message']);
 
             });
 
@@ -170,8 +176,8 @@ function updateUser(id) {
             }
             else if(data.UserExists) {
                     $("#messageUserID" + id).addClassDelay("failure", 3000);
-                    alert('O Χρήστης '+username+' υπάρχει ήδη');
-                // TODO να εμφανίζει το error σε συγκεκριμένο  div
+
+                    DisplayMessage('#alert_error', error1+' '+username+' '+error2);
                 } else $("#messageUserID" + id).addClassDelay("failure", 3000);
 
         }, "json");
