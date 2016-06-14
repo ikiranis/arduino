@@ -38,22 +38,24 @@ class Arduino
     
     
     
-    
 
     // Επιστρέφει τις τελευταίες θερμοκρασίες σε array
     static function getAvgLastTemperatures() {
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
+        $sensors=$conn->getTableArray('sensors','db_field');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
+        $counter=1;
+        $sql_string='';
 
-        // TODO να γραφεί πιο παραμετροποιήσιμος κώδικας
-        $sql = 'SELECT round(avg(LastItems.probe1)) as avg1, 
-                round(avg(LastItems.probe2)) as avg2,
-                round(avg(LastItems.probe3)) as avg3,
-                round(avg(LastItems.probe4)) as avg4,
-                round(avg(LastItems.probe5)) as avg5,
-                round(avg(LastItems.probeCPU)) as avg6
-                FROM (SELECT * FROM data ORDER BY time desc limit 1,12) LastItems';
+        foreach ($sensors as $sensor) {   // δημιουργεί το $sql_string που θα προστεθεί στο $sql
+            $sql_string.='round(avg(LastItems.'.$sensor['db_field'].')) as avg'.$counter.', ';
+            $counter++;
+        }
+
+        $sql_string=Page::cutLastString($sql_string,', ');    // κόβει το τελευταίο ', '
+
+        $sql = 'SELECT '.$sql_string.' FROM (SELECT * FROM data ORDER BY time desc limit 1,12) LastItems';
 
         $stmt = RoceanDB::$conn->prepare($sql);
 

@@ -214,4 +214,12 @@ class Page
 
     }
 
+
+    // Κόβει το $cut_string που βρίσκεται στο τέλος του $main_string
+    static function cutLastString($main_string, $cut_string) {
+        $result=substr($main_string,0,-strlen($cut_string));
+
+        return $result;
+    }
+
 }

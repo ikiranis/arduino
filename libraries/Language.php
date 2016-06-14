@@ -84,7 +84,9 @@ class Language
             $result = $result . '<a href=?ChangeLang=' . $language["lang_id"]. '>' . $insert_text . $flag_img .'</a>'. $string;
         }
 
-        $result=substr($result,0,-strlen($string)); // κόβει το τελευταίο $string
+//        $result=substr($result,0,-strlen($string)); // κόβει το τελευταίο $string
+
+        $result=Page::cutLastString($result,$string); // κόβει το τελευταίο $string
 
         return $result;
     }
