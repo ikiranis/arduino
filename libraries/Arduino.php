@@ -221,6 +221,8 @@ class Arduino
         if(empty($sensors)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
             $sensors[]=array('id'=>'0', 'room'=>'', 'sensor_name'=>'', 'db_field'=>'');
         }
+        
+        $counter=1;
 
 
         ?>
@@ -256,13 +258,14 @@ class Arduino
 
                         <input type="button" class="update_button button_img" name="update_sensor" title="<?php echo __('update_row'); ?>" onclick="updateSensor(<?php echo $sensor['id']; ?>);">
 
-                        <input type="button" class="delete_button button_img" name="delete_sensor" title="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $sensor['id']; ?>);">
+                        <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_sensor" title="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $sensor['id']; ?>);">
 
                         <span class="message" id="messageID<?php echo $sensor['id']; ?>"></span>
                         </form>
                     </div>
 
                     <?php
+                    $counter++;
                 }
                 ?>
 
@@ -285,6 +288,8 @@ class Arduino
         if(empty($powers)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
             $powers[]=array('id'=>'0', 'room'=>'', 'power_name'=>'');
         }
+        
+        $counter=1;
 
 
         ?>
@@ -314,13 +319,14 @@ class Arduino
                         
                         <input type="button" class="update_button button_img" name="update_power" title="<?php echo __('update_row'); ?>" onclick="updatePower(<?php echo $power['id']; ?>);"">
  
-                        <input type="button" class="delete_button button_img" name="delete_power" title="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $power['id']; ?>);"">
+                        <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_power" title="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $power['id']; ?>);"">
  
                         <span class="message" id="messagePowerID<?php echo $power['id']; ?>"></span>
                         </form>
 
                     </div>
                     <?php
+                    $counter++;
                 }
                 ?>
 
@@ -348,6 +354,8 @@ class Arduino
         else $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id WHERE user.user_id=?';
 
         $stmt = RoceanDB::$conn->prepare($sql);
+        
+        $counter=1;
 
         if($UserGroupID==1)
             $stmt->execute();
@@ -431,12 +439,13 @@ class Arduino
 
                     <input type="button" class="update_button button_img" name="update_user" title="<?php echo __('update_row'); ?>" onclick="updateUser(<?php echo $item['user_id']; ?>);"">
 
-                    <input type="button" class="delete_button button_img" name="delete_user" title="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
+                    <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_user" title="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
 
                     <span class="message" id="messageUserID<?php echo $item['user_id']; ?>"></span>
                     </form>
                 </div>
                 <?php
+                $counter++;
             }
             ?>
 
@@ -535,7 +544,6 @@ class Arduino
 
     }
 
-    // TODO όταν σβήνεις όλες τις εγγραφές να παραμένει μία για να μπορεί να γίνει αντιγραφή
     // Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
     static function getOptionsInFormFields () {
         $conn = new RoceanDB();
