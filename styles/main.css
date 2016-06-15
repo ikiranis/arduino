@@ -5,7 +5,7 @@ html, body {
     height:100%;
     width: 99%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     background-color: #CFD8DC;
 }
 
@@ -153,11 +153,11 @@ nav li a:hover:not(.active) {
 }
 
 .SensorsON {
-    color: forestgreen;
+    color: #546E7A;
 }
 
 .SensorsOFF {
-    color: red;
+    color: #90A4AE;
 }
 
 
@@ -167,6 +167,8 @@ nav li a:hover:not(.active) {
     width: 1.8em;
     height: 1.3em;
 }
+
+
 
 #languages {
     margin-top: 1em;
@@ -562,7 +564,6 @@ footer {
 
 .AlertsRow{
     display:table-row;
-
 }
 
 .ListColumn {
@@ -574,7 +575,8 @@ footer {
 
 .input_field {
     width: 10em;
-    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);
+    font-size: 0.7em;
+    /*box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);*/
 }
 
 .ListTittleRow {
@@ -595,24 +597,33 @@ footer {
 .button_img {
     background-size: 1.5em;
     background-color: transparent;
-    height: 1.5em;
     width: 1.5em;
     border: none;
     cursor: pointer;
+    position: relative;
+    display: inline-block;
+    top:-0.3em;
+    background-position: center center;
 }
 
 .message {
-    height: 1em;
-    width: 1em;
+    background-size: 1.5em;
+
+    border: none;
+    background-color: transparent;
+    background-position: center center;
 }
 
 .success {
-    content: url( '../img/done.png' );
-    justify-content: center;
+    background-image: url( '../img/done.png' );
+    background-repeat: no-repeat;
+
+
 }
 
 .failure {
-    content: url( '../img/problem.png' );
+    background-image: url( '../img/problem.png' );
+    background-repeat: no-repeat;
 
 }
 
@@ -621,6 +632,24 @@ footer {
     margin: 0;
 }
 
+
+details div.error {
+    position: relative;
+    display: block;
+    color: black;
+    border: 1px dotted black;
+    font-size: 0.8em;
+    margin-top: 0.3em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    padding: 0.5em;
+    background-color: #FFEDED;
+    border-radius: 6px;
+    width: 7em;
+}
+
+details .insert_row  {
+    margin: 0.5em 0;
+}
 
 /*Εμφάνιση του summary/details*/
 
@@ -660,4 +689,32 @@ input {
     border: 1px solid black;
     outline: none;
 }
+
+
+
+/*Dashboard*/
+
+#dasboard_alerts .ListTittleRow {
+    font-weight: bold;
+}
+
+#dasboard_alerts .ListTable {
+    display:table;
+    width:auto;
+}
+
+#dasboard_alerts .AlertsRow{
+    display:table-row;
+
+}
+
+#dasboard_alerts .ListColumn {
+    display: table-cell;
+    width: 12em;
+    text-align: center;
+}
+
+#dasboard_alerts .ListColumn span {
+}
+
 

@@ -262,7 +262,7 @@ class Arduino
 
                         <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_sensor" title="<?php echo __('delete_row'); ?>" onclick="deleteSensor(<?php echo $sensor['id']; ?>);">
 
-                        <span class="message" id="messageID<?php echo $sensor['id']; ?>"></span>
+                        <input type="button" class="message" id="messageID<?php echo $sensor['id']; ?>">
                         </form>
                     </div>
 
@@ -272,7 +272,7 @@ class Arduino
                 ?>
 
             </div>
-            <input type="button" name="insert_sensor" onclick="insertSensor();" value="<?php echo __('insert_row'); ?>">
+            <input type="button" class="insert_row" name="insert_sensor" onclick="insertSensor();" value="<?php echo __('insert_row'); ?>">
             
         <?php
 
@@ -323,7 +323,7 @@ class Arduino
  
                         <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_power" title="<?php echo __('delete_row'); ?>" onclick="deletePower(<?php echo $power['id']; ?>);"">
  
-                        <span class="message" id="messagePowerID<?php echo $power['id']; ?>"></span>
+                        <input type="button" class="message" id="messagePowerID<?php echo $power['id']; ?>">
                         </form>
 
                     </div>
@@ -333,7 +333,7 @@ class Arduino
                 ?>
 
             </div>
-            <input type="button" name="insert_power" onclick="insertPower();" value="<?php echo __('insert_row'); ?>">
+            <input type="button" class="insert_row" name="insert_power" onclick="insertPower();" value="<?php echo __('insert_row'); ?>">
 
         <?php
 
@@ -443,7 +443,7 @@ class Arduino
 
                     <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_user" title="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
 
-                    <span class="message" id="messageUserID<?php echo $item['user_id']; ?>"></span>
+                    <input type="button" class="message" id="messageUserID<?php echo $item['user_id']; ?>">
                     </form>
                 </div>
                 <?php
@@ -457,7 +457,7 @@ class Arduino
         if($UserGroupID==1) {  // Αν είναι admin ο user εμφάνισε κουμπί για προσθήκη νέου user
             ?>
 
-            <input type="button" name="insert_user" onclick="insertUser();" value="<?php echo __('insert_row'); ?>">
+            <input type="button" class="insert_row" name="insert_user" onclick="insertUser();" value="<?php echo __('insert_row'); ?>">
             <?php
         }
         ?>
@@ -529,7 +529,7 @@ class Arduino
 
                     <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_alert" title="<?php echo __('delete_row'); ?>" onclick="deleteAlert(<?php echo $alert['id']; ?>);"">
 
-                    <span class="message" id="messageAlertID<?php echo $alert['id']; ?>"></span>
+                    <input type="button" class="message" id="messageAlertID<?php echo $alert['id']; ?>">
                     </form>
                 </div>
                 <?php
@@ -539,7 +539,7 @@ class Arduino
 
         
         </div>
-        <input type="button" name="insert_alert" onclick="insertAlert();" value="<?php echo __('insert_row'); ?>">
+        <input type="button" class="insert_row" name="insert_alert" onclick="insertAlert();" value="<?php echo __('insert_row'); ?>">
 
         <?php
 
@@ -575,7 +575,7 @@ class Arduino
 
                         <input type="button" class="update_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
 
-                        <span class="message" id="messageOptionID<?php echo $option['option_id']; ?>"></span>
+                        <input type="button" class="message" id="messageOptionID<?php echo $option['option_id']; ?>">
                     </form>
                 </div>
                 <?php
@@ -651,13 +651,13 @@ class Arduino
 
                 <h3><?php echo __('settings_alerts'); ?></h3>
 
-                <div class="ListTable">
+                <div id="dasboard_alerts" class="ListTable">
 
                     <div class="AlertsRow ListTittleRow">
-                        <span class="ListColumn"><?php echo __('alerts_email'); ?></span>
-                        <span class="ListColumn"><?php echo __('alerts_templimit'); ?></span>
-                        <span class="ListColumn"><?php echo __('alerts_sensor'); ?></span>
-                        <span class="ListColumn"><?php echo __('alerts_alert_time'); ?></span>
+                        <div class="ListColumn"><span><?php echo __('alerts_email'); ?></span></div>
+                        <div class="ListColumn"><span><?php echo __('alerts_templimit'); ?></span></div>
+                        <div class="ListColumn"><span><?php echo __('alerts_sensor'); ?></span></div>
+                        <div class="ListColumn"><span><?php echo __('alerts_alert_time'); ?></span></div>
                     </div>
 
                     <?php
@@ -666,14 +666,14 @@ class Arduino
                     foreach ($alerts as $alert) {
                         ?>
                         <div class="AlertsRow">
-                            <span class="ListColumn"><?php echo $alert['email']; ?></span>
-                            <span class="ListColumn"><?php echo $alert['temp_limit']; ?></span>
+                            <div class="ListColumn"><span><?php echo $alert['email']; ?></span></div>
+                            <div class="ListColumn"><span><?php echo $alert['temp_limit']; ?></span></div>
                             <?php
                             $key = array_search($alert['sensors_id'], array_column($sensors, 'id'));
                             ?>
-                            <span
-                                class="ListColumn"><?php echo $sensors[$key]['room'] . ' ' . $sensors[$key]['sensor_name']; ?></span>
-                            <span class="ListColumn"><?php echo $alert['alert_time']; ?></span>
+                            <div
+                                class="ListColumn"><span><?php echo $sensors[$key]['room'] . ' : ' . $sensors[$key]['sensor_name']; ?></span></div>
+                            <div class="ListColumn"><span><?php echo $alert['alert_time']; ?></span></div>
                         </div>
 
                         <?php

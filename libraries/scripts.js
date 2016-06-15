@@ -169,7 +169,7 @@ function updateUser(id) {
                         .attr("onclick", "updateUser(" + LastInserted + ")");
                     $("#UserID" + LastInserted).find('input[name="delete_user"]')
                         .attr("onclick", "deleteUser(" + LastInserted + ")");
-                    $("#UserID" + LastInserted).find('span[id^="messageUserID"]').prop('id', 'messageUserID' + LastInserted);
+                    $("#UserID" + LastInserted).find('input[id^="messageUserID"]').prop('id', 'messageUserID' + LastInserted);
                     $("#messageUserID" + LastInserted).addClassDelay("success", 3000);
                 }
                 else $("#messageUserID" + id).addClassDelay("success", 3000);
@@ -195,8 +195,7 @@ function updateAlert(id) {
     sensors_id=$("#AlertID"+id).find('select[name="sensors_list"]').val();
     user_id=$("#AlertID"+id).find('input[name="user_id"]').val();
 
-    // console.log(email+' '+time_limit+' '+temp_limit+' '+sensors_id+' '+user_id);
-    
+
 
     callFile="updateAlert.php?id="+id+"&email="+email+"&time_limit="+time_limit+
         "&temp_limit="+temp_limit+"&sensors_id="+sensors_id+"&user_id="+user_id;
@@ -214,7 +213,7 @@ function updateAlert(id) {
                         .attr("onclick", "updateAlert(" + LastInserted + ")");
                     $("#AlertID" + LastInserted).find('input[name="delete_alert"]')
                         .attr("onclick", "deleteAlert(" + LastInserted + ")");
-                    $("#AlertID" + LastInserted).find('span[id^="messageAlertID"]').prop('id', 'messageAlertID' + LastInserted);
+                    $("#AlertID" + LastInserted).find('input[id^="messageAlertID"]').prop('id', 'messageAlertID' + LastInserted);
                     $("#messageAlertID" + LastInserted).addClassDelay("success", 3000);
                 }
                 else $("#messageAlertID" + id).addClassDelay("success", 3000);
@@ -247,7 +246,7 @@ function updateSensor(id) {
                     $("#SensorID" + LastInserted).find('form').prop('id','sensors_formID'+ LastInserted);
                     $("#SensorID" + LastInserted).find('input[name="update_sensor"]').attr("onclick", "updateSensor(" + LastInserted + ")");
                     $("#SensorID" + LastInserted).find('input[name="delete_sensor"]').attr("onclick", "deleteSensor(" + LastInserted + ")");
-                    $("#SensorID" + LastInserted).find('span[id^="messageID"]').prop('id', 'messageID' + LastInserted);
+                    $("#SensorID" + LastInserted).find('input[id^="messageID"]').prop('id', 'messageID' + LastInserted);
                     $("#messageID" + LastInserted).addClassDelay("success", 3000);
                 }
                 else $("#messageID" + id).addClassDelay("success", 3000);
@@ -300,7 +299,7 @@ function updatePower(id) {
                     $("#PowerID" + LastInserted).find('form').prop('id','powers_formID'+ LastInserted);
                     $("#PowerID" + LastInserted).find('input[name="update_power"]').attr("onclick", "updatePower(" + LastInserted + ")");
                     $("#PowerID" + LastInserted).find('input[name="delete_power"]').attr("onclick", "deletePower(" + LastInserted + ")");
-                    $("#PowerID" + LastInserted).find('span[id^="messagePowerID"]').prop('id', 'messagePowerID' + LastInserted);
+                    $("#PowerID" + LastInserted).find('input[id^="messagePowerID"]').prop('id', 'messagePowerID' + LastInserted);
                     $("#messagePowerID" + LastInserted).addClassDelay("success", 3000);
                 }
                 else $("#messagePowerID" + id).addClassDelay("success", 3000);
@@ -328,7 +327,7 @@ function deleteSensor(id) {
                 $("#SensorID"+id).find('input').val('');   // clear field values
                 $("#SensorID"+id).prop('id','SensorID0');
                 $("#SensorID0").find('form').prop('id','sensors_formID0');
-                $("#SensorID0").find('span[id^="messageID"]').text('').prop('id','messageID0');
+                $("#SensorID0").find('input[id^="messageID"]').text('').prop('id','messageID0');
                 // αλλάζει την function στο button
                 $("#SensorID0").find('input[name="update_sensor"]').attr("onclick", "updateSensor(0)");
                 $("#SensorID0").find('input[name="delete_sensor"]').attr("onclick", "deleteSensor(0)");
@@ -362,7 +361,7 @@ function deletePower(id) {
                 $("#PowerID"+id).find('input').val('');   // clear field values
                 $("#PowerID"+id).prop('id','PowerID0');
                 $("#PowerID0").find('form').prop('id','powers_formID0');
-                $("#PowerID0").find('span[id^="messagePowerID"]').text('').prop('id','messagePowerID0');
+                $("#PowerID0").find('input[id^="messagePowerID"]').text('').prop('id','messagePowerID0');
                 // αλλάζει την function στο button
                 $("#PowerID0").find('input[name="update_power"]').attr("onclick", "updatePower(0)");
                 $("#PowerID0").find('input[name="delete_power"]').attr("onclick", "deletePower(0)");
@@ -398,7 +397,7 @@ function deleteAlert(id) {
                 $("#AlertID0").find('input[name="time_limit"]').val('');
                 $("#AlertID0").find('input[name="temp_limit"]').val('');
                 $("#AlertID0").find('input[name="sensors_id"]').val('');
-                $("#AlertID0").find('span[id^="messageAlertID"]').text('').prop('id','messageAlertID0');
+                $("#AlertID0").find('input[id^="messageAlertID"]').text('').prop('id','messageAlertID0');
                 // αλλάζει την function στο button
                 $("#AlertID0").find('input[name="update_alert"]').attr("onclick", "updateAlert(0)");
                 $("#AlertID0").find('input[name="delete_alert"]').attr("onclick", "deleteAlert(0)");
@@ -436,7 +435,7 @@ function deleteUser(id) {
                 $("#UserID0").find('input[name="lname"]').val('');
                 $("#UserID0").find('input[name="password"]').prop('required',true).prop('id','password0');
                 $("#UserID0").find('input[name="repeat_password"]').prop('required',true).prop('id','0');
-                $("#UserID0").find('span[id^="messageUserID"]').text('').prop('id','messageUserID0');
+                $("#UserID0").find('input[id^="messageUserID"]').text('').prop('id','messageUserID0');
                 // αλλάζει την function στο button
                 $("#UserID0").find('input[name="update_user"]').attr("onclick", "updateUser(0)");
                 $("#UserID0").find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
@@ -469,7 +468,7 @@ function insertUser() {
         $("#UserID0").find('input[name="lname"]').val('');
         $("#UserID0").find('input[name="password"]').prop('required',true).prop('id','password0');
         $("#UserID0").find('input[name="repeat_password"]').prop('required',true).prop('id','0');
-        $("#UserID0").find('span[id^="messageUserID"]').text('').removeClass('success').prop('id','messageUserID0');
+        $("#UserID0").find('input[id^="messageUserID"]').text('').removeClass('success').prop('id','messageUserID0');
         // αλλάζει την function στο button
         $("#UserID0").find('input[name="update_user"]').attr("onclick", "updateUser(0)");
         $("#UserID0").find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
@@ -503,7 +502,7 @@ function insertAlert() {
         $("#AlertID0").find('input[name="time_limit"]').val('');
         $("#AlertID0").find('input[name="temp_limit"]').val('');
         $("#AlertID0").find('input[name="sensors_id"]').val('');
-        $("#AlertID0").find('span[id^="messageAlertID"]').text('').removeClass('success').prop('id','messageAlertID0');
+        $("#AlertID0").find('input[id^="messageAlertID"]').text('').removeClass('success').prop('id','messageAlertID0');
         // αλλάζει την function στο button
         $("#AlertID0").find('input[name="update_alert"]').attr("onclick", "updateAlert(0)");
         $("#AlertID0").find('input[name="delete_alert"]').attr("onclick", "deleteAlert(0)");
@@ -523,7 +522,7 @@ function insertSensor() {
         $('div[id^="SensorID"]:last').clone().insertAfter('div[id^="SensorID"]:last').prop('id','SensorID0');
         $("#SensorID0").find('input').val('');   // clear field values
         $("#SensorID0").find('form').prop('id','sensors_formID0');
-        $("#SensorID0").find('span[id^="messageID"]').text('').removeClass('success').prop('id','messageID0');
+        $("#SensorID0").find('input[id^="messageID"]').text('').removeClass('success').prop('id','messageID0');
         // αλλάζει την function στο button
         $("#SensorID0").find('input[name="update_sensor"]').attr("onclick", "updateSensor(0)");
         $("#SensorID0").find('input[name="delete_sensor"]').attr("onclick", "deleteSensor(0)");
@@ -547,7 +546,7 @@ function insertPower() {
         $('div[id^="PowerID"]:last').clone().insertAfter('div[id^="PowerID"]:last').prop('id','PowerID0');
         $("#PowerID0").find('input').val('');   // clear field values
         $("#PowerID0").find('form').prop('id','powers_formID0');
-        $("#PowerID0").find('span[id^="messagePowerID"]').text('').removeClass('success').prop('id','messagePowerID0');
+        $("#PowerID0").find('input[id^="messagePowerID"]').text('').removeClass('success').prop('id','messagePowerID0');
         // αλλάζει την function στο button
         $("#PowerID0").find('input[name="update_power"]').attr("onclick", "updatePower(0)");
         $("#PowerID0").find('input[name="delete_power"]').attr("onclick", "deletePower(0)");
