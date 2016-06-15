@@ -4,18 +4,17 @@
 html, body {
     height:100%;
     width: 99%;
-}
-
-body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
+    background-color: #CFD8DC;
 }
+
 
 header, footer {
     margin: 5px;
     border-radius: 6px;
     padding: 1em 1em;
-    box-shadow: 5px 3px 10px 1px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     display:block;
 }
 
@@ -32,16 +31,16 @@ main {
 /*Κεντρικό box*/
 section {
     margin: 5px;
-    border-radius: 6px;
     padding: 1em 1em;
-    box-shadow: 5px 3px 10px 1px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     position: relative;
     display: block;
     width: 76%;
     height: 75%;
     float: right;
-    background-color: floralwhite;
+    background-color: #ECEFF1;
     margin-bottom: 1em;
+    color: #455A64;
 }
 
 article {
@@ -50,6 +49,14 @@ article {
     height: 95%;
     display: block;
     overflow-y: scroll;
+}
+
+article h2 {
+    color: #37474F;
+ }
+
+article h3 {
+    color: #37474F;
 }
 
 
@@ -82,12 +89,9 @@ nav {
     width: 18%;
     height: 75%;
     float: left;
-    background-color: #e2e4d7;
     padding-top: 1em;
     padding-bottom: 1em;
     margin: 5px;
-    border-radius: 6px;
-    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
     display:block;
 }
 
@@ -96,7 +100,6 @@ nav ul {
     margin: 0;
     padding: 0;
     width: 100%;
-
 
 }
 
@@ -110,35 +113,27 @@ nav li a {
 
 nav li {
     margin-top:0.7em;
+    color: #607D8B;
     box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);
-    border-radius: 6px;
-    width: 102%;
-    height: 2em;
-
-    background-color: bisque;
+    background-color: #ECEFF1;
+    transition:all 0.5s;
 }
 
 
 
 nav li a.active {
-    background-color: coral;
+    background-color: #546E7A;
     color: white;
-    width: 100%;
-    height: 1em;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
-    border-radius: 6px;
+    transform: scale(1.05);
 
 }
 
 nav li a:hover:not(.active) {
-    background-color: #555;
+    background-color: #B0BEC5;
     color: white;
-    width: 100%;
-    height: 1em;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
-    border-radius: 6px;
-
-
+    transform: scale(1.05);
 }
 
 
@@ -184,7 +179,7 @@ nav li a:hover:not(.active) {
 /*Κεντρική mainbar*/
 header {
     height: 3%;
-    background-color: black;
+    background-color: #607D8B;
     color: white;
     overflow: hidden;
 }
@@ -252,9 +247,9 @@ header {
     margin: auto;
 
     border-radius: 6px;
-    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     padding: 1em;
-    background-color: floralwhite;
+    background-color: #ECEFF1;
 
 }
 
@@ -280,7 +275,7 @@ header {
 }
 
 #LoginWindow input[type=button] {
-    background-color: black;
+    background-color: #607D8B;
     color: white;
     width: 15em;
     border-radius: 6px;
@@ -306,9 +301,9 @@ header {
     margin: auto;
 
     border-radius: 6px;
-    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     padding: 1em;
-    background-color: floralwhite;
+    background-color: #ECEFF1;
 
 }
 
@@ -342,7 +337,7 @@ header {
 }
 
 #RegisterUserWindow input[type=button] {
-    background-color: black;
+    background-color: #607D8B;
     color: white;
     width: 15em;
     border-radius: 6px;
@@ -381,9 +376,10 @@ div.error {
 footer {
     clear: both;
     position: relative;
-    background-color: silver;
+    background-color: #90A4AE;
     height: 3%;
     font-size: 0.7em;
+    color: #FFFFFF;
 }
 
 
@@ -415,7 +411,6 @@ footer {
     height:7em;
     box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
     float: left;
-    border: 1px solid #555;
     margin: 1em 1em;
     background-color: #ee8a10;
     transition:all 0.5s;
@@ -426,31 +421,33 @@ footer {
 
 
 .cold {
-    background-color: #76e4dc;
-    background-image: url('../img/cold.png'),url('../img/temperature.png') ;
-    background-repeat: no-repeat, no-repeat;
-    background-size: 3em 3em, 4em 4em;
-    background-position: right top, bottom right;
+    background-color: #CFD8DC;
+    background-image: url('../img/cold.png') ;
+    background-repeat: no-repeat;
+    background-size: 2.5em 2.5em;
+    background-position: right top;
+
 
 
 }
 
 .warm {
-    background-color: orangered;
-    background-image: url('../img/hot.png'),url('../img/temperature.png') ;
-    background-repeat: no-repeat, no-repeat;
-    background-size: 2.5em 2.5em, 4em 4em;
-    background-position: right top, bottom right;
+    background-color: #546E7A;
+    background-image: url('../img/hot.png') ;
+    background-repeat: no-repeat;
+    background-size: 2.5em 2.5em;
+    background-position: right top;
+    color: #FFFFFF;
 
 
 }
 
 .equal {
-    background-color: #e4e2ac;
-    background-image: url('../img/equal.png'),url('../img/temperature.png') ;
-    background-repeat: no-repeat, no-repeat;
-    background-size: 2.5em 2.5em, 4em 4em;
-    background-position: right top, bottom right;
+    background-color: #ECEFF1;
+    background-image: url('../img/equal.png') ;
+    background-repeat: no-repeat;
+    background-size: 2.5em 2.5em;
+    background-position: right top;
 
 }
 
@@ -504,13 +501,14 @@ footer {
     padding-top: 1em;
     box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
     float: left;
-    border: 1px solid #555;
     margin: 1em 1em;
     cursor: pointer;
-    background-image: url('../img/power.png') ;
-    background-repeat: no-repeat;
-    background-position: right top;
+
     transition:all 0.5s;
+}
+
+.sensor_name_text {
+    padding-top: 0.5em;
 }
 
 .power_block:hover  {
@@ -518,11 +516,19 @@ footer {
 }
 
 .powerON {
-    background-color: greenyellow;
+    background-color: #546E7A;
+    color: #FFFFFF;
+    background-image: url('../img/white_power.png') ;
+    background-repeat: no-repeat;
+    background-position: right top;
 }
 
 .powerOFF {
-    background-color: orangered;
+    background-color: #CFD8DC;
+    color: #546E7A;
+    background-image: url('../img/power.png') ;
+    background-repeat: no-repeat;
+    background-position: right top;
 }
 
 .onoff_text {
@@ -562,13 +568,13 @@ footer {
 .ListColumn {
     float: left; /*fix for  buggy browsers*/
     display: table-column;
-    width: 10em;
     text-align: center;
+    margin-right: 0.3em;
 }
 
 .input_field {
-    width: 13em;
-    height: 1.9em;
+    width: 10em;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);
 }
 
 .ListTittleRow {
@@ -578,32 +584,36 @@ footer {
 
 .update_button {
     background-image: url( '../img/update.png' );
+    background-repeat: no-repeat;
 }
 
 .delete_button {
     background-image: url( '../img/delete.png' );
+    background-repeat: no-repeat;
 }
 
 .button_img {
-    background-size: 2em;
+    background-size: 1.5em;
     background-color: transparent;
-    height: 2em;
-    width: 2em;
+    height: 1.5em;
+    width: 1.5em;
     border: none;
     cursor: pointer;
 }
 
 .message {
-    height: 1.5em;
-    width: 1.5em;
+    height: 1em;
+    width: 1em;
 }
 
 .success {
     content: url( '../img/done.png' );
+    justify-content: center;
 }
 
 .failure {
     content: url( '../img/problem.png' );
+
 }
 
 .table_form {
@@ -623,9 +633,15 @@ summary {
 
 /*Input Fields Validation*/
 
+input:required:invalid {
+    background-image: url(../img/invalid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid #ee8a10;
+    outline: none;
+}
 
-
-input:required:invalid, input:focus:invalid, input:invalid {
+input:focus:invalid, input:invalid {
     background-image: url(../img/invalid.png);
     background-position: right center;
     background-repeat: no-repeat;
@@ -636,6 +652,12 @@ input:required:valid {
     background-image: url(../img/valid.png);
     background-position: right center;
     background-repeat: no-repeat;
-    border: 1px solid blue;
+    border: 1px solid green;
     outline: none;
 }
+
+input {
+    border: 1px solid black;
+    outline: none;
+}
+
