@@ -87,7 +87,7 @@ class Page
         ?>
 
         <footer>
-            <?php echo __('footer_text'); ?>
+            <span><?php echo __('footer_text'); ?></span>
         </footer>
 
         </BODY>
