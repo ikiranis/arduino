@@ -53,6 +53,7 @@
         <phrase name="sensors_dbfield">DB Field</phrase>
         <phrase name="power_room">Room</phrase>
         <phrase name="power_switch">Switch</phrase>
+        <phrase name="power_mac_address">Mac Address</phrase>
         <phrase name="alerts_email">Email</phrase>
         <phrase name="alerts_timelimit">Time Limit (hours)</phrase>
         <phrase name="alerts_templimit">Temperature</phrase>
@@ -88,6 +89,7 @@
         <phrase name="valid_sensor">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
         <phrase name="valid_dbfield">Required. At least 3 characters. Only latin alphanumerics. Not special characters</phrase>
         <phrase name="valid_power_name">Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_power_mac_address">Required. At least 5 characters.</phrase>
         <phrase name="valid_email">Required. Valid email</phrase>
         <phrase name="valid_fname">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
         <phrase name="valid_lname">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>

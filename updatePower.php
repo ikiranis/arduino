@@ -18,17 +18,20 @@ if(isset($_GET['room']))
 if(isset($_GET['power_name']))
     $power_name=ClearString($_GET['power_name']);
 
+if(isset($_GET['power_mac_address']))
+    $power_mac_address=ClearString($_GET['power_mac_address']);
+
 $conn = new RoceanDB();
 $conn->CreateConnection();
 
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
-    $sql = 'INSERT INTO power (room, power_name,status) VALUES (?,?,?)';
-    $SQLparams=array($room, $power_name,'OFF');
+    $sql = 'INSERT INTO power (room, power_name,status,mac_address) VALUES (?,?,?,?)';
+    $SQLparams=array($room, $power_name,'OFF',$power_mac_address);
 }
 
 else {   // αλλιώς κάνει update
-    $sql = 'UPDATE power SET room=?, power_name=? WHERE id=?';
-    $SQLparams=array($room, $power_name, $id);
+    $sql = 'UPDATE power SET room=?, power_name=?, mac_address=? WHERE id=?';
+    $SQLparams=array($room, $power_name, $power_mac_address, $id);
 }
 
 $stmt = RoceanDB::$conn->prepare($sql);

@@ -618,11 +618,14 @@ footer span {
     border: none;
     background-color: transparent;
     background-position: center center;
+    position: relative;
+    top:-0.3em;
 }
 
 .success {
     background-image: url( '../img/done.png' );
     background-repeat: no-repeat;
+    background-position: center center;
 
 
 }
@@ -630,6 +633,7 @@ footer span {
 .failure {
     background-image: url( '../img/problem.png' );
     background-repeat: no-repeat;
+    background-position: center center;
 
 }
 

@@ -30,8 +30,8 @@ class Arduino
 
 
     // Τρέχει το κατάλληλο script για να ανοίξει ή να κλέισει ο διακόπτης
-    static function runPowerScript ($id, $newStatus) {
-//        echo '<p>Opening '.$id.' '.$newStatus.'</p>';
+    static function runPowerScript ($id, $newStatus,$macAddress) {
+//        echo '<p>Opening '.$id.' '.$newStatus.' '.$macAddress.'</p>';
 
         // TODO Να μπει ο κατάλληλος κώδικας
     }
@@ -318,6 +318,10 @@ class Arduino
                                                         title="<?php echo __('valid_power_name'); ?>"
                                                         pattern='^[a-zA-ZΆ-Ϋά-ώ ][a-zA-ZΆ-Ϋά-ώ0-9- _\.]{2,20}$'
                                                         maxlength="20" required type="text" name="power_name" value="<?php echo $power['power_name']; ?>"></span>
+                        <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('power_mac_address'); ?>"
+                                                        title="<?php echo __('valid_power_mac_address'); ?>"
+                                                        minlength="5" maxlength="30" required type="text" name="power_mac_address" value="<?php echo $power['mac_address']; ?>"></span>
                         
                         <input type="button" class="update_button button_img" name="update_power" title="<?php echo __('update_row'); ?>" onclick="updatePower(<?php echo $power['id']; ?>);"">
  
@@ -614,6 +618,30 @@ class Arduino
         $conn->CreateConnection();
 
         $sql = 'SELECT status FROM power WHERE id=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($id));
+
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+
+            return $item['status'];
+
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
+
+    // Επιστρέφει την mac address του $id
+    static function getPowerMac($id) {
+
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT mac_address FROM power WHERE id=?';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute(array($id));

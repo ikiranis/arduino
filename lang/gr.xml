@@ -53,6 +53,7 @@
         <phrase name="sensors_dbfield">Όνομα πεδίου</phrase>
         <phrase name="power_room">Δωμάτιο</phrase>
         <phrase name="power_switch">Διακόπτης</phrase>
+        <phrase name="power_mac_address">Mac Address</phrase>
         <phrase name="alerts_email">email</phrase>
         <phrase name="alerts_timelimit">Χρονικό όριο (ώρες)</phrase>
         <phrase name="alerts_templimit">Θερμοκρασία</phrase>
@@ -88,6 +89,7 @@
         <phrase name="valid_sensor">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
         <phrase name="valid_dbfield">Απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο λατινικά αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
         <phrase name="valid_power_name">Απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_power_mac_address">Απαιτείται. Τουλάχιστον 5 χαρακτήρες</phrase>
         <phrase name="valid_email">Απαιτείται. Έγκυρο email</phrase>
         <phrase name="valid_fname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
         <phrase name="valid_λname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>

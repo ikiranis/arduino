@@ -285,9 +285,12 @@ function updateOption(id) {
 function updatePower(id) {
     room=$("#PowerID"+id).find('input[name="room"]').val();
     power_name=$("#PowerID"+id).find('input[name="power_name"]').val();
+    power_mac_address=$("#PowerID"+id).find('input[name="power_mac_address"]').val();
 
 
-    callFile="updatePower.php?id="+id+"&room="+room+"&power_name="+power_name;
+
+
+    callFile="updatePower.php?id="+id+"&room="+room+"&power_name="+power_name+"&power_mac_address="+power_mac_address;
 
     if ($('#powers_formID'+id).valid()) {
         $.get(callFile, function (data) {
@@ -667,6 +670,7 @@ function countjson(obj) {
     // Source https://developers.google.com/chart/
 function drawChart() {
     backgroundColor=$('section').css( "background-color" );  //  To background color του parent element
+    lineColor=$('section').css( "color" );
 
     // Create the data table.
     var data = new google.visualization.DataTable();
@@ -684,11 +688,11 @@ function drawChart() {
     }
 
 
-    // TODO βελτίωση της εμφάνισης των charts
     // Set chart options
         var options = {
 
             legend: {position: 'top'},
+            colors: [lineColor],
             hAxis: {
               
                 direction:-1

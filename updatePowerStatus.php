@@ -15,6 +15,7 @@ if(isset($_GET['id']))
 $conn=new RoceanDB();
 
 $oldStatus=Arduino::getPowerStatus($id);
+$macAddress=Arduino::getPowerMac($id);
 $dbstatus=$conn->getOption('dbstatus');
 
 
@@ -26,7 +27,7 @@ if($dbstatus=='on') {
 
     if (Arduino::setPowerStatus($id, $newStatus)) {
         // TODO να ενεργοποιηθεί ο κώδικας του τρεξίματος του script
-        // Arduino::runPowerScript($id,$newStatus);
+        // Arduino::runPowerScript($id,$newStatus,$macAddress);
         echo json_encode(array('success' => 'true', 'status' => $newStatus));
     } else echo json_encode(array('success' => 'false'));
 
