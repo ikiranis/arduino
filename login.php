@@ -7,6 +7,7 @@
  * Time: 01:17
  */
 
+
 require_once ('libraries/common.inc.php');
 
 
@@ -63,8 +64,7 @@ function logout() {
         foreach($cookies as $cookie) {
             $parts = explode('=', $cookie);
             $name = trim($parts[0]);
-            setcookie($name, '', time()-1000);
-            setcookie($name, '', time()-1000, '/');
+            setcookie($name, '', time()-1000, PROJECT_PATH);
         }
     }
 
