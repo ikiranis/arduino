@@ -7,13 +7,13 @@
  * Time: 01:17
  */
 
-
+session_start();
 
 require_once ('libraries/common.inc.php');
 require_once ('login.php');
 require_once ('MainPage.php');
 
-session_start();
+
 
 
 $MainPage = new Page();

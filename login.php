@@ -9,7 +9,6 @@
 
 require_once ('libraries/common.inc.php');
 
-session_start();
 
 $lang = new Language();
 
