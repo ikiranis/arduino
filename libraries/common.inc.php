@@ -8,6 +8,11 @@
 
 define ('PROJECT_PATH','/arduino/');   // αν το project είναι σε κάποιον υποκατάλογο
 
+if (!$_SERVER["DOCUMENT_ROOT"]) {  // Για τις περιπτώσεις που τρέχει από cron
+    $_SERVER['DOCUMENT_ROOT'] = dirname(dirname(dirname( __FILE__ )));
+}
+
+
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Page.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/RoceanDB.php');
@@ -61,7 +66,7 @@ function ClearString($data) {
 
 // Μεταβλητές για το Arduino project
 
-$sensorsArray=RoceanDB::getTableArray('sensors','id, db_field'); // Αρχικοποίηση του $SensorsArray
+$sensorsArray=RoceanDB::getTableArray('sensors','id, db_field', null, null, null); // Αρχικοποίηση του $SensorsArray
 
 define('INTERVAL_VALUE', RoceanDB::getOption('interval_value')); // Κάθε πόσα δευτερόλεπτα θα κάνει ανανέωση εισερχόμενων
 define('DATE_LIST_ITEMS', RoceanDB::getOption('date_list_items'));   // Πόσες επιλογές χρονικής περιόδου θα έχει στα στατιστικά

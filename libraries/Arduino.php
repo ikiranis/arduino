@@ -16,7 +16,7 @@ class Arduino
         $conn = new RoceanDB();
 
 
-        $powers=$conn->getTableArray('power', 'id, status', null, null);  // Παίρνει τα δεδομένα του πίνακα power σε array
+        $powers=$conn->getTableArray('power', 'id, status', null, null, null);  // Παίρνει τα δεδομένα του πίνακα power σε array
 
         foreach ($powers as $power) {
 
@@ -44,7 +44,7 @@ class Arduino
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
-        $sensors=$conn->getTableArray('sensors','db_field');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
+        $sensors=$conn->getTableArray('sensors','db_field', null, null, null);   // Παίρνει τα δεδομένα του πίνακα sensors σε array
         $counter=1;
         $sql_string='';
 
@@ -218,7 +218,7 @@ class Arduino
         $conn = new RoceanDB();
 
 
-        $sensors=$conn->getTableArray('sensors', null, null, null);  // Παίρνει τα δεδομένα του πίνακα sensors σε array
+        $sensors=$conn->getTableArray('sensors', null, null, null, null);  // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
         if(empty($sensors)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
             $sensors[]=array('id'=>'0', 'room'=>'', 'sensor_name'=>'', 'db_field'=>'');
@@ -285,7 +285,7 @@ class Arduino
         $conn = new RoceanDB();
 
 
-        $powers=$conn->getTableArray('power', null, null, null);  // Παίρνει τα δεδομένα του πίνακα power σε array
+        $powers=$conn->getTableArray('power', null, null, null, null);  // Παίρνει τα δεδομένα του πίνακα power σε array
 
         if(empty($powers)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
             $powers[]=array('id'=>'0', 'room'=>'', 'power_name'=>'');
@@ -478,8 +478,8 @@ class Arduino
         $conn = new RoceanDB();
 
         $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
-        $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
-        $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
+        $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID), null);  // Παίρνει τα δεδομένα του πίνακα alerts σε array
+        $sensors=$conn->getTableArray('sensors', null, null, null, null);   // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
         if(empty($alerts)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
             $alerts[]=array('id'=>'0', 'email'=>'', 'time_limit'=>'', 'temp_limit'=>'', 'sensors_id'=>'', 'user_id'=>'');
@@ -554,7 +554,7 @@ class Arduino
     static function getOptionsInFormFields () {
         $conn = new RoceanDB();
 
-        $options=$conn->getTableArray('options', null, 'setting=?', array(1));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
+        $options=$conn->getTableArray('options', null, 'setting=?', array(1), null);  // Παίρνει τα δεδομένα του πίνακα alerts σε array
 
 
         ?>
@@ -650,7 +650,7 @@ class Arduino
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
         {
 
-            return $item['status'];
+            return $item['mac_address'];
 
         }
 
@@ -670,8 +670,8 @@ class Arduino
 
         <?php
             $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
-            $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
-            $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
+            $alerts=$conn->getTableArray('alerts', null, 'user_id=?', array($userID), null);  // Παίρνει τα δεδομένα του πίνακα alerts σε array
+            $sensors=$conn->getTableArray('sensors', null, null, null, null);   // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
             if($alerts) { // αν το $alerts δεν είναι κενό τότε τύπωσε τα
 
@@ -846,7 +846,7 @@ class Arduino
         <?php
             $conn = new RoceanDB();
 
-            $sensors=$conn->getTableArray('sensors');   // Παίρνει τα δεδομένα του πίνακα sensors σε array
+            $sensors=$conn->getTableArray('sensors', null, null, null, null);   // Παίρνει τα δεδομένα του πίνακα sensors σε array
 
         ?>
 

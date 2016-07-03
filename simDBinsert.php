@@ -7,6 +7,7 @@
  * Simulation της εισαγωγής θερμοκρασιών στην βάση
  */
 
+
 require_once ("libraries/common.inc.php");
 
 $conn = new RoceanDB();
@@ -64,7 +65,7 @@ do {
 
     $ArrayValues= array ($DateTime,$sensors[0],$sensors[1],$sensors[2],$sensors[3],$sensors[4],$sensors[5]);
 
-    var_dump($ArrayValues);
+//    var_dump($ArrayValues);
 
 
     $stmt->execute($ArrayValues);
