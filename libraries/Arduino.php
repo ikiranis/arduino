@@ -626,12 +626,40 @@ class Arduino
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
         {
 
-            return $item['status'];
+            $result= $item['status'];
 
         }
 
         $stmt->closeCursor();
         $stmt = null;
+        
+        return $result;
+
+    }
+
+    // Επιστρέφει το όνομα του διακόπτη $id
+    static function getPowerName($id) {
+
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT room, power_name FROM power WHERE id=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($id));
+
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+
+            $result= $item['room'].':'.$item['power_name'];
+
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+        
+        return $result;
 
     }
 
@@ -955,38 +983,38 @@ class Arduino
             $conn =  new RoceanDB();
             $conn->CreateConnection();
 
-            $sql='SELECT * FROM data ORDER BY time DESC LIMIT 0,100';
+            $sql='SELECT * FROM logs ORDER BY log_date DESC LIMIT 0,100';
 
             $stmt = RoceanDB::$conn->prepare($sql);
 
             $stmt->execute();
-
+        
+            echo '<div id=logs>';
+        
             echo '<div class=row>';
-                echo '<span class=col>id</span>';
-                echo '<span class=col>time</span>';
-                echo '<span class=col>probe1</span>';
-                echo '<span class=col>probe2</span>';
-                echo '<span class=col>probe3</span>';
-                echo '<span class=col>probe4</span>';
-                echo '<span class=col>probe5</span>';
-                echo '<span class=col>probeCPU</span>';
+                echo '<span class="col logs_id basic">id</span>';
+                echo '<span class="col logs_message basic">message</span>';
+                echo '<span class="col logs_ip basic">ip</span>';
+                echo '<span class="col logs_user basic">user</span>';
+                echo '<span class="col logs_date basic">date</span>';
+                echo '<span class="col logs_browser basic">browser</span>';
             echo '</div>';
 
 
             // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
             while($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<div class=row>';
-                    echo '<span class=col>'.$item['id'].'</span>';
-                    echo '<span class=col>'.date('H:i:s',strtotime($item['time'])).'</span>';
-                    echo '<span class=col>'.$item['probe1'].'&deg; C</span>';
-                    echo '<span class=col>'.$item['probe2'].'&deg; C</span>';
-                    echo '<span class=col>'.$item['probe3'].'&deg; C</span>';
-                    echo '<span class=col>'.$item['probe4'].'&deg; C</span>';
-                    echo '<span class=col>'.$item['probe5'].'&deg; C</span>';
-                    echo '<span class=col>'.$item['probeCPU'].'&deg; C</span>';
+                    echo '<span class="col logs_id">'.$item['id'].'</span>';
+                    echo '<span class="col logs_message">'.$item['message'].'</span>';
+                    echo '<span class="col logs_ip">'.$item['ip'].'</span>';
+                    echo '<span class="col logs_user">'.$item['user_name'].'</span>';
+                    echo '<span class="col logs_date">'.date('Y-m-d H:i:s',strtotime($item['log_date'])).'</span>';
+                    echo '<span class="col logs_browser">'.$item['browser'].'</span>';
                 echo '</div>';
 
             }
+        
+            echo '</div>';
 
         $stmt->closeCursor();
         $stmt = null;

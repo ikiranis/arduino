@@ -9,6 +9,8 @@
 
 require_once('libraries/common.inc.php');
 
+session_start();
+
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
@@ -29,6 +31,8 @@ if($dbstatus=='on') {
         // TODO να ενεργοποιηθεί ο κώδικας του τρεξίματος του script
         // Arduino::runPowerScript($id,$newStatus,$macAddress);
         echo json_encode(array('success' => 'true', 'status' => $newStatus));
+
+        RoceanDB::insertLog('Switcher '.Arduino::getPowerName($id).' to '.$newStatus);  // Προσθήκη της κίνησης στα logs
     } else echo json_encode(array('success' => 'false'));
 
 } else echo json_encode(array('success' => 'false'));

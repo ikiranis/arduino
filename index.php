@@ -7,13 +7,12 @@
  * Time: 01:17
  */
 
-session_start();
 
 require_once ('libraries/common.inc.php');
 require_once ('login.php');
 require_once ('MainPage.php');
 
-
+session_start();
 
 
 $MainPage = new Page();
@@ -30,8 +29,10 @@ if (isset($_GET['ChangeLang'])) {
     header($targetPage);
 }
 
-if (isset($_GET['logout']))
+if (isset($_GET['logout'])) {
+    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs 
     logout();
+}
 
 // Τίτλος της σελίδας
 $MainPage->tittle = PAGE_TITTLE;
@@ -57,6 +58,7 @@ if(!$conn->CheckCookiesForLoggedUser()) {
 //        session_regenerate_id(true);
 
         $logged_in=true;
+
 
     }
 }
