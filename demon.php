@@ -90,7 +90,7 @@ function CheckForAlerts() {
 function CheckForMysqlAlive() {
     global $conn;
 
-    $sql = 'SELECT UNIX_TIMESTAMP(time) FROM data ORDER BY time DESC LIMIT 1';
+    $sql = 'SELECT UNIX_TIMESTAMP(time) FROM data ORDER BY time DESC LIMIT 1,1';
     $stmt = RoceanDB::$conn->prepare($sql);
 
     $stmt->execute();
