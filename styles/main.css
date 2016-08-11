@@ -1,9 +1,13 @@
+/*Color Pallettes*/
+/* https://material.google.com/style/color.html#color-color-palette */
+
+
 html, body {
     height:100%;
     width: 99%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 20px;
-    background-color: #CFD8DC;
+    background-color: #DCEDC8;
 }
 
 
@@ -35,9 +39,9 @@ section {
     width: 75%;
     height: 75%;
     float: right;
-    background-color: #ECEFF1;
+    background-color: #F1F8E9;
     margin-bottom: 1em;
-    color: #455A64;
+    color: #689F38;
 }
 
 article {
@@ -49,11 +53,11 @@ article {
 }
 
 article h2 {
-    color: #37474F;
+    color: #558B2F;
  }
 
 article h3 {
-    color: #37474F;
+    color: #558B2F;
 }
 
 
@@ -111,16 +115,16 @@ nav li a {
 
 nav li {
     margin-top:0.7em;
-    color: #607D8B;
+    color: #8BC34A;
     box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);
-    background-color: #ECEFF1;
+    background-color: #F1F8E9;
     transition:all 0.5s;
 }
 
 
 
 nav li a.active {
-    background-color: #546E7A;
+    background-color: #7CB342;
     color: white;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
@@ -128,7 +132,7 @@ nav li a.active {
 }
 
 nav li a:hover:not(.active) {
-    background-color: #B0BEC5;
+    background-color: #C5E1A5;
     color: white;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
@@ -151,11 +155,11 @@ nav li a:hover:not(.active) {
 }
 
 .SensorsON {
-    color: #546E7A;
+    color: #7CB342;
 }
 
 .SensorsOFF {
-    color: #90A4AE;
+    color: #AED581;
     font-weight: bold;
 }
 
@@ -180,7 +184,7 @@ nav li a:hover:not(.active) {
 /*Κεντρική mainbar*/
 header {
     height: 3%;
-    background-color: #607D8B;
+    background-color: #8BC34A;
     color: white;
     overflow: hidden;
 }
@@ -241,16 +245,27 @@ header {
 
 /*Login Window*/
 
+#logo {
+    display: block;
+    width: 100%;
+    height: 3em;
+    background-image: url('../img/logo.png') ;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center top;
+}
+
 #LoginWindow {
     display: block;
     width: auto;
     height: auto;
     margin: auto;
+    font-size: 0.8em;
 
     border-radius: 6px;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     padding: 1em;
-    background-color: #ECEFF1;
+    background-color: #FFFFFF;
 
 }
 
@@ -276,7 +291,7 @@ header {
 }
 
 #LoginWindow input[type=button] {
-    background-color: #607D8B;
+    background-color: #8BC34A;
     color: white;
     width: 15em;
     border-radius: 6px;
@@ -300,11 +315,12 @@ header {
     width: auto;
     height: auto;
     margin: auto;
+    font-size: 0.8em;
 
     border-radius: 6px;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     padding: 1em;
-    background-color: #ECEFF1;
+    background-color: #FFFFFF;
 
 }
 
@@ -338,7 +354,7 @@ header {
 }
 
 #RegisterUserWindow input[type=button] {
-    background-color: #607D8B;
+    background-color: #8BC34A;
     color: white;
     width: 15em;
     border-radius: 6px;
@@ -377,7 +393,7 @@ div.error {
 footer {
     clear: both;
     position: relative;
-    background-color: #90A4AE;
+    background-color: #AED581;
     height: 3%;
     font-size: 0.8em;
     color: #FFFFFF;
@@ -404,11 +420,11 @@ footer span {
 
 
 #logs .row:nth-child(odd) {
-    background-color: #CFD8DC;
+    background-color: #DCEDC8;
 }
 
 #logs .row:nth-child(even) {
-    background-color: #ECEFF1;
+    background-color: #F1F8E9;
 }
 
 #logs .col {
@@ -471,7 +487,7 @@ footer span {
 
 
 .cold {
-    background-color: #CFD8DC;
+    background-color: #DCEDC8;
     background-image: url('../img/cold.png') ;
     background-repeat: no-repeat;
     background-size: 2.5em 2.5em;
@@ -482,7 +498,7 @@ footer span {
 }
 
 .warm {
-    background-color: #546E7A;
+    background-color: #7CB342;
     background-image: url('../img/hot.png') ;
     background-repeat: no-repeat;
     background-size: 2.5em 2.5em;
@@ -493,7 +509,7 @@ footer span {
 }
 
 .equal {
-    background-color: #ECEFF1;
+    background-color: #F1F8E9;
     background-image: url('../img/equal.png') ;
     background-repeat: no-repeat;
     background-size: 2.5em 2.5em;
@@ -566,7 +582,7 @@ footer span {
 }
 
 .powerON {
-    background-color: #546E7A;
+    background-color: #7CB342;
     color: #FFFFFF;
     background-image: url('../img/white_power.png') ;
     background-repeat: no-repeat;
@@ -574,8 +590,8 @@ footer span {
 }
 
 .powerOFF {
-    background-color: #CFD8DC;
-    color: #546E7A;
+    background-color: #DCEDC8;
+    color: #7CB342;
     background-image: url('../img/power.png') ;
     background-repeat: no-repeat;
     background-position: right top;

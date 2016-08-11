@@ -83,7 +83,8 @@ function showLoginWindow()
     ?>
     <main>
     <div id="LoginWindow">
-
+        
+        <div id="logo"></div>
 
         <?php
 
@@ -164,7 +165,8 @@ function ShowRegisterUser()
     <main>
     <div id="RegisterUserWindow">
 
-
+        <div id="logo"></div>
+        
         <?php
 
 
