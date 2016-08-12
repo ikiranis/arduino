@@ -21,7 +21,6 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Language.php')
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Arduino.php');
 
 
-
 define('CONNSTR', 'mysql:host=localhost;dbname=arduino_db');
 define('DBUSER', 'root');
 define('DBPASS', 'documents2015');
@@ -34,6 +33,8 @@ define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // 
 
 
 define ('NAV_LIST_ITEMS', '6'); // Ο αριθμός των επιλογών στo Nav Menu
+
+$adminNavItems = array(6);  // Οι αριθμοί των items που είναι μόνο για τον admin
 
 $languages = array (    // Οι γλώσσες που υποστηρίζονται
     array ('language' => 'Ελληνικά',

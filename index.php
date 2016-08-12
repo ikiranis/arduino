@@ -30,6 +30,7 @@ if (isset($_GET['ChangeLang'])) {
 }
 
 if (isset($_GET['logout'])) {
+    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs 
     logout();
 }
 

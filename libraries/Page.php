@@ -176,7 +176,14 @@ class Page
 
         self::createNavListArray(); // Δημιουργεί το array με τα nav items
 
+        global $adminNavItems;
+
         $counter=1;
+
+        $conn = new RoceanDB();
+
+        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
 
 
         ?>
@@ -184,12 +191,22 @@ class Page
             <ul>
                 <?php
                     foreach (self::$nav_list as $item) {
-                ?>
-                        <li><a <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
-                                href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
-                
-                <?php
 
+                        // έλεγχος αν ο χρήστης είναι admin σε items που πρέπει να είναι admin
+                        if (in_array($counter, $adminNavItems)) {
+                            if ($UserGroupID == 1) $displayOK = true;
+                            else $displayOK = false;
+                        }  else $displayOK=true;
+
+
+                        if( $displayOK ) {
+                            ?>
+                            <li><a <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
+                                    href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
+
+                            <?php
+
+                        }
                         $counter++;
                     }
                 ?>        

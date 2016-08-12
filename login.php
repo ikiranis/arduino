@@ -51,8 +51,6 @@ function logout() {
         }
     }
     
-    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs 
-    
     header('Location:index.php');
 }
 

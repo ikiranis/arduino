@@ -975,46 +975,47 @@ class Arduino
 
     }
 
-    static function showLogs () {
+    static function showLogs ()
+    {
         ?>
         <h2><?php echo __('nav_item_6'); ?></h2>
         <?php
 
-            $conn =  new RoceanDB();
-            $conn->CreateConnection();
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
 
-            $sql='SELECT * FROM logs ORDER BY log_date DESC LIMIT 0,100';
+        $sql = 'SELECT * FROM logs ORDER BY log_date DESC LIMIT 0,100';
 
-            $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = RoceanDB::$conn->prepare($sql);
 
-            $stmt->execute();
-        
-            echo '<div id=logs>';
-        
+        $stmt->execute();
+
+        echo '<div id=logs>';
+
+        echo '<div class=row>';
+        echo '<span class="col logs_id basic">id</span>';
+        echo '<span class="col logs_message basic">message</span>';
+        echo '<span class="col logs_ip basic">ip</span>';
+        echo '<span class="col logs_user basic">user</span>';
+        echo '<span class="col logs_date basic">date</span>';
+        echo '<span class="col logs_browser basic">browser</span>';
+        echo '</div>';
+
+
+        // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
+        while ($item = $stmt->fetch(PDO::FETCH_ASSOC)) {
             echo '<div class=row>';
-                echo '<span class="col logs_id basic">id</span>';
-                echo '<span class="col logs_message basic">message</span>';
-                echo '<span class="col logs_ip basic">ip</span>';
-                echo '<span class="col logs_user basic">user</span>';
-                echo '<span class="col logs_date basic">date</span>';
-                echo '<span class="col logs_browser basic">browser</span>';
+            echo '<span class="col logs_id">' . $item['id'] . '</span>';
+            echo '<span class="col logs_message">' . $item['message'] . '</span>';
+            echo '<span class="col logs_ip">' . $item['ip'] . '</span>';
+            echo '<span class="col logs_user">' . $item['user_name'] . '</span>';
+            echo '<span class="col logs_date">' . date('Y-m-d H:i:s', strtotime($item['log_date'])) . '</span>';
+            echo '<span class="col logs_browser">' . $item['browser'] . '</span>';
             echo '</div>';
 
+        }
 
-            // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
-            while($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo '<div class=row>';
-                    echo '<span class="col logs_id">'.$item['id'].'</span>';
-                    echo '<span class="col logs_message">'.$item['message'].'</span>';
-                    echo '<span class="col logs_ip">'.$item['ip'].'</span>';
-                    echo '<span class="col logs_user">'.$item['user_name'].'</span>';
-                    echo '<span class="col logs_date">'.date('Y-m-d H:i:s',strtotime($item['log_date'])).'</span>';
-                    echo '<span class="col logs_browser">'.$item['browser'].'</span>';
-                echo '</div>';
-
-            }
-        
-            echo '</div>';
+        echo '</div>';
 
         $stmt->closeCursor();
         $stmt = null;
