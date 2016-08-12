@@ -15,34 +15,17 @@ $lang = new Language();
 
 
 
-//if (isset($_POST['submit'])) {
-//
-//    if (isset($_POST['SavePassword']))
-//        $SavePassword=true;
-//    else $SavePassword=false;
-//
-//    $myConnect = new RoceanDB();
-//    $login=$myConnect->CheckLogin(ClearString($_POST['username']), ClearString($_POST['password']), $SavePassword);
-//    if($login['success']) {
-//        echo $login['message'];
-//        header('Location:index.php');
-//    }
-//    else {
-//        echo $login['message'];
-//        header('Refresh:3;URL=index.php');
-//    }
-//
-//
-//}
-
 if (isset($_POST['register'])) {
     
     $conn = new RoceanDB();
 
     // Έλεγχος αν συμφωνούν τα 2 passwords
     if($_POST['password']==$_POST['repeat_password']) {
-        if($conn->CreateUser(ClearString($_POST['username']), ClearString($_POST['email']), ClearString($_POST['password']), 'local')) // Δημιουργεί τον χρήστη
-            echo '<p>'.__('register_with_success').'</p>';
+        if($conn->CreateUser(ClearString($_POST['username']), ClearString($_POST['email']), ClearString($_POST['password']), 'local')) { // Δημιουργεί τον χρήστη
+            echo '<p>' . __('register_with_success') . '</p>';
+            
+            RoceanDB::insertLog('User Register: '. $_POST['username']); // Προσθήκη της κίνησης στα logs 
+        }
     }
     else echo '<p>'.__('not_the_same_password').'</p>';
     
@@ -67,7 +50,9 @@ function logout() {
             setcookie($name, '', time()-1000, PROJECT_PATH);
         }
     }
-
+    
+    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs 
+    
     header('Location:index.php');
 }
 

@@ -10,6 +10,8 @@
 
 require_once('libraries/common.inc.php');
 
+session_start();
+
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
@@ -44,8 +46,11 @@ if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
     $IsUserExist=$conn->checkIfUserExists($username);  // Ελέγχει αν χρήστης υπάρχει ήδη
     
     if(!$IsUserExist){
-        if($inserted_id=$conn->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) // Δημιουργεί τον χρήστη
-            $jsonArray=array( 'success'=>true, 'lastInserted'=>$inserted_id);
+        if($inserted_id=$conn->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) { // Δημιουργεί τον χρήστη
+            $jsonArray = array('success' => true, 'lastInserted' => $inserted_id);
+
+            RoceanDB::insertLog('Insert of new User '.$username); // Προσθήκη της κίνησης στα logs
+        }
         else $jsonArray=array( 'success'=>false);
     }
     else $jsonArray=array( 'success'=>false, 'UserExists'=>true);
@@ -53,8 +58,11 @@ if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
 }
 
 else {   // αλλιώς κάνει update
-    if($conn->UpdateUser($id, $username, $email, $password, $usergroup, 'local', $fname, $lname))   // Ενημερώνει την εγγραφή
-        $jsonArray=array( 'success'=>true);
+    if($conn->UpdateUser($id, $username, $email, $password, $usergroup, 'local', $fname, $lname)) {  // Ενημερώνει την εγγραφή
+        $jsonArray = array('success' => true);
+
+        RoceanDB::insertLog('User '.$username.' updated'); // Προσθήκη της κίνησης στα logs
+    }
 
 }
 

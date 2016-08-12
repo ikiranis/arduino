@@ -30,7 +30,6 @@ if (isset($_GET['ChangeLang'])) {
 }
 
 if (isset($_GET['logout'])) {
-    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs 
     logout();
 }
 
@@ -58,13 +57,12 @@ if(!$conn->CheckCookiesForLoggedUser()) {
 //        session_regenerate_id(true);
 
         $logged_in=true;
-
-
     }
 }
 else {
     $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$_COOKIE["username"].'</span>';
     $logged_in=true;
+    $conn->setSession('username', $_COOKIE["username"]);
 }
 
 

@@ -9,6 +9,8 @@
 
 require_once('libraries/common.inc.php');
 
+session_start();
+
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
@@ -40,8 +42,14 @@ if($stmt->execute($SQLparams)) {
     if($id==0) {
         $inserted_id=RoceanDB::$conn->lastInsertId();
         $jsonArray=array( 'success'=>'true', 'lastInserted'=>$inserted_id);
+
+        RoceanDB::insertLog('Insert of new Switch '.$room.':'.$power_name); // Προσθήκη της κίνησης στα logs
     }
-    else $jsonArray=array( 'success'=>'true');
+    else  {
+        $jsonArray=array( 'success'=>'true');
+
+        RoceanDB::insertLog('Switch updated with id '.$id); // Προσθήκη της κίνησης στα logs
+    }
 
 }
 else $jsonArray=array( 'success'=>'false');

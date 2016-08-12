@@ -10,6 +10,8 @@
 
 require_once('libraries/common.inc.php');
 
+session_start();
+
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
@@ -24,6 +26,8 @@ $stmt = RoceanDB::$conn->prepare($sql);
 
 if($stmt->execute(array($id))) {
     $jsonArray=array( 'success'=>'true');
+
+    RoceanDB::insertLog('Alert deleted with id '. $id); // Προσθήκη της κίνησης στα logs 
 
 }
 else $jsonArray=array( 'success'=>'false');

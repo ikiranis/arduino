@@ -73,6 +73,8 @@ function CheckForAlerts() {
                             echo 'Mailer Error: ' . $mail->ErrorInfo.'<br>';
                         } else {
                             echo 'Message has been sent<br>';
+
+                            RoceanDB::insertLog('Sending email alert to '. $alert['email']); // Προσθήκη της κίνησης στα logs 
                         }
                     }
                     else echo 'Πέρασε το όριο, αλλά έχει γίνει ήδη alert <br>';
