@@ -55,7 +55,7 @@ class Arduino
 
         $sql_string=Page::cutLastString($sql_string,', ');    // κόβει το τελευταίο ', '
 
-        $sql = 'SELECT '.$sql_string.' FROM (SELECT * FROM data ORDER BY time desc LIMIT 1,12) LastItems';
+        $sql = 'SELECT '.$sql_string.' FROM (SELECT * FROM data ORDER BY time desc LIMIT 0,12) LastItems';
 
         $stmt = RoceanDB::$conn->prepare($sql);
 
@@ -89,7 +89,7 @@ class Arduino
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
-        $sql = 'SELECT '.$cpufield.' FROM data ORDER BY time DESC LIMIT 1,1';
+        $sql = 'SELECT '.$cpufield.' FROM data ORDER BY time DESC LIMIT 0,1';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();
@@ -114,7 +114,7 @@ class Arduino
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
-        $sql = 'SELECT * FROM data ORDER BY time DESC LIMIT 1,1';
+        $sql = 'SELECT * FROM data ORDER BY time DESC LIMIT 0,1';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();
@@ -146,7 +146,7 @@ class Arduino
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
-        $sql = 'SELECT * FROM data ORDER BY time DESC LIMIT 1,1';
+        $sql = 'SELECT * FROM data ORDER BY time DESC LIMIT 0,1';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();

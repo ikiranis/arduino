@@ -37,6 +37,7 @@ do {
 
         $lastTemp=$temperature['temp'];
 
+        echo $lastTemp.' ';
 
         switch ($someRandomNumber) {
             case 1: $newTemp=$lastTemp+1; break;
@@ -60,6 +61,8 @@ do {
         $i++;
 
     }
+
+    echo '<br>';
 
 
 
