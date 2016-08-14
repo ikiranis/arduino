@@ -671,6 +671,29 @@ class RoceanDB
         return $result;
     }
 
+    // Ελέγχει αν είναι ενεργοποιημένος ο event scheduler
+    static function checkMySQLEventScheduler() {
+        self::CreateConnection();
+
+        $sql = 'select user from INFORMATION_SCHEMA.PROCESSLIST where user=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array('event_scheduler'));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=true;
+
+        else $result=false;
+
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
     // Θέτει τον event scheduler της mysql σε ON
     static function enableMySQLEventScheduler() {
         self::CreateConnection();

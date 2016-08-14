@@ -90,8 +90,10 @@ if($logged_in) {
 
     // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
     if(Page::checkNewPageRunning()) {
-        RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
-        RoceanDB::insertLog('User return'); // Προσθήκη της κίνησης στα logs
+        if(!RoceanDB::checkMySQLEventScheduler()) {   // Αν δεν είναι ενεργοποιημένος ήδη ο event scheduler
+            RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
+            RoceanDB::insertLog('User return'); // Προσθήκη της κίνησης στα logs
+        }
     }
 }
 
