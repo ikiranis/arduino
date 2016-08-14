@@ -239,4 +239,52 @@ class Page
         return $result;
     }
 
+    // Ελέγχει αν η σελίδα έχει τρέξει πρόσφατα. Επιστρέφει false αν η σελίδα έχει τρέξει την τελευταία μέρα. Αν όχι επιστρέφει true
+    //year    = $diff->format('%y');
+    //month    = $diff->format('%m');
+    //day      = $diff->format('%d');
+    //hour     = $diff->format('%h');
+    //min      = $diff->format('%i');
+    //sec      = $diff->format('%s');
+    static function checkNewPageRunning() {
+
+
+        if(isset($_SESSION['PageRunning'])) {
+            $currentDateTime=date('Y-m-d H:i:s');
+            $sessionDateTime = $_SESSION['PageRunning']; // Παίρνουμε την τρέχουσα ώρα και την ώρα που έχει στο sesssion
+
+            $d_start    = new DateTime($sessionDateTime);
+            $d_end      = new DateTime($currentDateTime); // Τα παίρνουμε σε αντικείμενα
+            $diff = $d_start->diff($d_end);   // Υπολογίζουμε την διαφορά
+
+            $differenceInDays      = $diff->format('%h');    // στο format βάζουμε αναλόγως σε τι θέλουμε να πάρουμε την διαφορά
+
+
+            trigger_error('CURRENT TIME '.$currentDateTime);
+            trigger_error('SESSION TIME '.$sessionDateTime);
+
+
+            trigger_error($differenceInDays);
+
+
+            if($differenceInDays==0) {
+                $result = false;
+                trigger_error('FALSE');
+            }
+            else {
+                $_SESSION['PageRunning']=date('Y-m-d H:i:s');
+                trigger_error('TRUE');
+                $result=true;
+            }
+        }
+        else {
+            $_SESSION['PageRunning']=date('Y-m-d H:i:s');
+            trigger_error('TRUE');
+            $result=true;
+        }
+
+        return $result;
+
+    }
+
 }

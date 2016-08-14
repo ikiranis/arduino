@@ -671,5 +671,25 @@ class RoceanDB
         return $result;
     }
 
+    // Θέτει τον event scheduler της mysql σε ON
+    static function enableMySQLEventScheduler() {
+        self::CreateConnection();
+
+        $sql = 'SET GLOBAL event_scheduler = ON;';
+        $stmt = self::$conn->prepare($sql);
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+    
+
 }
 

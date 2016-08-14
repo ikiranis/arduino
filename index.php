@@ -51,7 +51,7 @@ $logged_in=false;
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
-    if (isset($_SESSION["username"]))
+
     {
 
         $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$conn->getSession('username').'</span>';
@@ -60,10 +60,11 @@ if(!$conn->CheckCookiesForLoggedUser()) {
         $logged_in=true;
     }
 }
-else {
+else { // Αν υπάρχει cookie
     $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$_COOKIE["username"].'</span>';
     $logged_in=true;
-    $conn->setSession('username', $_COOKIE["username"]);
+    if (!isset($_SESSION["username"]))
+        $conn->setSession('username', $_COOKIE["username"]);
 }
 
 
@@ -89,6 +90,11 @@ if($logged_in) DisplayMainPage();
 
 if($logged_in)
     $MainPage->showFooter();
+
+
+// Αν η σελίδα δεν έχει 
+if(Page::checkNewPageRunning())
+    RoceanDB::enableMySQLEventScheduler();
 
 
 
