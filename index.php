@@ -100,8 +100,8 @@ if($logged_in)
     $MainPage->showFooter();
 
 
-$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';
-RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
+//$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';
+//RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
 
 
 ?>
