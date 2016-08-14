@@ -50,6 +50,11 @@ if(!$dbstatus) {  // αρχικοποίηση options
     $conn->createOption('mail_from_name','name',1,0);
 }
 
+// TODO να το αλλάξω σε 7 μόλις δω ότι δουλεύει
+// Δημιουργεί event που σβήνει logs που είναι παλιότερα των 7 ημερών
+$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';
+RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
+
 
 
 echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);

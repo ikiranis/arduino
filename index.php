@@ -85,17 +85,23 @@ if(!$logged_in) {
 }
 
 
-if($logged_in) DisplayMainPage();
+if($logged_in) {
+    DisplayMainPage();
+
+    // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
+    if(Page::checkNewPageRunning()) {
+        RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
+        RoceanDB::insertLog('User return'); // Προσθήκη της κίνησης στα logs
+    }
+}
 
 
 if($logged_in)
     $MainPage->showFooter();
 
 
-// Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
-if(Page::checkNewPageRunning())
-    RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
-
+$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';
+RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
 
 
 ?>

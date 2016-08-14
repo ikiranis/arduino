@@ -689,6 +689,32 @@ class RoceanDB
 
         return $result;
     }
+
+    // Δημιουργεί ένα event στην βάση
+    // $timeInterval της μορφής '1 MINUTE', '1 ΜΟΝΤΗ' κοκ
+    static function createMySQLEvent($eventName, $eventQuery, $timeInterval ) {
+        self::CreateConnection();
+
+        $event='CREATE EVENT '.$eventName.
+                ' ON SCHEDULE EVERY '.$timeInterval.
+                ' ON COMPLETION PRESERVE '.
+                ' DO '.$eventQuery.
+                ';';
+
+        $stmt = self::$conn->prepare($event);
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+
+    }
     
 
 }
