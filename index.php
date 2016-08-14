@@ -92,9 +92,9 @@ if($logged_in)
     $MainPage->showFooter();
 
 
-// Αν η σελίδα δεν έχει 
+// Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
 if(Page::checkNewPageRunning())
-    RoceanDB::enableMySQLEventScheduler();
+    RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
 
 
 
