@@ -245,11 +245,9 @@ class Page
 
         if(isset($_SESSION['PageRunning'])) { // Αν υπάρχει ήδη η session
             $result = false;
-            trigger_error('FALSE');
         }
         else {
             $_SESSION['PageRunning']=date('Y-m-d H:i:s');
-            trigger_error('TRUE');
             $result=true;
         }
 

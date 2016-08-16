@@ -30,7 +30,7 @@ if (isset($_GET['ChangeLang'])) {
 }
 
 if (isset($_GET['logout'])) {
-    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs 
+    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs
     logout();
 }
 
@@ -51,7 +51,7 @@ $logged_in=false;
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
-
+    if (isset($_SESSION["username"]))
     {
 
         $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$conn->getSession('username').'</span>';
@@ -92,8 +92,9 @@ if($logged_in) {
     if(Page::checkNewPageRunning()) {
         if(!RoceanDB::checkMySQLEventScheduler()) {   // Αν δεν είναι ενεργοποιημένος ήδη ο event scheduler
             RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
-            RoceanDB::insertLog('User return'); // Προσθήκη της κίνησης στα logs
         }
+
+        RoceanDB::insertLog('User return'); // Προσθήκη της κίνησης στα logs
     }
 }
 
@@ -102,8 +103,8 @@ if($logged_in)
     $MainPage->showFooter();
 
 
-//$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';
-//RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
+//$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';   // To query της διαγραφής
+//RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');   // Δημιουργεί το σχετικό event
 
 
 ?>
