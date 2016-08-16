@@ -739,6 +739,28 @@ class RoceanDB
 
     }
     
+    
+    // Σβήνει παλιότερες εγγραφές από έναν πίνανα πριν τις $days μέρες
+    static function deleteTableBeforeNDays($table, $dateField, $days) {
+        self::CreateConnection();
+
+        $sql = 'DELETE FROM '.$table.' WHERE '.$dateField.'<timestamp(date_sub(NOW(), INTERVAL '.$days.' DAY))';
+        $stmt = self::$conn->prepare($sql);
+        
+        trigger_error($sql);
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+    
 
 }
 

@@ -924,10 +924,22 @@ class Arduino
         <h2><?php echo __('nav_item_5'); ?></h2>
 
 
+        <details>
+            <summary><?php echo __('settings_users'); ?></summary>
+            <?php Arduino::getUsersInFormFields() ?>
+        </details>
+
+
+        <details>
+            <summary><?php echo __('settings_alerts'); ?></summary>
+                <?php Arduino::getAlertsInFormFields () ?>
+        </details>
+
+
         <?php
 
         if($UserGroup==1) {  // Αν ο χρήστης είναι admin
-        ?>
+            ?>
             <details>
                 <summary><?php echo __('settings_options'); ?></summary>
                 <?php Arduino::getOptionsInFormFields() ?>
@@ -943,20 +955,14 @@ class Arduino
                 <?php Arduino::getPowerInFormFields() ?>
             </details>
 
-        <?php
+            <p>Σβήσιμο παλιότερων εγγραφών (πρίν από <input type="number" id="clearDays" name="clearDays" placeholder="Μέρες"> μέρες)
+            <input type="button" id="clearData" name="clearData" onclick="clearData('Είσαι σίγουρος?');" value="Clear Data">
+            <div id="clearResponse"></div></p>
+            <div id="progress"></div>
+            
+            <?php
         }
         ?>
-
-        <details>
-            <summary><?php echo __('settings_users'); ?></summary>
-            <?php Arduino::getUsersInFormFields() ?>
-        </details>
-
-
-        <details>
-            <summary><?php echo __('settings_alerts'); ?></summary>
-                <?php Arduino::getAlertsInFormFields () ?>
-        </details>
 
         
 

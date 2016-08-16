@@ -93,8 +93,6 @@ if($logged_in) {
         if(!RoceanDB::checkMySQLEventScheduler()) {   // Αν δεν είναι ενεργοποιημένος ήδη ο event scheduler
             RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
         }
-
-        RoceanDB::insertLog('User return'); // Προσθήκη της κίνησης στα logs
     }
 }
 

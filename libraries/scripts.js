@@ -753,6 +753,29 @@ function getTime(name) {
     $(name).text(curTime);
 }
 
+
+// αναζήτηση στην playlist
+function clearData(message) {
+    var confirmAnswer=confirm(message);
+
+    if (confirmAnswer==true) {
+        $('#progress').show();
+
+        days = $('#clearDays').val();
+
+        callFile = "clearData.php?days=" + days;
+
+        $.get(callFile, function ( data ) {
+
+            $('#clearResponse').text(data.success).show().delay(5000).hide('slow');
+
+            $('#progress').hide();
+
+        }, "json" );
+    }
+
+}
+
 $(function(){
     $('#LoginForm').validate({ // initialize the plugin
         errorElement: 'div'
