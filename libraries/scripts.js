@@ -722,6 +722,7 @@ function RunStatistics() {
     date_limit=$("#SelectGraph").find('select[name="date_list"]').val();
 
     callFile="getStatistics.php?db_field="+db_field+"&date_limit="+date_limit;
+    $('#progress').show();
 
         $.get( callFile, function( data ) {
 
@@ -729,6 +730,8 @@ function RunStatistics() {
 
                 // Set a callback to run when the Google Visualization API is loaded.
                 google.charts.setOnLoadCallback(drawChart);
+
+            $('#progress').hide();
 
         });
 

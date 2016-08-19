@@ -68,6 +68,13 @@
         <phrase name="users_lastname">LastName</phrase>
         <phrase name="options_option">Option</phrase>
         <phrase name="options_value">Value</phrase>
+        <phrase name="options_clear_text_1">Delete old records before </phrase>
+        <phrase name="options_clear_text_2"> days </phrase>
+        <phrase name="options_clear_sure_question">Are You Sure?</phrase>
+        <phrase name="options_clear_data">Clear Data</phrase>
+        <phrase name="options_clear_data_response_success">Delete with success</phrase>
+        <phrase name="options_clear_data_response_fail">Fail to delete</phrase>
+        <phrase name="options_crontab">Demon runnning on crontab</phrase>
     </page>
 
     <page name="statistics">

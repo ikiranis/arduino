@@ -787,6 +787,7 @@ input {
 
 
 
+/*Εμφάνιση στο clear data*/
 #progress {
     background-image: url(../img/Loading_icon.gif);
     background-position: center center;
@@ -802,6 +803,23 @@ input {
     width:100%;
     height:1em;
     display: block;
+}
+
+
+#ClearData  {
+    background-color: #8BC34A;
+    color: white;
+    width: auto;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.8em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition:all 0.5s;
+}
+
+#ClearData:hover {
+    transform: scale(1.05);
 }
 
 

@@ -68,6 +68,13 @@
         <phrase name="users_lastname">Επώνυμο</phrase>
         <phrase name="options_option">Option</phrase>
         <phrase name="options_value">Value</phrase>
+        <phrase name="options_clear_text_1">Σβήσιμο παλιότερων εγγραφών πρίν από </phrase>
+        <phrase name="options_clear_text_2"> μέρες </phrase>
+        <phrase name="options_clear_sure_question">Είσαι σίγουρος?</phrase>
+        <phrase name="options_clear_data">Καθαρισμός</phrase>
+        <phrase name="options_clear_data_response_success">Η διαγραφή έγινε με επιτυχία</phrase>
+        <phrase name="options_clear_data_response_fail">Η διαγραφή απέτυχε</phrase>
+        <phrase name="options_crontab">Ο δαίμονας τρέχει στο crontab</phrase>
     </page>
 
     <page name="statistics">

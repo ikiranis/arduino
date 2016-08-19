@@ -910,6 +910,7 @@ class Arduino
 
 
         <div id="chart_div"></div>
+        <div id="progress"></div>
         
 
         <?php
@@ -955,12 +956,14 @@ class Arduino
                 <?php Arduino::getPowerInFormFields() ?>
             </details>
 
-            <p>Σβήσιμο παλιότερων εγγραφών (πρίν από <input type="number" id="clearDays" name="clearDays" placeholder="Μέρες"> μέρες)
-            <input type="button" id="clearData" name="clearData" onclick="clearData('Είσαι σίγουρος?');" value="Clear Data">
+            <p><?php echo __('options_clear_text_1'); ?><input type="number" id="clearDays" name="clearDays" placeholder="Μέρες"><?php echo __('options_clear_text_2'); ?>
+            <input type="button" id="clearData" name="clearData" onclick="clearData('<?php echo __('options_clear_sure_question'); ?>');" value="<?php echo __('options_clear_data'); ?>">
             <div id="clearResponse"></div></p>
             <div id="progress"></div>
-            
+
             <?php
+
+            echo '<p>'.__('options_crontab').'<br>'.Page::getCrontab().'</p>';
         }
         ?>
 

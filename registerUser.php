@@ -55,7 +55,7 @@ if(!$dbstatus) {  // αρχικοποίηση options
 $eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';
 RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
 
-
+Page::createCrontab(); // Προσθέτει τον demon στο crontab
 
 echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
 

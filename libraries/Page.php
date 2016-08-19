@@ -274,4 +274,24 @@ class Page
         return $difference;
     }
 
+    // Δημιουργεί εγγραφή στο crontab. Προσθέτει το demon.php
+    static function createCrontab() {
+        file_put_contents('/tmp/crontab.txt', '* * * * * php '.$_SERVER['DOCUMENT_ROOT'].'/demon.php'.PHP_EOL);
+        shell_exec('crontab /tmp/crontab.txt');
+
+        $output = shell_exec('crontab -l');
+        return $output;
+    }
+
+    // Επιστρέφει το crontab που ισχύει
+    static function getCrontab() {
+        $output = shell_exec('crontab -l');
+
+        if($output)
+           $result=$output;
+        else $result=false;
+        
+        return $result;
+    }
+
 }
