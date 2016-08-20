@@ -36,6 +36,8 @@ else {
 }
 
 
+// *********************   Αρχικές ρυθμίσεις
+
 $dbstatus=$conn->getOption('dbstatus');
 
 if(!$dbstatus) {  // αρχικοποίηση options
@@ -51,11 +53,13 @@ if(!$dbstatus) {  // αρχικοποίηση options
 }
 
 // TODO να το αλλάξω σε 7 μόλις δω ότι δουλεύει
-// Δημιουργεί event που σβήνει logs που είναι παλιότερα των 7 ημερών
-$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 1 DAY)';
+// Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
+$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
 RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
 
 Page::createCrontab(); // Προσθέτει τον demon στο crontab
+
+// *************************
 
 echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
 

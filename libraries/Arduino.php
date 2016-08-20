@@ -29,11 +29,24 @@ class Arduino
     }
 
 
-    // Τρέχει το κατάλληλο script για να ανοίξει ή να κλέισει ο διακόπτης
-    static function runPowerScript ($id, $newStatus,$macAddress) {
-//        echo '<p>Opening '.$id.' '.$newStatus.' '.$macAddress.'</p>';
+    // Τρέχει το κατάλληλο script για να ανοίξει ή να κλεισει ο διακόπτης
+    // $id: το id του διακόπτη στην βάση
+    // $newStatus: Το νέο status που παίρνει ο διακόπτης ON ή OFF
+    // $macAddress: H mac address του διακόπτη
+    static function runPowerScript ($id, $newStatus, $macAddress) {
+//        trigger_error('Opening '.$id.' '.$newStatus.' '.urlencode($macAddress));
 
-        // TODO Να μπει ο κατάλληλος κώδικας
+        // Παράδειγμα εκτέλεσης php script που περνάει το new status και την αντίστοιχη mac address του διακόπτη
+//        $output = shell_exec('php ManageSwitch.php?newstatus='.$newStatus.'&macaddress='.urlencode($macAddress));
+
+        // Στο $output παίρνουμε το αποτέλεσμα αν θέλουμε να κάνουμε τον οποιοδήποτε έλεγχο 
+//        trigger_error($output);
+
+        // Επιστροφή true ή false αν θέλουμε. By default true ώστε να γίνει και η ανάλογη αλλαγή
+        // του status στην βάση
+        $result=true;
+        return $result;
+
     }
     
     

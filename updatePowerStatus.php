@@ -26,13 +26,15 @@ if($dbstatus=='on') {
     if ($oldStatus == 'ON') $newStatus = 'OFF';
     else $newStatus = 'ON';
 
+    if(Arduino::runPowerScript($id,$newStatus,$macAddress)) { // τρέχει το κατάλληλο script για να ανοιγοκλείσει ο διακόπτης. Αν επιστρέψει true τρέχει το παρακάτω
+        if (Arduino::setPowerStatus($id, $newStatus)) {  // Κάνει την αλλαγή στην βάση
+            echo json_encode(array('success' => 'true', 'status' => $newStatus));
 
-    if (Arduino::setPowerStatus($id, $newStatus)) {
-        // TODO να ενεργοποιηθεί ο κώδικας του τρεξίματος του script
-        // Arduino::runPowerScript($id,$newStatus,$macAddress);
-        echo json_encode(array('success' => 'true', 'status' => $newStatus));
-
-        RoceanDB::insertLog('Switcher '.Arduino::getPowerName($id).' to '.$newStatus);  // Προσθήκη της κίνησης στα logs
+            RoceanDB::insertLog('Switcher ' . Arduino::getPowerName($id) . ' to ' . $newStatus);  // Προσθήκη της κίνησης στα logs
+        } else { // Αν η αλλαγή στην βάση δεν είναι επιτυχής, επαναφέρει και τον διακόπτη στην παλιά θέση
+            echo json_encode(array('success' => 'false'));
+            Arduino::runPowerScript($id,$oldStatus,$macAddress); // Επαναφορά του διακόπτη στην παλιά θέση αφού απέτυχε να γίνει η αλλαγή στην βάση
+        }
     } else echo json_encode(array('success' => 'false'));
 
 } else echo json_encode(array('success' => 'false'));
