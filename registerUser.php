@@ -52,7 +52,6 @@ if(!$dbstatus) {  // αρχικοποίηση options
     $conn->createOption('mail_from_name','name',1,0);
 }
 
-// TODO να το αλλάξω σε 7 μόλις δω ότι δουλεύει
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
 $eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
 RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
