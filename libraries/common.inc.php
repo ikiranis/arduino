@@ -30,6 +30,8 @@ define('PAGE_TITTLE','ITBusiness Smart Control Room');     // ονομασία �
 define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
 define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
 
+if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
+else define ('HTTP_TEXT', 'http://');
 
 define ('NAV_LIST_ITEMS', '6'); // Ο αριθμός των επιλογών στo Nav Menu
 
