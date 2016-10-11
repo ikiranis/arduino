@@ -30,8 +30,22 @@ define('PAGE_TITTLE','ITBusiness Smart Control Room');     // ονομασία �
 define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
 define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
 
+
 if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
 else define ('HTTP_TEXT', 'http://');
+
+
+// Παίρνει ολόκληρο το url του project με την εσωτερική ip του server
+define ('LOCAL_SERVER_IP_WITH_PORT', HTTP_TEXT.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].PROJECT_PATH);
+
+// Η διεύθυνση του script. Πρέπει να είναι ολόκληρο το url της εσωτερικής ip του server που τρέχει η εφαρμογή
+// π.χ. http://192.168.1.19:9999/arduino
+// αν το script τρέχει στον σερβερ της εφαρμογής, αφήνουμε αυτή την γραμμή όπως είναι, αλλιώς χρησιμοποιούμε τα παρακάτω παραδείγματα
+define ('POWER_SCRIPT_ADDRESS', LOCAL_SERVER_IP_WITH_PORT.'runPowerScript.php');
+
+// Άλλα παραδείγματα. Όταν το script τρέχει σε άλλη διεύθυνση το αλλάζουμε κάπως έτσι
+//define ('POWER_SCRIPT_ADDRESS', 'http://192.168.1.150/'.'runPowerScript.php');
+//define ('POWER_SCRIPT_ADDRESS', 'http://www.example/'.'runPowerScript.php');
 
 define ('NAV_LIST_ITEMS', '6'); // Ο αριθμός των επιλογών στo Nav Menu
 
