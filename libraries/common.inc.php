@@ -23,7 +23,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Arduino.php');
 
 define('CONNSTR', 'mysql:host=localhost;dbname=arduino_db');
 define('DBUSER', 'root');
-define('DBPASS', 'documents2015');
+define('DBPASS', 'uf$Czxddra5x');
 
 define('PAGE_TITTLE','ITBusiness Smart Control Room');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 

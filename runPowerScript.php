@@ -8,6 +8,15 @@
  * Τρέχει το script που αλλάζει τον διακόπτη και επιστρέφει το αποτέλεσμα
  */
 
+// Καθαρίζει τα data που έδωσε ο χρήστης από περίεργο κώδικα
+function ClearString($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
 
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
