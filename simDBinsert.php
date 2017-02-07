@@ -18,6 +18,14 @@ $stmt = RoceanDB::$conn->prepare($sql);
 
 $counter=1;
 
+if(RoceanDB::countTable('data')==0) {
+    $DateTime = date('Y-m-d H:i:s');
+
+    $ArrayValues= array ($DateTime,20,20,20,20,20,20);
+
+    $stmt->execute($ArrayValues);
+}
+
 
 
 

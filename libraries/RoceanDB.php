@@ -779,5 +779,26 @@ class RoceanDB
         return $result;
     }
 
+
+    // μετράει τα rows ενός πίνακα
+    static function countTable($table) {
+        self::CreateConnection();
+
+        $sql = 'SELECT * FROM '.$table;
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+
+        if($stmt->execute())
+
+            $result=$stmt->rowCount();
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
 }
 
