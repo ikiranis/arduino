@@ -6,10 +6,10 @@
  * Time: 22:36
  */
 
-define ('PROJECT_PATH','/arduino/');   // αν το project είναι σε κάποιον υποκατάλογο
+define ('PROJECT_PATH','/');   // αν το project είναι σε κάποιον υποκατάλογο
 
 if (!$_SERVER["DOCUMENT_ROOT"]) {  // Για τις περιπτώσεις που τρέχει από cron
-    $_SERVER['DOCUMENT_ROOT'] = dirname(dirname(dirname( __FILE__ )));
+    $_SERVER['DOCUMENT_ROOT'] = dirname(dirname( __FILE__ ));
 }
 
 
@@ -23,7 +23,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Arduino.php');
 
 define('CONNSTR', 'mysql:host=localhost;dbname=arduino_db');
 define('DBUSER', 'root');
-define('DBPASS', 'uf$Czxddra5x');
+define('DBPASS', 'theuser');
 
 define('PAGE_TITTLE','ITBusiness Smart Control Room');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 

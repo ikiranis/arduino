@@ -29,7 +29,11 @@ if(isset($_GET['macAddress']))
 
 // Παράδειγμα εκτέλεσης php script που περνάει το new status και την αντίστοιχη mac address του διακόπτη
 //        $output = shell_exec('php ManageSwitch.php?newstatus='.$newStatus.'&macaddress='.urlencode($macAddress));
-// επιστρέφει στο $output το αποτέλεσμα
+
+// Παράδειγμα εκτέλεσης ενός windows script σε .exe που περνάει το new status και την αντίστοιχη mac address του διακόπτη
+//        $output = shell_exec('c:/manageswitch.exe newstatus='.$newStatus.' macaddress='.urlencode($macAddress));
+
+// επιστρέφει στο $output το αποτέλεσμα, το οποίο ελέγχουμε και αναλόγως επιστρέφουμε true or false όπως τα παρακάτω παραδείγματα
 
 
 // Στην επιτυχία επιστρέφει true
