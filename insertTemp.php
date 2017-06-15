@@ -32,7 +32,7 @@ $stmt = RoceanDB::$conn->prepare($sql);
 
 $DateTime = date('Y-m-d H:i:s');
 
-$ArrayValues= array ($DateTime,$probe,0,0,0,0,0);
+$ArrayValues= array ($DateTime,$temp,0,0,0,0,0);
 
 if($stmt->execute($ArrayValues)) {
     echo 'Done';
