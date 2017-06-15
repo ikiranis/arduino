@@ -15,7 +15,6 @@ $conn->CreateConnection();
 
 $sql = 'INSERT INTO data (time, probe1, probe2, probe3, probe4, probe5, probeCPU) VALUES(?,?,?,?,?,?,?)';
 $stmt = RoceanDB::$conn->prepare($sql);
-//dsdsd
 
 $counter=1;
 
