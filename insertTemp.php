@@ -34,4 +34,8 @@ $DateTime = date('Y-m-d H:i:s');
 
 $ArrayValues= array ($DateTime,$probe,0,0,0,0,0);
 
-$stmt->execute($ArrayValues);
+if($stmt->execute($ArrayValues)) {
+    echo 'Done';
+} else {
+    echo 'Problem';
+}
