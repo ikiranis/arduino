@@ -23,6 +23,9 @@ if(isset($_GET['probe']))
 if(isset($_GET['temp']))
     $temp=ClearString($_GET['temp']);
 
+if(isset($_GET['hum']))
+    $hum=ClearString($_GET['hum']);
+
 
 $conn = new RoceanDB();
 $conn->CreateConnection();
@@ -32,7 +35,7 @@ $stmt = RoceanDB::$conn->prepare($sql);
 
 $DateTime = date('Y-m-d H:i:s');
 
-$ArrayValues= array ($DateTime,$temp,0,0,0,0,0);
+$ArrayValues= array ($DateTime,$temp,$hum,0,0,0,0);
 
 if($stmt->execute($ArrayValues)) {
     echo 'Done';
