@@ -6,7 +6,7 @@
  * Time: 22:36
  */
 
-define ('PROJECT_PATH','/');   // αν το project είναι σε κάποιον υποκατάλογο
+define ('PROJECT_PATH','/arduino/');   // αν το project είναι σε κάποιον υποκατάλογο
 
 if (!$_SERVER["DOCUMENT_ROOT"]) {  // Για τις περιπτώσεις που τρέχει από cron
     $_SERVER['DOCUMENT_ROOT'] = dirname(dirname( __FILE__ ));
@@ -20,10 +20,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Crypto.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Language.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Arduino.php');
 
-
-define('CONNSTR', 'mysql:host=localhost;dbname=arduino_db');
-define('DBUSER', 'root');
-define('DBPASS', 'theuser');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/config.inc.php');
 
 define('PAGE_TITTLE','ITBusiness Smart Control Room');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 
@@ -87,9 +84,3 @@ $sensorsArray=RoceanDB::getTableArray('sensors','id, db_field', null, null, null
 define('INTERVAL_VALUE', RoceanDB::getOption('interval_value')); // Κάθε πόσα δευτερόλεπτα θα κάνει ανανέωση εισερχόμενων
 define('DATE_LIST_ITEMS', RoceanDB::getOption('date_list_items'));   // Πόσες επιλογές χρονικής περιόδου θα έχει στα στατιστικά
 define('CPU_FIELD', RoceanDB::getOption('cpu_field'));
-
-
-
-
-
-

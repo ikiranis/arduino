@@ -1,0 +1,14 @@
+<?php
+/**
+ * File: common.inc.php
+ * Created by rocean
+ * Date: 15/06/17
+ * Time: 17:10
+ *
+ * Mysql credentials
+ *
+ */
+
+define('CONNSTR', 'mysql:host=localhost;dbname=DATABASE_NAME');
+define('DBUSER', 'USER');
+define('DBPASS', 'PASSWORD');
