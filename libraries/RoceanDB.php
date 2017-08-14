@@ -779,6 +779,26 @@ class RoceanDB
         return $result;
     }
 
+    // Σβήνει τα πάντα από το $table
+    static function clearTheTable($table) {
+        self::CreateConnection();
+
+        $sql = 'TRUNCATE '.$table;
+        $stmt = self::$conn->prepare($sql);
+
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
 
     // μετράει τα rows ενός πίνακα
     static function countTable($table) {
