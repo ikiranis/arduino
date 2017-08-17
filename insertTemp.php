@@ -62,6 +62,7 @@ if(count($temporary_temps)==$sensorsNumber) {
         $probeKey = array_search('probe'.($i+1), array_column($temporary_temps, 'probe_name'));
         if(false!==$probeKey) {
             $probes[$i] = $temporary_temps[$probeKey]['temp'];
+//            trigger_error($temporary_temps[$probeKey]['probe_name'] . ' ' . $temporary_temps[$probeKey]['temp']);
         }
     }
 

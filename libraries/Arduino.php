@@ -22,7 +22,7 @@ class Arduino
 
 
             if ($power['status']=='ON')
-                self::runPowerScript($power['id'], 'ON');
+                self::runPowerScript($power['id'], 'ON', $power['mac_address']);
                 
         }
         
@@ -44,17 +44,21 @@ class Arduino
     // $macAddress: H mac address του διακόπτη
     static function runPowerScript ($id, $newStatus, $macAddress) {
 
-        // Παίρνουμε σε JSON το αποτέλεσμα του script που επιστρέφει true ή false
-        $html = POWER_SCRIPT_ADDRESS.'?id='.$id.'&newStatus='.$newStatus.'&macAddress='.$macAddress;
-        $response = file_get_contents($html);
-        $decoded = json_decode($response, true);
+        if($newStatus=='ON') {
+            $newStatus='OFF';
+        } else {
+            $newStatus='ON';
+        }
 
-        if($decoded) {
-            foreach ($decoded as $items) {
-                $result = $items;
-                return $result;
-            }
-        } else return false;
+        // Παίρνουμε σε JSON το αποτέλεσμα του script που επιστρέφει true ή false
+        $html = 'http://'.$macAddress.'/'.$newStatus;
+        $response = file_get_contents($html);
+
+        if($response) {
+            return true;
+        } else {
+            return false;
+        }
         
 //        trigger_error('Opening '.$id.' '.$newStatus.' '.urlencode($macAddress));
 
