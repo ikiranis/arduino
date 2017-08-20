@@ -627,10 +627,21 @@ function getPowerDivs() {
                 $.get( "updatePowerStatus.php?id="+PowerIDArray[thisLooper], function( data ) {   // Αλλαγή του status
                     if(data.success=='true') {
 
+                        // Αλλαγή της τιμής στην βάση
                         $("#powerIDtext" + PowerIDArray[thisLooper]).text(data.status);   // εμφάνιση του νέου status
                         if(data.status=='ON')      // αλλαγή της κλάσης για να αλλάξει το χρώμα
                             $("#"+PowerDivsArray[thisLooper]).removeClass('powerOFF').addClass('powerON');
                         else $("#"+PowerDivsArray[thisLooper]).removeClass('powerON').addClass('powerOFF');
+
+                        // Αλλαγή του relay
+                        // TODO καλύτερο έλεγχο
+                        $.get('http://' + data.relayIP + '/' + data.status, function(result) {
+                            if(result==0) {
+                                var status = 'OFF';
+                                $("#powerIDtext" + PowerIDArray[thisLooper]).text(status);   // εμφάνιση του νέου status
+                                $("#"+PowerDivsArray[thisLooper]).removeClass('powerON').addClass('powerOFF');
+                            }
+                        });
 
                     }
                 }, "json" );

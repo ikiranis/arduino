@@ -44,24 +44,17 @@ class Arduino
     // $macAddress: H mac address του διακόπτη
     static function runPowerScript ($id, $newStatus, $macAddress) {
 
-        if($newStatus=='ON') {
-            $newStatus='OFF';
-        } else {
-            $newStatus='ON';
-        }
-
         // Παίρνουμε σε JSON το αποτέλεσμα του script που επιστρέφει true ή false
         $html = 'http://'.$macAddress.'/'.$newStatus;
         $response = file_get_contents($html);
 
-        if($response) {
+//        trigger_error($response);
+
+        if(isset($response)) {
             return true;
         } else {
             return false;
         }
-        
-//        trigger_error('Opening '.$id.' '.$newStatus.' '.urlencode($macAddress));
-
 
     }
     
